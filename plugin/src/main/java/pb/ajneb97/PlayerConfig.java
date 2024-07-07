@@ -39,17 +39,13 @@ public class PlayerConfig {
             try {
                 configFile.createNewFile();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         config = new YamlConfiguration();
         try {
             config.load(configFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            // TODO Auto-generated catch block
+        } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }
