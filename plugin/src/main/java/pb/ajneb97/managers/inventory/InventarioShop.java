@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.api.PaintballAPI;
-import pb.ajneb97.database.MySQL;
 import pb.ajneb97.utils.UtilidadesItems;
 
 import java.util.List;
@@ -263,17 +262,13 @@ public class InventarioShop implements Listener {
                                             }
                                             PaintballAPI.removeCoins(jugador, cost);
                                         }
-                                        if (MySQL.isEnabled(config)) {
-                                            MySQL.setPerkJugadorAsync(plugin, jugador.getUniqueId().toString(), jugador.getName(), perk, nivel + 1);
-                                        } else {
-                                            //TODO
+                                        //TODO
 //                                            plugin.registerPlayer(jugador.getUniqueId().toString() + ".yml");
 //                                            if (plugin.getJugador(jugador.getName()) == null) {
 //                                                plugin.agregarJugadorDatos(new JugadorDatos(jugador.getName(), jugador.getUniqueId().toString(), 0, 0, 0, 0, 0, new ArrayList<Perk>(), new ArrayList<Hat>()));
 //                                            }
 //                                            JugadorDatos jDatos = plugin.getJugador(jugador.getName());
 //                                            jDatos.setPerk(perk, nivel + 1);
-                                        }
                                         jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("perkUnlocked").replace("%name%", separados[2])));
                                         String[] separadosSound = config.getString("shopUnlockSound").split(";");
                                         try {
@@ -419,17 +414,13 @@ public class InventarioShop implements Listener {
                                         PaintballAPI.removeCoins(jugador, cost);
                                     }
 
-                                    if (MySQL.isEnabled(config)) {
-                                        MySQL.agregarJugadorHatAsync(plugin, jugador.getUniqueId().toString(), jugador.getName(), key);
-                                    } else {
-                                        //TODO
+                                    //TODO
 //                                        plugin.registerPlayer(jugador.getUniqueId().toString() + ".yml");
 //                                        if (plugin.getJugador(jugador.getName()) == null) {
 //                                            plugin.agregarJugadorDatos(new JugadorDatos(jugador.getName(), jugador.getUniqueId().toString(), 0, 0, 0, 0, 0, new ArrayList<Perk>(), new ArrayList<Hat>()));
 //                                        }
 //                                        JugadorDatos jDatos = plugin.getJugador(jugador.getName());
 //                                        jDatos.agregarHat(key);
-                                    }
                                     jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("hatBought").replace("%name%", shop.getString("hats_items." + key + ".name"))));
                                     String[] separadosSound = config.getString("shopUnlockSound").split(";");
                                     try {

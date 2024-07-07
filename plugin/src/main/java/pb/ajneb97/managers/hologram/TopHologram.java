@@ -7,11 +7,8 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.database.MySQL;
-import pb.ajneb97.database.MySQLCallback;
 import pb.ajneb97.utils.UtilidadesHologramas;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -78,28 +75,7 @@ public class TopHologram {
         for (int i = 0; i < lineas.size(); i++) {
             String linea = lineas.get(i).replace("%type%", typeName).replace("%period%", periodName);
             if (linea.contains("%scoreboard_lines%")) {
-                if (MySQL.isEnabled(config) && !period.equals("global")) {
-                    UtilidadesHologramas.getTopPlayersSQL(plugin, type, period, new MySQLCallback() {
-                        @Override
-                        public void alTerminar(ArrayList<String> playersList) {
-                            // TODO Auto-generated method stub
-                            for (int c = 0; c < topPlayersMax; c++) {
-                                int num = c + 1;
-                                try {
-                                    String[] separados = playersList.get(c).split(";");
-                                    hologram.appendTextLine(ChatColor.translateAlternateColorCodes('&', lineaMessage.replace("%position%", num + "")
-                                            .replace("%name%", separados[0]).replace("%points%", separados[1])));
-                                } catch (Exception e) {
-                                    break;
-                                }
-                            }
-                            //long millisDespues = System.currentTimeMillis();
-                            //long espera = millisDespues-millisAntes;
-//							Bukkit.getConsoleSender().sendMessage("MySQL: Datos obtenidos para "+type+" "+period+ " en: "+espera+" ms");
-                        }
-                    });
-                } else {
-                    //TODO
+                //TODO
 //                    UtilidadesHologramas.getTopPlayers(plugin, plugin.getJugadores(), type, new MySQLCallback() {
 //                        @Override
 //                        public void alTerminar(ArrayList<String> playersList) {
@@ -118,7 +94,6 @@ public class TopHologram {
 ////							Bukkit.getConsoleSender().sendMessage("MySQL: Datos obtenidos para "+type+" "+period+ " en: "+espera+" ms");
 //                        }
 //                    });
-                }
 
             } else {
                 hologram.appendTextLine(ChatColor.translateAlternateColorCodes('&', linea));

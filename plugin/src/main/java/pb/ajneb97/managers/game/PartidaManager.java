@@ -17,13 +17,10 @@ import org.bukkit.potion.PotionEffectType;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.api.Hat;
 import pb.ajneb97.api.PaintballAPI;
-import pb.ajneb97.database.JugadorDatos;
-import pb.ajneb97.database.MySQL;
 import pb.ajneb97.juego.GameState;
 import pb.ajneb97.juego.PaintballPlayer;
 import pb.ajneb97.juego.Partida;
 import pb.ajneb97.juego.Team;
-import pb.ajneb97.lib.titleapi.TitleAPI;
 import pb.ajneb97.managers.perks.CooldownKillstreaks;
 import pb.ajneb97.managers.perks.CooldownManager;
 import pb.ajneb97.utils.UtilidadesItems;
@@ -556,35 +553,7 @@ public class PartidaManager {
                         .replace("%kills_player3%", top3Kills + "").replace("%kills_player%", j.getKills() + "")));
             }
             Team teamJugador = partida.getEquipoJugador(j.getPlayer().getName());
-            if (MySQL.isEnabled(plugin.getConfigDocument())) {
-                int win = 0;
-                int lose = 0;
-                int tie = 0;
-                if (teamJugador.equals(ganador)) {
-                    win = 1;
-                    TitleAPI.sendTitle(j.getPlayer(), 10, 40, 10, messages.getString("winnerTitleMessage"), "");
-                } else if (ganador == null) {
-                    tie = 1;
-                    TitleAPI.sendTitle(j.getPlayer(), 10, 40, 10, messages.getString("tieTitleMessage"), "");
-                } else {
-                    lose = 1;
-                    TitleAPI.sendTitle(j.getPlayer(), 10, 40, 10, messages.getString("loserTitleMessage"), "");
-                }
-                //Aqui se crea/modifica el registro global del jugador
-                if (!MySQL.jugadorExiste(plugin, j.getPlayer().getName())) {
-                    MySQL.crearJugadorPartidaAsync(plugin, j.getPlayer().getUniqueId().toString(), j.getPlayer().getName(), "", win, tie, lose, j.getKills(), 0, 1);
-                } else {
-                    JugadorDatos player = MySQL.getJugador(plugin, j.getPlayer().getName());
-                    int kills = j.getKills() + player.getKills();
-                    int wins = player.getWins() + win;
-                    int loses = player.getLoses() + lose;
-                    int ties = player.getTies() + tie;
-                    MySQL.actualizarJugadorPartidaAsync(plugin, j.getPlayer().getUniqueId().toString(), j.getPlayer().getName(), wins, loses, ties, kills);
-                }
-                //Este registro es el que se crea para datos mensuales y semanales
-                MySQL.crearJugadorPartidaAsync(plugin, j.getPlayer().getUniqueId().toString(), j.getPlayer().getName(), partida.getNombre(), win, tie, lose, j.getKills(), 0, 0);
-            } else {
-                //TODO
+            //TODO
 //                plugin.registerPlayer(j.getPlayer().getUniqueId().toString() + ".yml");
 //                if (plugin.getJugador(j.getPlayer().getName()) == null) {
 //                    plugin.agregarJugadorDatos(new JugadorDatos(j.getPlayer().getName(), j.getPlayer().getUniqueId().toString(), 0, 0, 0, 0, 0, new ArrayList<Perk>(), new ArrayList<Hat>()));
@@ -602,7 +571,6 @@ public class PartidaManager {
 //                }
 //
 //                jugador.aumentarKills(j.getKills());
-            }
             j.getPlayer().closeInventory();
             j.getPlayer().getInventory().clear();
 

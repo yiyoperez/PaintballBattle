@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.database.JugadorDatos;
-import pb.ajneb97.database.MySQL;
-import pb.ajneb97.database.MySQLCallback;
 
 import java.util.ArrayList;
 
@@ -26,20 +24,13 @@ public class UtilidadesHologramas {
     }
 
     //Este metodo se usa solo para monthly o weekly
-    public static void getTopPlayersSQL(final PaintballBattle plugin, final String tipo, final String periodo, final MySQLCallback callback) {
+    public static void getTopPlayersSQL(final PaintballBattle plugin, final String tipo, final String periodo) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 final ArrayList<String> playersList = new ArrayList<String>();
 
                 ArrayList<JugadorDatos> jugadores = new ArrayList<JugadorDatos>();
-                if (periodo.equals("monthly")) {
-                    jugadores = MySQL.getPlayerDataMonthly(plugin);
-                } else if (periodo.equals("weekly")) {
-                    jugadores = MySQL.getPlayerDataWeekly(plugin);
-                } else {
-                    jugadores = MySQL.getPlayerData(plugin);
-                }
                 for (JugadorDatos j : jugadores) {
                     String name = j.getName();
                     int total = 0;
@@ -63,46 +54,25 @@ public class UtilidadesHologramas {
                         }
                     }
                 }
-                Bukkit.getScheduler().runTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        // call the callback with the result
-                        callback.alTerminar(playersList);
-                    }
-                });
             }
         });
 
     }
 
-    public static void getTopPlayers(final PaintballBattle plugin, final ArrayList<JugadorDatos> jugadores, final String tipo, final MySQLCallback callback) {
+    public static void getTopPlayers(final PaintballBattle plugin, final ArrayList<JugadorDatos> jugadores, final String tipo) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 final ArrayList<String> playersList = new ArrayList<String>();
-                if (!MySQL.isEnabled(plugin.getConfigDocument())) {
-                    for (JugadorDatos j : jugadores) {
-                        String name = j.getName();
-                        int total = 0;
-                        if (tipo.equals("kills")) {
-                            total = j.getKills();
-                        } else if (tipo.equals("wins")) {
-                            total = j.getWins();
-                        }
-                        playersList.add(name + ";" + total);
+                for (JugadorDatos j : jugadores) {
+                    String name = j.getName();
+                    int total = 0;
+                    if (tipo.equals("kills")) {
+                        total = j.getKills();
+                    } else if (tipo.equals("wins")) {
+                        total = j.getWins();
                     }
-                } else {
-                    ArrayList<JugadorDatos> jugadores = MySQL.getPlayerData(plugin);
-                    for (JugadorDatos p : jugadores) {
-                        String name = p.getName();
-                        int total = 0;
-                        if (tipo.equals("kills")) {
-                            total = p.getKills();
-                        } else if (tipo.equals("wins")) {
-                            total = p.getWins();
-                        }
-                        playersList.add(name + ";" + total);
-                    }
+                    playersList.add(name + ";" + total);
                 }
 
                 for (int i = 0; i < playersList.size(); i++) {
@@ -118,13 +88,6 @@ public class UtilidadesHologramas {
                         }
                     }
                 }
-                Bukkit.getScheduler().runTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        // call the callback with the result
-                        callback.alTerminar(playersList);
-                    }
-                });
             }
         });
 

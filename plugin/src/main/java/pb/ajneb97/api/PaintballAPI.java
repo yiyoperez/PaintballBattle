@@ -4,7 +4,6 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.database.JugadorDatos;
-import pb.ajneb97.database.MySQL;
 import pb.ajneb97.juego.GameState;
 import pb.ajneb97.juego.Partida;
 import pb.ajneb97.managers.game.GameManager;
@@ -39,157 +38,108 @@ public class PaintballAPI {
 //	}
 
     public static int getCoins(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getCoins();
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getCoins();
         } else {
-            return MySQL.getStatsTotales(plugin, player.getName(), "Coins");
+            return 0;
         }
     }
 
     public static void addCoins(Player player, int coins) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                j.aumentarCoins(coins);
-            }
-        } else {
-            MySQL.agregarCoinsJugadorAsync(plugin, player.getName(), coins);
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            j.aumentarCoins(coins);
         }
     }
 
     public static void removeCoins(Player player, int coins) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                j.disminuirCoins(coins);
-            }
-        } else {
-            MySQL.removerCoinsJugadorAsync(plugin, player.getName(), coins);
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            j.disminuirCoins(coins);
         }
     }
 
     public static int getWins(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getWins();
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getWins();
         } else {
-            return MySQL.getStatsTotales(plugin, player.getName(), "Win");
+            return 0;
         }
-
     }
 
     public static int getLoses(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getLoses();
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getLoses();
         } else {
-            return MySQL.getStatsTotales(plugin, player.getName(), "Lose");
+            return 0;
         }
 
     }
 
     public static int getTies(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getTies();
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getTies();
         } else {
-            return MySQL.getStatsTotales(plugin, player.getName(), "Tie");
+            return 0;
         }
     }
 
     public static int getKills(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getKills();
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getKills();
         } else {
-            return MySQL.getStatsTotales(plugin, player.getName(), "Kills");
+            return 0;
         }
 
     }
 
     public static int getPerkLevel(Player player, String perk) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getNivelPerk(perk);
-            } else {
-                return 0;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getNivelPerk(perk);
         } else {
-            return MySQL.getNivelPerk(plugin, player.getName(), perk);
+            return 0;
         }
     }
 
     public static boolean hasHat(Player player, String hat) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.tieneHat(hat);
-            } else {
-                return false;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.tieneHat(hat);
         } else {
-            return MySQL.jugadorTieneHat(plugin, player.getName(), hat);
+            return false;
         }
     }
 
     public static boolean hasHatSelected(Player player, String hat) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.tieneHatSeleccionado(hat);
-            } else {
-                return false;
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.tieneHatSeleccionado(hat);
         } else {
-            return MySQL.jugadorTieneHatSeleccionado(plugin, player.getName(), hat);
+            return false;
         }
     }
 
     public static ArrayList<Perk> getPerks(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null) {
-                return j.getPerks();
-            } else {
-                return new ArrayList<Perk>();
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null) {
+            return j.getPerks();
         } else {
-            return MySQL.getPerksJugador(plugin, player.getName());
+            return new ArrayList<Perk>();
         }
     }
 
     public static ArrayList<Hat> getHats(Player player) {
-        if (!MySQL.isEnabled(config)) {
-            JugadorDatos j = playerDataManager.getJugador(player.getName());
-            if (j != null && j.getHats() != null) {
-                return j.getHats();
-            } else {
-                return new ArrayList<Hat>();
-            }
+        JugadorDatos j = playerDataManager.getJugador(player.getName());
+        if (j != null && j.getHats() != null) {
+            return j.getHats();
         } else {
-            return MySQL.getHatsJugador(plugin, player.getName());
+            return new ArrayList<Hat>();
         }
     }
 

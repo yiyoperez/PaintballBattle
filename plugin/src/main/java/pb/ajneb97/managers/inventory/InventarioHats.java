@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.api.Hat;
 import pb.ajneb97.api.PaintballAPI;
-import pb.ajneb97.database.MySQL;
 import pb.ajneb97.utils.UtilidadesItems;
 
 import java.util.ArrayList;
@@ -94,13 +93,9 @@ public class InventarioHats implements Listener {
                     ItemStack item = event.getCurrentItem();
                     if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
                         if (event.getSlot() == 26) {
-                            if (MySQL.isEnabled(config)) {
-                                MySQL.deseleccionarHats(plugin, jugador.getName());
-                            } else {
-                                //TODO
+                            //TODO
 //                                JugadorDatos jDatos = plugin.getJugador(jugador.getName());
 //                                jDatos.deseleccionarHats();
-                            }
                             jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("hatRemoved")));
                             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                                 public void run() {
@@ -119,13 +114,9 @@ public class InventarioHats implements Listener {
                                     jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("hatAlreadySelected")));
                                     return;
                                 }
-                                if (MySQL.isEnabled(config)) {
-                                    MySQL.seleccionarHatAsync(plugin, jugador.getName(), h.getName());
-                                } else {
-                                    //TODO
+                                //TODO
 //                                    JugadorDatos jDatos = plugin.getJugador(jugador.getName());
 //                                    jDatos.seleccionarHat(h.getName());
-                                }
                                 jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("hatSelected").replace("%name%", config.getString("hats_items." + h.getName() + ".name"))));
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                                     public void run() {

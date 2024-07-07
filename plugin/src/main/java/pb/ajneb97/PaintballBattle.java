@@ -14,8 +14,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import pb.ajneb97.api.ExpansionPaintballBattle;
 import pb.ajneb97.api.PaintballAPI;
-import pb.ajneb97.database.ConexionDatabase;
-import pb.ajneb97.database.MySQL;
 import pb.ajneb97.juego.GameEdit;
 import pb.ajneb97.managers.game.GameManager;
 import pb.ajneb97.managers.game.PartidaListener;
@@ -52,16 +50,10 @@ public final class PaintballBattle extends JavaPlugin {
 
     private CartelesAdmin cartelesTask;
 
-    private ConexionDatabase conexionDatabase;
-
 
     public void onEnable() {
 
-        try {
-            createConfigFiles();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        createConfigFiles();
 
         gameManager = new GameManager(this);
 
@@ -77,10 +69,6 @@ public final class PaintballBattle extends JavaPlugin {
 
         //Todo Player data manager
 //        cargarJugadores();
-
-        if (MySQL.isEnabled(this.configDocument)) {
-            conexionDatabase = new ConexionDatabase(configDocument);
-        }
 
         cartelesTask = new CartelesAdmin(this);
         cartelesTask.actualizarCarteles();
@@ -107,32 +95,52 @@ public final class PaintballBattle extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(prefix + ChatColor.YELLOW + "Has been disabled! " + ChatColor.WHITE + "Version: " + version);
     }
 
-    private void createConfigFiles() throws IOException {
-        this.arenaDocument = YamlDocument.create(new File(getDataFolder(), "arenas.yml"));
+    private void createConfigFiles() {
+        try {
+            this.arenaDocument = YamlDocument.create(new File(getDataFolder(), "arenas.yml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        this.configDocument = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
-                GeneralSettings.DEFAULT,
-                LoaderSettings.builder().setAutoUpdate(true).build(),
-                DumperSettings.DEFAULT,
-                UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+        try {
+            this.configDocument = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        this.messagesDocument = YamlDocument.create(new File(getDataFolder(), "messages.yml"), getResource("messages.yml"),
-                GeneralSettings.DEFAULT,
-                LoaderSettings.builder().setAutoUpdate(true).build(),
-                DumperSettings.DEFAULT,
-                UpdaterSettings.builder().setVersioning(new BasicVersioning("lang-version")).build());
+        try {
+            this.messagesDocument = YamlDocument.create(new File(getDataFolder(), "messages.yml"), getResource("messages.yml"),
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(new BasicVersioning("lang-version")).build());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         boolean firstTimeShop = !new File(getDataFolder() + File.separator + "shop").exists();
         if (firstTimeShop) {
             getLogger().info("Creating default shop configuration.");
             InputStream defaultShop = NMSUtils.isOldVersion() ? getResource("legacyshop.yml") : getResource("shop.yml");
-            YamlDocument defaultConfig = YamlDocument.create(new File(getDataFolder(), "shop.yml"), defaultShop);
+            try {
+                YamlDocument defaultConfig = YamlDocument.create(new File(getDataFolder(), "shop.yml"), defaultShop);
 
-            defaultConfig.update();
-            defaultConfig.save();
-            this.shopDocument = defaultConfig;
+                defaultConfig.update();
+                defaultConfig.save();
+                this.shopDocument = defaultConfig;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
-            this.shopDocument = YamlDocument.create(new File(getDataFolder(), "shop.yml"));
+            try {
+                this.shopDocument = YamlDocument.create(new File(getDataFolder(), "shop.yml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -171,17 +179,13 @@ public final class PaintballBattle extends JavaPlugin {
     public void registerEvents() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PartidaListener(this), this);
-        if (!Bukkit.getVersion().contains("1.8")) {
+        if (NMSUtils.isNewVersion()) {
             pm.registerEvents(new PartidaListenerNew(this), this);
         }
         pm.registerEvents(new CartelesListener(this), this);
         pm.registerEvents(new InventarioAdmin(this), this);
         pm.registerEvents(new InventarioShop(this), this);
         pm.registerEvents(new InventarioHats(this), this);
-    }
-
-    public ConexionDatabase getConexionDatabase() {
-        return this.conexionDatabase;
     }
 
     public Economy getEconomy() {
