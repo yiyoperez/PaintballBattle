@@ -17,7 +17,6 @@ dependencies {
         exclude("net.milkbowl.vault", "VaultAPI")
         exclude("be.maximvdw", "MVdWPlaceholderAPI")
     }
-    compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
 
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
     implementation("dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT")
