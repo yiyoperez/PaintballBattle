@@ -30,9 +30,8 @@ public class ReloadCommand extends MainCommand {
                 throw new RuntimeException(e);
             }
             plugin.recargarCarteles();
-            //plugin.recargarScoreboard();
             //TODO
-            //plugin.recargarHologramas();
+            //plugin.recargarScoreboard();
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("configReloaded")));
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("noPermissions")));

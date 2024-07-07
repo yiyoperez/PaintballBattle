@@ -45,8 +45,6 @@ public class MainCommand extends BaseCommand {
         plugin.recargarCarteles();
         // TODO: usage scoreboard manager.
         //plugin.recargarScoreboard();
-        //TODO: use hologram manager.
-        //plugin.recargarHologramas();
         sender.sendMessage(MessageUtils.translateColor(messages.getString("configReloaded")));
     }
 
@@ -64,8 +62,6 @@ public class MainCommand extends BaseCommand {
         sender.sendMessage(MessageUtils.translateColor("&6/paintball enable <arena> &8Enables an arena."));
         sender.sendMessage(MessageUtils.translateColor("&6/paintball disable <arena> &8Disables an arena."));
         sender.sendMessage(MessageUtils.translateColor("&6/paintball edit <arena> &8Edit the properties of an arena."));
-        sender.sendMessage(MessageUtils.translateColor("&6/paintball createtophologram <name> <kills/wins> <global/monthly/weekly>"));
-        sender.sendMessage(MessageUtils.translateColor("&6/paintball removetophologram <name>"));
         sender.sendMessage(MessageUtils.translateColor("&6/paintball reload &8Reloads the configuration files."));
         sender.sendMessage(MessageUtils.translateColor(""));
         sender.sendMessage(MessageUtils.translateColor("&7[ [ &4[&fPaintball Battle&4] &7] ]"));

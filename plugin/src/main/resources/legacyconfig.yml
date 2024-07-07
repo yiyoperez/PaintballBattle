@@ -11,8 +11,6 @@ respawn_invulnerability: 4
 snowballs_per_kill: 8
 initial_snowballs: 64
 coins_per_kill: "1-2"
-top_hologram_number_of_players: 10
-top_hologram_update_time: 300
 economy_used: "paintball"
 empty_inventory_to_join: false
 rewards_executed_after_teleport: false
