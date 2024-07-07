@@ -65,7 +65,6 @@ public class MySQL {
 
             return cantidad;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return cantidad;
@@ -81,7 +80,6 @@ public class MySQL {
                 return true;
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -100,7 +98,6 @@ public class MySQL {
                     statement.setString(5, player);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -117,7 +114,6 @@ public class MySQL {
                     statement.setString(2, player);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -134,7 +130,6 @@ public class MySQL {
                     statement.setString(2, player);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -172,7 +167,6 @@ public class MySQL {
                     insert.setInt(14, global);
                     insert.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -190,7 +184,6 @@ public class MySQL {
                 return true;
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -209,7 +202,6 @@ public class MySQL {
                     insert.setInt(4, 0);
                     insert.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -226,7 +218,6 @@ public class MySQL {
                 return true;
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -248,7 +239,6 @@ public class MySQL {
                 hats.add(new Hat(hat, selectedB));
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return hats;
@@ -260,7 +250,6 @@ public class MySQL {
             statement.setString(1, player);
             statement.executeUpdate();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -277,7 +266,6 @@ public class MySQL {
                     statement.setString(2, hat);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -297,7 +285,6 @@ public class MySQL {
                     insert.setInt(4, 1);
                     insert.executeUpdate();
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -317,7 +304,6 @@ public class MySQL {
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return level;
@@ -333,7 +319,6 @@ public class MySQL {
                 return true;
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -351,7 +336,6 @@ public class MySQL {
                 perks.add(new Perk(perk, level));
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return perks;
@@ -369,7 +353,6 @@ public class MySQL {
                         statement.setString(3, perk);
                         statement.executeUpdate();
                     } catch (SQLException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -395,7 +378,6 @@ public class MySQL {
                 return p;
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -421,7 +403,6 @@ public class MySQL {
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -450,7 +431,6 @@ public class MySQL {
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -481,7 +461,6 @@ public class MySQL {
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return cantidades;
@@ -502,7 +481,6 @@ public class MySQL {
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return cantidades;
@@ -527,7 +505,6 @@ public class MySQL {
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return players;

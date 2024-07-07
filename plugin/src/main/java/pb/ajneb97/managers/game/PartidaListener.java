@@ -110,7 +110,6 @@ public class PartidaListener implements Listener {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                             @Override
                             public void run() {
-                                // TODO Auto-generated method stub
                                 jugador.updateInventory();
                                 jugador.getEquipment().setHelmet(null);
                                 InventarioHats.crearInventario(jugador, plugin);
