@@ -18,7 +18,7 @@ public class Perk {
         this.name = name;
     }
 
-    public int getNivel() {
+    public int getLevel() {
         return level;
     }
 

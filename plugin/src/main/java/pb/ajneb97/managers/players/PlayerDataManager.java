@@ -151,7 +151,7 @@ public class PlayerDataManager {
             List<String> listaPerks = new ArrayList<String>();
             ArrayList<Perk> perks = j.getPerks();
             for (Perk p : perks) {
-                listaPerks.add(p.getName() + ";" + p.getNivel());
+                listaPerks.add(p.getName() + ";" + p.getLevel());
             }
             players.set("perks", listaPerks);
 
