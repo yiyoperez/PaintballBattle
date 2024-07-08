@@ -4,15 +4,17 @@ import dev.triumphteam.cmd.core.annotation.SubCommand;
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.managers.Checks;
-import pb.ajneb97.managers.inventory.InventarioShop;
+import pb.ajneb97.managers.shop.ShopManager;
 
 public class ShopCommand extends MainCommand {
 
     private PaintballBattle plugin;
+    private ShopManager shopManager;
 
     public ShopCommand(PaintballBattle plugin) {
         super(plugin);
         this.plugin = plugin;
+        this.shopManager = plugin.getShopManager();
     }
 
     @SubCommand(value = "shop")
@@ -21,6 +23,6 @@ public class ShopCommand extends MainCommand {
             return;
         }
 
-        InventarioShop.crearInventarioPrincipal(player, plugin);
+        shopManager.openMainInventory(player);
     }
 }

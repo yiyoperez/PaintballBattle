@@ -17,16 +17,13 @@ import pb.ajneb97.api.PaintballAPI;
 import pb.ajneb97.juego.GameEdit;
 import pb.ajneb97.listeners.game.PartidaListener;
 import pb.ajneb97.listeners.game.PartidaListenerNew;
+import pb.ajneb97.listeners.shop.ShopListeners;
 import pb.ajneb97.listeners.signs.SignsListener;
 import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.managers.game.PartidaListener;
-import pb.ajneb97.managers.game.PartidaListenerNew;
 import pb.ajneb97.managers.inventory.InventarioAdmin;
 import pb.ajneb97.managers.inventory.InventarioHats;
-import pb.ajneb97.managers.inventory.InventarioShop;
 import pb.ajneb97.managers.perks.CooldownKillstreaksActionbar;
-import pb.ajneb97.managers.signs.CartelesAdmin;
-import pb.ajneb97.managers.signs.CartelesListener;
+import pb.ajneb97.managers.shop.ShopManager;
 import pb.ajneb97.managers.signs.SignManager;
 import pb.ajneb97.services.CommandService;
 import pb.ajneb97.utils.NMSUtils;
@@ -47,7 +44,9 @@ public final class PaintballBattle extends JavaPlugin {
     private YamlDocument messagesDocument;
 
     private GameManager gameManager;
+    private ShopManager shopManager;
     private SignManager signManager;
+
     private CommandService commandService;
 
     private GameEdit gameEdit;
@@ -59,6 +58,7 @@ public final class PaintballBattle extends JavaPlugin {
         createConfigFiles();
 
         gameManager = new GameManager(this);
+        shopManager = new ShopManager(this);
         signManager = new SignManager(this);
 
         setupEconomy();
@@ -77,8 +77,6 @@ public final class PaintballBattle extends JavaPlugin {
         //Todo Player data manager
 //        cargarJugadores();
 
-        cartelesTask = new CartelesAdmin(this);
-        cartelesTask.actualizarCarteles();
         CooldownKillstreaksActionbar c = new CooldownKillstreaksActionbar(this);
         c.crearActionbars();
 
@@ -203,6 +201,10 @@ public final class PaintballBattle extends JavaPlugin {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public ShopManager getShopManager() {
+        return shopManager;
     }
 
     public SignManager getSignManager() {
