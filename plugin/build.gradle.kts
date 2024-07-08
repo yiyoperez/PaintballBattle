@@ -18,6 +18,7 @@ dependencies {
         exclude("be.maximvdw", "MVdWPlaceholderAPI")
     }
 
+    implementation("fr.mrmicky:fastboard:2.1.3")
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
     implementation("dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT")
 }

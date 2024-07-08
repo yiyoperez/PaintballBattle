@@ -2,6 +2,7 @@ package pb.ajneb97.managers.scoreboard;
 
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import fr.mrmicky.fastboard.FastBoard;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +13,6 @@ import pb.ajneb97.juego.GameState;
 import pb.ajneb97.juego.PaintballPlayer;
 import pb.ajneb97.juego.Partida;
 import pb.ajneb97.juego.Team;
-import pb.ajneb97.lib.fastboard.FastBoard;
 import pb.ajneb97.utils.UtilidadesOtros;
 
 import java.util.HashMap;
@@ -20,16 +20,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ScoreboardAdmin {
+public class ScoreboardManager {
 
     private int taskID;
     private PaintballBattle plugin;
     private final Map<UUID, FastBoard> boards = new HashMap<>();
-    private ScoreboardAdmin scoreboardTask;
+    private ScoreboardManager scoreboardTask;
 
-    public ScoreboardAdmin(PaintballBattle plugin) {
+    public ScoreboardManager(PaintballBattle plugin) {
         this.plugin = plugin;
-        this.scoreboardTask = new ScoreboardAdmin(plugin);
+        this.scoreboardTask = new ScoreboardManager(plugin);
         this.scoreboardTask.crearScoreboards();
     }
 
@@ -40,7 +40,7 @@ public class ScoreboardAdmin {
     public void recargarScoreboard() {
         int taskID = scoreboardTask.getTaskID();
         Bukkit.getScheduler().cancelTask(taskID);
-        scoreboardTask = new ScoreboardAdmin(plugin);
+        scoreboardTask = new ScoreboardManager(plugin);
         scoreboardTask.crearScoreboards();
     }
 
