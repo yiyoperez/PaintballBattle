@@ -50,9 +50,7 @@ public final class PaintballBattle extends JavaPlugin {
 
     private GameEdit gameEdit;
     private static Economy econ;
-
-    private CartelesAdmin cartelesTask;
-
+    private PaintballAPI API;
 
     public void onEnable() {
 
@@ -82,7 +80,7 @@ public final class PaintballBattle extends JavaPlugin {
         CooldownKillstreaksActionbar c = new CooldownKillstreaksActionbar(this);
         c.crearActionbars();
 
-        PaintballAPI api = new PaintballAPI(this);
+        API = new PaintballAPI(this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new ExpansionPaintballBattle(this).register();
         }
@@ -157,11 +155,8 @@ public final class PaintballBattle extends JavaPlugin {
 
     }
 
-    public void recargarCarteles() {
-        int taskID = cartelesTask.getTaskID();
-        Bukkit.getScheduler().cancelTask(taskID);
-        cartelesTask = new CartelesAdmin(this);
-        cartelesTask.actualizarCarteles();
+    public PaintballAPI getAPI() {
+        return API;
     }
 
     public void setPartidaEditando(GameEdit p) {

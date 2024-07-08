@@ -4,7 +4,6 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.database.JugadorDatos;
-import pb.ajneb97.juego.GameState;
 import pb.ajneb97.juego.Partida;
 import pb.ajneb97.managers.game.GameManager;
 import pb.ajneb97.managers.players.PlayerDataManager;
@@ -157,22 +156,28 @@ public class PaintballAPI {
     }
 
     public static String getStatusArena(String arena) {
-        Partida partida = getGameManager().getPartida(arena);
+        Partida match = getGameManager().getPartida(arena);
         YamlDocument messages = plugin.getMessagesDocument();
-        if (partida != null) {
-            if (partida.getEstado().equals(GameState.STARTING)) {
-                return messages.getString("signStatusStarting");
-            } else if (partida.getEstado().equals(GameState.WAITING)) {
+        if (match == null) {
+            return "UNKNOWN";
+        }
+
+        switch (match.getEstado()) {
+            case WAITING -> {
                 return messages.getString("signStatusWaiting");
-            } else if (partida.getEstado().equals(GameState.PLAYING)) {
+            }
+            case STARTING -> {
+                return messages.getString("signStatusStarting");
+            }
+            case PLAYING -> {
                 return messages.getString("signStatusIngame");
-            } else if (partida.getEstado().equals(GameState.ENDING)) {
+            }
+            case ENDING -> {
                 return messages.getString("signStatusFinishing");
-            } else {
+            }
+            default -> {
                 return messages.getString("signStatusDisabled");
             }
-        } else {
-            return null;
         }
     }
 }
