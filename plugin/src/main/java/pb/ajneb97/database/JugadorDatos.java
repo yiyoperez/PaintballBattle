@@ -87,7 +87,7 @@ public class JugadorDatos {
     public int getNivelPerk(String perk) {
         for (int i = 0; i < perks.size(); i++) {
             if (perks.get(i).getName().equals(perk)) {
-                return perks.get(i).getNivel();
+                return perks.get(i).getLevel();
             }
         }
         return 0;
