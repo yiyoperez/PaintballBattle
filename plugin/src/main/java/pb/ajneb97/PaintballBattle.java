@@ -15,6 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pb.ajneb97.api.ExpansionPaintballBattle;
 import pb.ajneb97.api.PaintballAPI;
 import pb.ajneb97.juego.GameEdit;
+import pb.ajneb97.listeners.game.PartidaListener;
+import pb.ajneb97.listeners.game.PartidaListenerNew;
 import pb.ajneb97.listeners.signs.SignsListener;
 import pb.ajneb97.managers.game.GameManager;
 import pb.ajneb97.managers.game.PartidaListener;
