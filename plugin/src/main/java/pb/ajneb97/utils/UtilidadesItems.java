@@ -80,6 +80,7 @@ public class UtilidadesItems {
         }
     }
 
+    // TODO: Having problems decoding from base64
     public static ItemStack getCabeza(ItemStack item, String textura) {
         return ItemStackUtils.decode(textura);
     }
@@ -161,7 +162,7 @@ public class UtilidadesItems {
         return profile;
     }
 
-    public URL getUrlFromBase64(String base64) throws MalformedURLException {
+    public static URL getUrlFromBase64(String base64) throws MalformedURLException {
         String decoded = new String(Base64.getDecoder().decode(base64));
         // We simply remove the "beginning" and "ending" part of the JSON, so we're left with only the URL. You could use a proper
         // JSON parser for this, but that's not worth it. The String will always start exactly with this stuff anyway
