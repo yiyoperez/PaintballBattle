@@ -42,7 +42,8 @@ public class MainCommand extends BaseCommand {
             throw new RuntimeException(e);
         }
 
-        plugin.recargarCarteles();
+        // TODO: Add option to reload signs.
+        //plugin.recargarCarteles();
         // TODO: usage scoreboard manager.
         //plugin.recargarScoreboard();
         sender.sendMessage(MessageUtils.translateColor(messages.getString("configReloaded")));

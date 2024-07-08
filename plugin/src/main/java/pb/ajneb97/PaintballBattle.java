@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pb.ajneb97.api.ExpansionPaintballBattle;
 import pb.ajneb97.api.PaintballAPI;
 import pb.ajneb97.juego.GameEdit;
+import pb.ajneb97.listeners.signs.SignsListener;
 import pb.ajneb97.managers.game.GameManager;
 import pb.ajneb97.managers.game.PartidaListener;
 import pb.ajneb97.managers.game.PartidaListenerNew;
@@ -24,6 +25,7 @@ import pb.ajneb97.managers.inventory.InventarioShop;
 import pb.ajneb97.managers.perks.CooldownKillstreaksActionbar;
 import pb.ajneb97.managers.signs.CartelesAdmin;
 import pb.ajneb97.managers.signs.CartelesListener;
+import pb.ajneb97.managers.signs.SignManager;
 import pb.ajneb97.services.CommandService;
 import pb.ajneb97.utils.NMSUtils;
 
@@ -43,6 +45,7 @@ public final class PaintballBattle extends JavaPlugin {
     private YamlDocument messagesDocument;
 
     private GameManager gameManager;
+    private SignManager signManager;
     private CommandService commandService;
 
     private GameEdit gameEdit;
@@ -56,6 +59,7 @@ public final class PaintballBattle extends JavaPlugin {
         createConfigFiles();
 
         gameManager = new GameManager(this);
+        signManager = new SignManager(this);
 
         setupEconomy();
         registerEvents();
@@ -63,6 +67,9 @@ public final class PaintballBattle extends JavaPlugin {
         //Todo Player data manager
 //        registerPlayers();
         gameManager.cargarPartidas();
+        signManager.loadSavedSigns();
+
+        signManager.runTask(this);
 
         this.commandService = new CommandService(this);
         this.commandService.start();
@@ -84,11 +91,16 @@ public final class PaintballBattle extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(prefix + ChatColor.YELLOW + "Thanks for using my plugin!  " + ChatColor.WHITE + "~Ajneb97");
     }
 
+    @Override
     public void onDisable() {
         commandService.finish();
 
         gameManager.shutdownGames();
         gameManager.guardarPartidas();
+
+        signManager.saveLoadedSigns();
+        signManager.cancelTask();
+
         //Todo Player data manager
 //        guardarJugadores();
 
@@ -182,9 +194,9 @@ public final class PaintballBattle extends JavaPlugin {
         if (NMSUtils.isNewVersion()) {
             pm.registerEvents(new PartidaListenerNew(this), this);
         }
-        pm.registerEvents(new CartelesListener(this), this);
+        pm.registerEvents(new SignsListener(this), this);
         pm.registerEvents(new InventarioAdmin(this), this);
-        pm.registerEvents(new InventarioShop(this), this);
+        pm.registerEvents(new ShopListeners(this), this);
         pm.registerEvents(new InventarioHats(this), this);
     }
 
@@ -194,6 +206,10 @@ public final class PaintballBattle extends JavaPlugin {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public SignManager getSignManager() {
+        return signManager;
     }
 
     public YamlDocument getShopDocument() {

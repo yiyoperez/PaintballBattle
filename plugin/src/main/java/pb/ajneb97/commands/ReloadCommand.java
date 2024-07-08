@@ -29,8 +29,8 @@ public class ReloadCommand extends MainCommand {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            plugin.recargarCarteles();
             //TODO
+            //plugin.recargarCarteles();
             //plugin.recargarScoreboard();
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("configReloaded")));
         } else {
