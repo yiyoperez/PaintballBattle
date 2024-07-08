@@ -1,4 +1,4 @@
-package pb.ajneb97.managers.game;
+package pb.ajneb97.listeners.game;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

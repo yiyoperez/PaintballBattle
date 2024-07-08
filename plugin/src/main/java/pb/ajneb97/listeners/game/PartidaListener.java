@@ -1,4 +1,4 @@
-package pb.ajneb97.managers.game;
+package pb.ajneb97.listeners.game;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -46,6 +46,8 @@ import pb.ajneb97.juego.Killstreak;
 import pb.ajneb97.juego.PaintballPlayer;
 import pb.ajneb97.juego.Partida;
 import pb.ajneb97.juego.Team;
+import pb.ajneb97.managers.game.GameManager;
+import pb.ajneb97.managers.game.PartidaManager;
 import pb.ajneb97.managers.inventory.InventarioHats;
 import pb.ajneb97.managers.inventory.InventarioKillstreaks;
 import pb.ajneb97.managers.perks.CooldownHats;
