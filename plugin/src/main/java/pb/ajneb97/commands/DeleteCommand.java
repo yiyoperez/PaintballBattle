@@ -1,32 +1,34 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.rollczi.litecommands.annotations.argument.Arg;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.utils.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.managers.GameManager;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
 
+@Command(name = "paintball delete")
 public class DeleteCommand extends MainCommand {
 
-    private YamlDocument messages;
+    @Inject
     private GameManager gameManager;
+    @Inject
+    @Named("messages")
+    private YamlDocument messages;
 
-    public DeleteCommand(PaintballBattle plugin) {
-        super(plugin);
-        this.messages = plugin.getMessagesDocument();
-        this.gameManager = plugin.getGameManager();
-    }
-
-    @SubCommand(value = "delete")
-    public void command(Player player, String arenaName) {
-        if (gameManager.getPartida(arenaName) == null) {
+    @Execute
+    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
+        if (gameManager.gameExists(arenaName)) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
             return;
         }
 
-        gameManager.removerPartida(arenaName);
+        gameManager.removeGame(arenaName);
         player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDeleted").replace("%name%", arenaName)));
     }
 }

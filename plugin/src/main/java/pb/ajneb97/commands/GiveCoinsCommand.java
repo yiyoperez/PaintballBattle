@@ -1,30 +1,31 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.core.annotation.Description;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import net.md_5.bungee.api.ChatColor;
+import dev.rollczi.litecommands.annotations.argument.Arg;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.description.Description;
+import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
+@Command(name = "paintball givecoins", aliases = "paintball gc")
 public class GiveCoinsCommand extends MainCommand {
 
-    private final PaintballBattle plugin;
+    @Inject
+    @Named("messages")
     private YamlDocument messages;
 
-    public GiveCoinsCommand(PaintballBattle plugin) {
-        super(plugin);
-        this.plugin = plugin;
-        this.messages = plugin.getMessagesDocument();
-    }
-
-    @SubCommand(value = "givecoins", alias = "gc")
+    @Execute
     @Description("Give coins to specified player.")
     // TODO:
     //  add amount message to validNumberError
     //  add wrong usage to commandGiveCoinsErrorUse
-    public void command(CommandSender sender, Player target, int amount) {
+    public void command(@Context CommandSender sender, @OptionalArg Player target, @Arg int amount) {
 
         //TODO USAGE PLAYER DATA MANAGER
         //Si el jugador no esta en la base de datos, o en un archivo, DEBE estar conectado para darle coins.
@@ -34,25 +35,25 @@ public class GiveCoinsCommand extends MainCommand {
 //        }
 //        JugadorDatos jDatos = plugin.getJugador(target.getName());
 //        jDatos.aumentarCoins(amount);
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("giveCoinsMessage").replace("%player%", target.getName()).replace("%amount%", amount + "")));
-        target.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
+        sender.sendMessage(MessageUtils.translateColor(messages.getString("giveCoinsMessage").replace("%player%", target.getName()).replace("%amount%", amount + "")));
+        target.sendMessage(MessageUtils.translateColor(messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
 
 //        if (!MySQL.isEnabled(plugin.getConfigDocument())) {
 //            if (MySQL.jugadorExiste(plugin, player)) {
 //                MySQL.agregarCoinsJugadorAsync(plugin, player, amount);
-//                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("giveCoinsMessage").replace("%player%", player).replace("%amount%", amount + "")));
+//                sender.sendMessage(MessageUtils.translateColor( messages.getString("giveCoinsMessage").replace("%player%", player).replace("%amount%", amount + "")));
 //                Player p = Bukkit.getPlayer(player);
 //                if (p != null) {
-//                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
+//                    p.sendMessage(MessageUtils.translateColor( messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
 //                }
 //            } else {
 //                Player p = Bukkit.getPlayer(player);
 //                if (p != null) {
 //                    MySQL.crearJugadorPartidaAsync(plugin, p.getUniqueId().toString(), p.getName(), "", 0, 0, 0, 0, amount, 1);
-//                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("giveCoinsMessage").replace("%player%", player).replace("%amount%", amount + "")));
-//                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
+//                    sender.sendMessage(MessageUtils.translateColor( messages.getString("giveCoinsMessage").replace("%player%", player).replace("%amount%", amount + "")));
+//                    p.sendMessage(MessageUtils.translateColor( messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
 //                } else {
-//                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("errorPlayerOnline")));
+//                    sender.sendMessage(MessageUtils.translateColor( messages.getString("errorPlayerOnline")));
 //                }
 //            }
 //        }

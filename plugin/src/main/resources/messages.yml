@@ -3,6 +3,26 @@ lang-version: 1
 
 prefix: "&7[&9&lPaintball Battle&7]"
 noPermissions: "&cYou don't have permissions to use that command."
+
+MAIN:
+  HELP:
+    - "&7[ [ &4[&fPaintball Battle&4] &7] ]"
+    - ""
+    - "&6/paintball create <arena> &8Creates a new arena."
+    - "&6/paintball delete <arena> &8Deletes an arena."
+    - "&6/paintball join <arena> &8Joins an arena."
+    - "&6/paintball joinrandom &8Joins a random arena."
+    - "&6/paintball leave &8Leaves from the arena."
+    - "&6/paintball shop &8Opens the Paintball Shop."
+    - "&6/paintball givecoins <player> <amount>"
+    - "&6/paintball setmainlobby &8Defines the minigame main lobby."
+    - "&6/paintball enable <arena> &8Enables an arena."
+    - "&6/paintball disable <arena> &8Disables an arena."
+    - "&6/paintball edit <arena> &8Edit the properties of an arena."
+    - "&6/paintball reload &8Reloads the configuration files."
+    - ""
+    - "&7[ [ &4[&fPaintball Battle&4] &7] ]"
+
 arenaDoesNotExists: "&cThat arena doesn't exists."
 arenaAlreadyExists: "&cThat arena already exists."
 commandCreateErrorUse: "&cYou need to use &7/paintball create <arena>"

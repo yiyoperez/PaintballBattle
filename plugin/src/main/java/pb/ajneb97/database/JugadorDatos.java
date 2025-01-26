@@ -1,7 +1,7 @@
 package pb.ajneb97.database;
 
-import pb.ajneb97.api.Hat;
-import pb.ajneb97.api.Perk;
+import pb.ajneb97.structures.Hat;
+import pb.ajneb97.structures.Perk;
 
 import java.util.ArrayList;
 

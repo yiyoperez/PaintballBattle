@@ -2,10 +2,10 @@ package pb.ajneb97.managers.players;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.PlayerConfig;
-import pb.ajneb97.api.Hat;
-import pb.ajneb97.api.Perk;
 import pb.ajneb97.database.JugadorDatos;
+import pb.ajneb97.structures.Hat;
+import pb.ajneb97.structures.Perk;
+import pb.ajneb97.structures.PlayerConfig;
 
 import java.io.File;
 import java.util.ArrayList;

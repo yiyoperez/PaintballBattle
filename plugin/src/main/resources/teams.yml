@@ -1,0 +1,33 @@
+teams:
+  blue:
+    name: "&1&lBlue"
+    color: 18175
+    item: "BLUE_WOOL"
+  red:
+    name: "&4&lRed"
+    color: 16711680
+    item: "RED_WOOL"
+  yellow:
+    name: "&e&lYellow"
+    color: 15335168
+    item: "YELLOW_WOOL"
+  green:
+    name: "&2&lGreen"
+    color: 1017094
+    item: "GREEN_WOOL"
+  orange:
+    name: "&6&lOrange"
+    color: 15963657
+    item: "ORANGE_WOOL"
+  purple:
+    name: "&5&lPurple"
+    color: 15338477
+    item: "PURPLE_WOOL"
+  black:
+    name: "&0&lBlack"
+    color: 0
+    item: "BLACK_WOOL"
+  white:
+    name: "&f&lWhite"
+    color: 16777215
+    item: "WHITE_WOOL"

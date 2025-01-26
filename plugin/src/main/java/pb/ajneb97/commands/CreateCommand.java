@@ -1,33 +1,38 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.Description;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.rollczi.litecommands.annotations.argument.Arg;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.description.Description;
+import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.juego.Partida;
-import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.utils.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.Game;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
+@Command(name = "paintball create")
+@Description("Create a new arena.")
 public class CreateCommand extends MainCommand {
 
+    @Inject
+    @Named("config")
     private YamlDocument config;
+    @Inject
+    @Named("messages")
     private YamlDocument messages;
+
+    @Inject
     private GameManager gameManager;
 
-    public CreateCommand(PaintballBattle plugin) {
-        super(plugin);
-        this.config = plugin.getConfigDocument();
-        this.gameManager = plugin.getGameManager();
-        this.messages = plugin.getMessagesDocument();
-    }
 
-    @SubCommand(value = "create")
-    @Description("Create a new arena.")
+    @Execute
     @Permission("paintball.admin.create")
-    public void command(Player player, String arenaName) {
-        if (gameManager.getPartida(arenaName) != null) {
+    public void command(@Context Player player, @Arg("arenaName") String arenaName) {
+        if (gameManager.gameExists(arenaName)) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaAlreadyExists")));
             return;
         }
@@ -36,21 +41,7 @@ public class CreateCommand extends MainCommand {
             return;
         }
 
-        String equipo1 = "";
-        String equipo2 = "";
-        int i = 0;
-        for (String key : config.getSection("teams").getRoutesAsStrings(false)) {
-            if (i == 0) {
-                equipo1 = key;
-            } else {
-                equipo2 = key;
-                break;
-            }
-            i++;
-        }
-
-        Partida partida = new Partida(arenaName, config.getInt("arena_time_default"), equipo1, equipo2, config.getInt("team_starting_lives_default"));
-        gameManager.agregarPartida(partida);
+        gameManager.addGame(new Game(arenaName));
         player.sendMessage(MessageUtils.translateColor(messages.getString("arenaCreated").replace("%name%", arenaName)));
         player.sendMessage(MessageUtils.translateColor(messages.getString("arenaCreatedExtraInfo").replace("%name%", arenaName)));
     }

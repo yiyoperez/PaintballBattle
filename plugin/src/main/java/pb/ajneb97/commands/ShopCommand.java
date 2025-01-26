@@ -1,28 +1,20 @@
 package pb.ajneb97.commands;
 
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.managers.Checks;
-import pb.ajneb97.managers.shop.ShopManager;
+import pb.ajneb97.managers.ShopManager;
+import team.unnamed.inject.Inject;
 
+@Command(name = "paintball shop")
 public class ShopCommand extends MainCommand {
 
-    private PaintballBattle plugin;
+    @Inject
     private ShopManager shopManager;
 
-    public ShopCommand(PaintballBattle plugin) {
-        super(plugin);
-        this.plugin = plugin;
-        this.shopManager = plugin.getShopManager();
-    }
-
-    @SubCommand(value = "shop")
-    public void command(Player player) {
-        if (!Checks.checkTodo(plugin, player)) {
-            return;
-        }
-
+    @Execute
+    public void command(@Context Player player) {
         shopManager.openMainInventory(player);
     }
 }

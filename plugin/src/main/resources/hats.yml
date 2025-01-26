@@ -1,0 +1,86 @@
+hats_inventory_title: "&9&lPaintball Hats"
+hats_items:
+  no_hats:
+    item: BARRIER
+    name: "&cYou don't have any hats!"
+    lore:
+      - "&7Buy them on the Paintball Shop."
+  remove_hat:
+    item: REDSTONE_BLOCK
+    name: "&cRemove your Hat"
+  speed_hat:
+    item: SPONGE
+    name: "&6&lSpeed Hat"
+    lore:
+      - "&7Gives you permanent Speed I."
+      - ""
+      - "&7Status: %status%"
+  jump_hat:
+    item: SLIME_BLOCK
+    name: "&6&lJump Hat"
+    lore:
+      - "&7Gives you Jump I when sneaking for"
+      - "&710 seconds."
+      - ""
+      - "&7Status: %status%"
+    duration: 10
+    cooldown: 30
+  protector_hat:
+    item: IRON_HELMET
+    name: "&6&lProtector Hat"
+    lore:
+      - "&7Gives you a small chance of dodging"
+      - "&7snowballs hits."
+      - ""
+      - "&7Status: %status%"
+  time_hat:
+    item: GOLDEN_HELMET
+    name: "&6&lTime Hat"
+    lore:
+      - "&7All of your killstreaks last 5 more seconds."
+      - ""
+      - "&7Status: %status%"
+  guardian_hat:
+    item: DIAMOND_HELMET
+    name: "&6&lGuardian Hat"
+    lore:
+      - "&7Gives you Invulnerability and Slowness II"
+      - "&7when sneaking for 7 seconds."
+      - ""
+      - "&7Status: %status%"
+    duration: 7
+    cooldown: 45
+  present_hat:
+    item: PLAYER_HEAD
+    skull_texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdiNTU0ZWI4MTUyMTJiZWM1ZTBmNzc2ZTFlNmU2NWZhZDQ3YjZhMzRkMmZjMTMyZjcwMDY0YjNiZmIxOTNlZSJ9fX0="
+    name: "&6&lPresent Hat"
+    lore:
+      - "&7At the start of the game one of your teammates"
+      - "&7will receive 3 killcoins."
+      - ""
+      - "&7Status: %status%"
+  assassin_hat:
+    item: PLAYER_HEAD
+    skull_texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzk1NzEyYjZlMWIzOGY5MmUyMWE1MmZiNzlhZjUzM2I3M2JiNWRkNWNiZGFmOTJlZTY0YjkzYWFhN2M0NjRkIn19fQ=="
+    name: "&6&lAssassin Hat"
+    lore:
+      - "&7Killing the user who last killed you"
+      - "&7will give you an extra killcoin."
+      - ""
+      - "&7Status: %status%"
+  chicken_hat:
+    item: PLAYER_HEAD
+    skull_texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYzODQ2OWE1OTljZWVmNzIwNzUzNzYwMzI0OGE5YWIxMWZmNTkxZmQzNzhiZWE0NzM1YjM0NmE3ZmFlODkzIn19fQ=="
+    name: "&6&lChicken Hat"
+    lore:
+      - "&7You will shoot eggs instead of snowballs."
+      - ""
+      - "&7Status: %status%"
+  explosive_hat:
+    item: TNT
+    name: "&6&lExplosive Hat"
+    lore:
+      - "&7Gives you a small chance of exploding when you"
+      - "&7are killed, killing nearby enemies."
+      - ""
+      - "&7Status: %status%"

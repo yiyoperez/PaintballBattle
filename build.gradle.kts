@@ -9,9 +9,12 @@ subprojects {
 
         // JitPack's repository (Used for ACID, sMessages, others..)
         maven("https://jitpack.io")
-        // Minecraft repo
+        // Minecraft's repo
         maven("https://libraries.minecraft.net/")
-        maven("https://repo.triumphteam.dev/snapshots/")
+        // Panda's repo (LiteCommands)
+        maven("https://repo.panda-lang.org/releases")
+        // CodeMC repo
+        maven("https://repo.codemc.io/repository/maven-snapshots/")
         // Sonatype's repository (Used for bungee-chat)
         maven("https://oss.sonatype.org/content/repositories/snapshots")
         // SpigotMC's repository (Used for Spigot-API)

@@ -1,6 +1,0 @@
-main: pb.ajneb97.PaintballBattle
-version: 1.10.1
-name: PaintballBattle
-api-version: 1.13
-author: Ajneb97
-softdepend: [ Multiverse-Core, Vault, PlaceholderAPI ]

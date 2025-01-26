@@ -1,35 +1,37 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.juego.Partida;
-import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.managers.game.PartidaManager;
-import pb.ajneb97.utils.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.listeners.customevents.GameLeaveEvent;
+import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.Game;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
+import java.util.Optional;
+
+@Command(name = "paintball leave")
 public class LeaveCommand extends MainCommand {
 
-    private PaintballBattle plugin;
+    @Inject
     private GameManager gameManager;
+    @Inject
+    @Named("messages")
     private YamlDocument messages;
 
-    public LeaveCommand(PaintballBattle plugin) {
-        super(plugin);
-        this.plugin = plugin;
-        this.gameManager = plugin.getGameManager();
-        this.messages = plugin.getMessagesDocument();
-    }
-
-    @SubCommand(value = "leave")
-    public void command(Player player) {
-        Partida partida = gameManager.getPartidaJugador(player.getName());
-        if (partida == null) {
+    @Execute
+    public void command(@Context Player player) {
+        if (!gameManager.isPlaying(player)) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("notInAGame")));
             return;
         }
-        
-        PartidaManager.jugadorSale(partida, player, false, plugin, false);
+
+        Optional<Game> optionalGame = gameManager.getPlayerGame(player);
+        optionalGame.ifPresentOrElse(game -> new GameLeaveEvent(game, player).call(),
+                () -> player.sendMessage(MessageUtils.translateColor(messages.getString("notInAGame"))));
     }
 }

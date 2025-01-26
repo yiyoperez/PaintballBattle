@@ -1,0 +1,109 @@
+killstreaks_inventory_title: "&9&lPaintball Killstreaks"
+killstreaks_items:
+  more_snowballs:
+    item: SNOWBALL
+    name: "&6&lMore Snowballs"
+    lore:
+      - "&7You will receive 32 extra snowballs."
+      - ""
+      - "&7Cost: &a2 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 0
+    snowballs: 32
+    cost: 2
+    activateSound: "ENTITY_VILLAGER_YES;10;1"
+  strong_arm:
+    item: BEACON
+    name: "&6&lStrong Arm"
+    lore:
+      - "&7You will throw snowballs at high speed."
+      - ""
+      - "&7Duration: &a30s"
+      - "&7Cost: &a3 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 1
+    duration: 30
+    cost: 3
+    activateSound: "BLOCK_ANVIL_USE;10;2"
+  triple_shoot:
+    item: DIAMOND
+    name: "&6&lTriple Shoot"
+    lore:
+      - "&7You will throw 3 snowballs at a time."
+      - ""
+      - "&7Duration: &a30s"
+      - "&7Cost: &a3 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 2
+    duration: 30
+    cost: 3
+    activateSound: "BLOCK_ANVIL_USE;10;2"
+  3_lives:
+    item: WHEAT
+    name: "&6&l+3 Lives"
+    lore:
+      - "&7Regain 3 Lives for your team."
+      - ""
+      - "&7Cost: &a4 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 3
+    cost: 4
+    activateSound: "ENTITY_BAT_TAKEOFF;10;1.5;global"
+  teleport:
+    item: ENDER_PEARL
+    name: "&6&lTeleport"
+    lore:
+      - "&7Teleports you to your death location."
+      - ""
+      - "&7Cost: &a8 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 4
+    cost: 8
+    activateSound: "ENTITY_ENDERMAN_TELEPORT;10;1"
+  lightning:
+    item: GOLDEN_AXE
+    name: "&6&lLightning Strike"
+    lore:
+      - "&7Kills your sorrounding enemies in a radius"
+      - "&7of 10 blocks."
+      - ""
+      - "&7Cost: &a12 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 5
+    radius: 10
+    cost: 12
+    activateSound: "ENTITY_LIGHTNING_BOLT_THUNDER;10;1"
+  nuke:
+    item: TNT
+    name: "&6&lNuke"
+    lore:
+      - "&7Kills all of your enemies."
+      - ""
+      - "&7Cost: &a25 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 6
+    cost: 25
+    activateSound: "ENTITY_WOLF_HOWL;10;2;global"
+    finalSound: "ENTITY_GENERIC_EXPLODE;10;1;global"
+  fury:
+    item: REDSTONE
+    name: "&6&lFury Mode"
+    lore:
+      - "&7You will be immune to snowballs, and you"
+      - "&7won't consume them."
+      - ""
+      - "&7Duration: &a25s"
+      - "&7Cost: &a30 Killcoins"
+      - ""
+      - "&aClick to activate!"
+    slot: 7
+    duration: 25
+    cost: 30
+    activateSound: "BLOCK_PISTON_EXTEND;10;1.5;global"

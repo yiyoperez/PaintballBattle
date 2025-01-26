@@ -1,43 +1,37 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import net.md_5.bungee.api.ChatColor;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.juego.Partida;
-import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.managers.game.PartidaManager;
-import pb.ajneb97.utils.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
+import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.Game;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
+import java.util.Optional;
+
+@Command(name = "paintball joinrandom")
 public class JoinRandomCommand extends MainCommand {
 
-    private PaintballBattle plugin;
+    @Inject
     private GameManager gameManager;
+    @Inject
+    @Named("messages")
     private YamlDocument messages;
 
-    public JoinRandomCommand(PaintballBattle plugin) {
-        super(plugin);
-
-        this.plugin = plugin;
-        this.gameManager = plugin.getGameManager();
-        this.messages = plugin.getMessagesDocument();
-    }
-
-    @SubCommand(value = "joinrandom")
-    public void commnad(Player player) {
-        // /paintball joinrandom
-        if (gameManager.getPartidaJugador(player.getName()) != null) {
+    @Execute
+    public void command(@Context Player player) {
+        if (gameManager.isPlaying(player)) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("alreadyInArena")));
             return;
         }
 
-        Partida partidaNueva = PartidaManager.getPartidaDisponible(plugin);
-        if (partidaNueva == null) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("noArenasAvailable")));
-            return;
-        }
-
-        PartidaManager.jugadorEntra(partidaNueva, player, plugin);
+        Optional<Game> optionalGame = gameManager.getFirstAvailableGame();
+        optionalGame.ifPresentOrElse(game -> new PreJoinGameEvent(game, player).call(),
+                () -> player.sendMessage(MessageUtils.translateColor(messages.getString("noArenasAvailable"))));
     }
 }

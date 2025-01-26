@@ -1,55 +1,50 @@
 package pb.ajneb97.commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.rollczi.litecommands.annotations.argument.Arg;
+import dev.rollczi.litecommands.annotations.command.Command;
+import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
-import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.juego.GameEdit;
-import pb.ajneb97.juego.Partida;
-import pb.ajneb97.managers.Checks;
-import pb.ajneb97.managers.game.GameManager;
-import pb.ajneb97.managers.inventory.InventarioAdmin;
-import pb.ajneb97.utils.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.managers.EditManager;
+import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.Game;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
+@Command(name = "paintball edit")
 public class EditCommand extends MainCommand {
 
-    private PaintballBattle plugin;
+    @Inject
     private GameManager gameManager;
+    @Inject
+    private EditManager editManager;
+    @Inject
+    @Named("messages")
     private YamlDocument messages;
 
-    public EditCommand(PaintballBattle plugin) {
-        super(plugin);
-
-        this.plugin = plugin;
-        this.gameManager = plugin.getGameManager();
-        this.messages = plugin.getMessagesDocument();
-    }
-
-    @SubCommand(value = "edit")
+    @Execute
     @Permission("paintball.admin.edit")
-    public void command(Player player, String arenaName) {
-        if (!Checks.checkTodo(plugin, player)) {
-            return;
-        }
-
-        Partida partida = gameManager.getPartida(arenaName);
-        if (partida == null) {
+    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
+        if (!gameManager.gameExists(arenaName)) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
             return;
         }
 
-        if (partida.estaActivada()) {
+        Game game = gameManager.getGame(arenaName);
+        if (game.isEnabled()) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaMustBeDisabled")));
             return;
         }
 
-        GameEdit gameEdit = plugin.getPartidaEditando();
-        if (gameEdit != null) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaModifyingError")));
-            return;
-        }
+        //TODO
+//        if (!editManager.isArenaAvailable(partida) && !editManager.isArenaEditAvailable(partida)) {
+//            player.sendMessage("Another admin is editing that arena.");
+//        }
 
-        InventarioAdmin.crearInventario(player, partida, plugin);
+        editManager.add(player, game);
+        editManager.openEditInventory(player);
     }
 }

@@ -1,0 +1,42 @@
+config-version: 1
+
+LEAVE:
+  ENABLED: true
+  SLOT: 8
+  MATERIAL: IRON_DOOR
+  NAME: "&7[&c&lLeave&7]"
+  LORE:
+    - "&7Right Click to leave the game."
+
+PERKS:
+  ENABLED: true
+  SLOT: 0
+  MATERIAL: GOLD_NUGGET
+  NAME: "&ePerk: &a%amount%"
+  LORE:
+    - "&7Right Click to buy Perks."
+
+HATS:
+  ENABLED: true
+  SLOT: 1
+  MATERIAL: DIAMOND_HELMET
+  NAME: "&7[&b&lSelect your Hat&7]"
+  LORE:
+    - "&7Right Click to select a Hat."
+
+TEAM_SELECTOR:
+  ENABLED: true
+  SLOT: 4
+  MATERIAL: IRON_CHESTPLATE
+  NAME: "&7[&b&lSelect your Team&7]"
+  LORE:
+    - "&7Right Click to select a Team."
+
+# Item is given when a game ends.
+PLAY_AGAIN:
+  ENABLED: true
+  SLOT: 7
+  MATERIAL: LIGHT_BLUE_DYE
+  NAME: "&7[&9&lPlay Again&7]"
+  LORE:
+    - "&7Right Click to play in another map."
