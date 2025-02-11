@@ -6,13 +6,14 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import jdk.jfr.Description;
 import org.bukkit.command.CommandSender;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
 @Command(name = "paintball", aliases = {"pb", "pball"})
 @Description("Main command of PaintballBattle")
-public class MainCommand {
+public class MainCommand implements PaintCommand {
 
     @Inject
     private MessageHandler messageHandler;
