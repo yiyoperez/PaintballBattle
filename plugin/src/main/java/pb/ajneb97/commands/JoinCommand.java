@@ -6,7 +6,6 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
-import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.structures.Game;
@@ -23,13 +22,7 @@ public class JoinCommand extends MainCommand {
     private YamlDocument messages;
 
     @Execute
-    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
-        if (!gameManager.gameExists(arenaName)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
-            return;
-        }
-
-        Game game = gameManager.getGame(arenaName);
+    public void command(@Context Player player, @Arg Game game) {
         new PreJoinGameEvent(game, player).call();
     }
 }

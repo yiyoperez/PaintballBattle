@@ -27,13 +27,7 @@ public class EditCommand extends MainCommand {
 
     @Execute
     @Permission("paintball.admin.edit")
-    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
-        if (!gameManager.gameExists(arenaName)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
-            return;
-        }
-
-        Game game = gameManager.getGame(arenaName);
+    public void command(@Context Player player, @Arg Game game) {
         if (game.isEnabled()) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaMustBeDisabled")));
             return;

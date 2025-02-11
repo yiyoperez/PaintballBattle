@@ -8,6 +8,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.Game;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -22,13 +23,8 @@ public class DeleteCommand extends MainCommand {
     private YamlDocument messages;
 
     @Execute
-    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
-        if (gameManager.gameExists(arenaName)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
-            return;
-        }
-
-        gameManager.removeGame(arenaName);
-        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDeleted").replace("%name%", arenaName)));
+    public void command(@Context Player player, @Arg Game game) {
+        gameManager.removeGame(game.getName());
+        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDeleted").replace("%name%", game.getName())));
     }
 }

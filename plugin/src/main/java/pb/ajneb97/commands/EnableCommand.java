@@ -25,13 +25,7 @@ public class EnableCommand extends MainCommand {
 
     @Execute
     @Permission("paintball.admin.enable")
-    public void command(@Context Player player, @Arg("arena-name") String arenaName) {
-        if (!gameManager.gameExists(arenaName)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaDoesNotExists")));
-            return;
-        }
-
-        Game game = gameManager.getGame(arenaName);
+    public void command(@Context Player player, @Arg Game game) {
         if (game.isEnabled()) {
             player.sendMessage(MessageUtils.translateColor(messages.getString("arenaAlreadyEnabled")));
             return;
@@ -51,6 +45,6 @@ public class EnableCommand extends MainCommand {
 
         game.setEnabled(true);
         game.setState(GameState.WAITING);
-        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaEnabled").replace("%name%", arenaName)));
+        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaEnabled").replace("%name%", game.getName())));
     }
 }
