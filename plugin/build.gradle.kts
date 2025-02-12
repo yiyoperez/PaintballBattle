@@ -23,7 +23,7 @@ dependencies {
     zap("fr.mrmicky:fastboard:2.1.3")
     zap("dev.dejvokep:boosted-yaml:1.3.1")
     zap("dev.triumphteam:triumph-gui:3.1.11")
-    zap("dev.rollczi:litecommands-bukkit:3.4.1")
+    zap("dev.rollczi:litecommands-bukkit:3.9.7")
     zap("com.github.cryptomorin:XSeries:11.2.0.1")
     implementation("net.wesjd:anvilgui:1.10.4-SNAPSHOT")
 }
