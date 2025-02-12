@@ -1,5 +1,6 @@
 package pb.ajneb97.injector.modules;
 
+import fr.mrmicky.fastboard.adventure.FastBoard;
 import pb.ajneb97.commons.cache.BaseCache;
 import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.structures.GameItem;
@@ -15,8 +16,11 @@ public final class CacheModule extends AbstractModule {
     protected void configure() {
         bind(new TypeReference<Cache<UUID, PaintballPlayer>>() {
         }).named("player-cache").toInstance(new BaseCache<>());
-        
+
         bind(new TypeReference<Cache<String, GameItem>>() {
         }).named("item-cache").toInstance(new BaseCache<>());
+        
+        bind(new TypeReference<Cache<UUID, FastBoard>>() {
+        }).named("board-cache").toInstance(new BaseCache<>());
     }
 }

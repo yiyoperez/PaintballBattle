@@ -1,6 +1,7 @@
 package pb.ajneb97.managers;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import fr.mrmicky.fastboard.adventure.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.jetbrains.annotations.NotNull;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.core.logger.Logger;
@@ -24,7 +26,6 @@ import pb.ajneb97.structures.Team;
 import pb.ajneb97.tasks.PlayingGameTask;
 import pb.ajneb97.tasks.StartingGameTask;
 import pb.ajneb97.utils.LocationUtils;
-import pb.ajneb97.utils.UtilidadesItems;
 import pb.ajneb97.utils.UtilidadesOtros;
 import pb.ajneb97.utils.enums.GameState;
 import pb.ajneb97.utils.enums.Messages;
@@ -47,7 +48,12 @@ public final class GameHandler {
     private GameManager gameManager;
     @Inject
     private MessageHandler messageHandler;
+    @Inject
+    private ScoreboardManager scoreboardManager;
 
+    @Inject
+    @Named("board-cache")
+    private Cache<UUID, FastBoard> boardCache;
     @Inject
     @Named("item-cache")
     private Cache<String, GameItem> itemCache;
@@ -228,6 +234,7 @@ public final class GameHandler {
     }
 
     public void handlePlayerJoin(Player player, Game game) {
+        scoreboardManager.createScoreboard(player);
         playerCache.add(player.getUniqueId(), new PaintballPlayer(player));
 
         game.addPlayer(player);
@@ -272,9 +279,13 @@ public final class GameHandler {
                 && game.getState().equals(GameState.WAITING)) {
             initStartingPhase(game);
         }
+
+        scoreboardManager.scheduleTask();
     }
 
     public void handlePlayerQuit(Player player, Game game) {
+        scoreboardManager.deleteScoreboard(player);
+
         game.notifyPlayers(messageHandler.getMessage(Messages.PLAYER_LEAVE,
                 new Placeholder("%player%", player.getName()),
                 new Placeholder("%max_players%", game.getMaxPlayers()),
@@ -286,9 +297,11 @@ public final class GameHandler {
         player.teleport(mainLobby);
 
         playerCache.find(player.getUniqueId())
-                .ifPresent(paintballPlayer ->
-                        paintballPlayer.getSavedElements().restorePlayerElements(player));
-        player.updateInventory();
+                .ifPresent(paintballPlayer -> {
+                    paintballPlayer.getSavedElements().restorePlayerElements(player);
+                    player.updateInventory();
+                    playerCache.remove(player.getUniqueId());
+                });
 
         //HANDLE GAME STATES
         GameState state = game.getState();
@@ -401,6 +414,8 @@ public final class GameHandler {
         //PartidaManager.setBolasDeNieve(dead, config);
 
         killer.increaseKills();
+
+        //TODO: Change method something local.
         int cantidadCoinsGanados = UtilidadesOtros.coinsGanados(killer.getPlayer(), config);
 //        int nivelExtraKillCoins = PaintballAPI.getPerkLevel(killer.getPlayer(), "extra_killcoins");
 //        if (nivelExtraKillCoins != 0) {
@@ -414,7 +429,7 @@ public final class GameHandler {
             cantidadCoinsGanados = cantidadCoinsGanados + 1;
         }
         killer.increaseCoins(cantidadCoinsGanados);
-        UtilidadesItems.crearItemKillstreaks(killer, config);
+        //crearItemKillstreaks(killer, config);
 
 //        if (nuke) {
 //            String equipoAtacanteName = config.getString("teams." + teamAtacante.getTeamName() + ".name");
@@ -483,7 +498,7 @@ public final class GameHandler {
     //TODO: Missing give items and extra lives from perks.
 
     // TODO: Improve
-    public void runRewardActions(List<String> commands, PaintballPlayer j) {
+    public void runRewardActions(@NotNull List<String> commands, PaintballPlayer j) {
         CommandSender console = Bukkit.getServer().getConsoleSender();
         for (String command : commands) {
             if (command.startsWith("msg %player%")) {
@@ -500,6 +515,7 @@ public final class GameHandler {
                     int cantidadMinima = 0;
                     int cantidadMaxima = 0;
 
+                    //TODO Get rid of eval method.
                     try {
                         cantidadMinima = (int) UtilidadesOtros.eval(sep[0].replace("kills", j.getKills() + ""));
                         cantidadMaxima = (int) UtilidadesOtros.eval(sep[1].replace("kills", j.getKills() + ""));
@@ -513,4 +529,22 @@ public final class GameHandler {
             }
         }
     }
+
+//    public static void crearItemKillstreaks(PaintballPlayer jugador, YamlDocument config) {
+//        if (config.getString("killstreaks_item_enabled").equals("true")) {
+//            int coins = jugador.getCoins();
+//            ItemStack item = UtilidadesItems.crearItem(config, "killstreaks_item");
+//            ItemMeta meta = item.getItemMeta();
+//            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', config.getString("killstreaks_item.name").replace("%amount%", coins + "")));
+//            item.setItemMeta(meta);
+//            if (coins <= 1) {
+//                item.setAmount(1);
+//            } else if (coins >= 64) {
+//                item.setAmount(64);
+//            } else {
+//                item.setAmount(coins);
+//            }
+//            jugador.getPlayer().getInventory().setItem(8, item);
+//        }
+//    }
 }

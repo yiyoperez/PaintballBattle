@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -82,6 +83,14 @@ public class GameManager {
                 .stream()
                 .filter(game -> game.getState() != GameState.DISABLED)
                 .filter(game -> game.contains(player))
+                .findFirst();
+    }
+
+    public Optional<Game> getPlayerGame(UUID uuid) {
+        return gameSet
+                .stream()
+                .filter(game -> game.getState() != GameState.DISABLED)
+                .filter(game -> game.contains(uuid))
                 .findFirst();
     }
 

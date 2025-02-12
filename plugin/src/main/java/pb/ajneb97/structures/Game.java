@@ -210,7 +210,11 @@ public class Game implements ConfigurationSerializable {
     }
 
     public boolean contains(Player player) {
-        return currentPlayers.contains(player.getUniqueId());
+        return contains(player.getUniqueId());
+    }
+
+    public boolean contains(UUID uuid) {
+        return currentPlayers.contains(uuid);
     }
 
     public Set<UUID> getCurrentPlayersUUID() {
