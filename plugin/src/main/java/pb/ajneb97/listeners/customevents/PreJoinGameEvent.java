@@ -7,7 +7,6 @@ import pb.ajneb97.structures.Game;
 
 public class PreJoinGameEvent extends BaseEvent implements Cancellable {
 
-
     private boolean cancelled = false;
     private final Game game;
     private final Player player;
