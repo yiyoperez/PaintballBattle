@@ -1,38 +1,11 @@
 package pb.ajneb97.utils;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class UtilidadesOtros {
-
-    public static String getTiempo(int tiempo) {
-        int minutos = tiempo / 60;
-        int segundos = tiempo - (minutos * 60);
-        String segundosMsg = "";
-        String minutosMsg = "";
-        if (segundos >= 0 && segundos <= 9) {
-            segundosMsg = "0" + segundos;
-        } else {
-            segundosMsg = segundos + "";
-        }
-
-        if (minutos >= 0 && minutos <= 9) {
-            minutosMsg = "0" + minutos;
-        } else {
-            minutosMsg = minutos + "";
-        }
-
-        return minutosMsg + ":" + segundosMsg;
-    }
 
     public static int coinsGanados(Player jugador, YamlDocument config) {
         String coinsString = config.getString("coins_per_kill");
@@ -50,39 +23,6 @@ public class UtilidadesOtros {
         Random r = new Random();
         int numero = r.nextInt((max - min) + 1) + min;
         return numero;
-    }
-
-    public static void generarParticula(String particleName, Location loc, float xOffset, float yOffset, float zOffset, float speed, int count) {
-
-        Particle particle;
-
-        try {
-            particle = Particle.valueOf(particleName);
-        } catch (IllegalArgumentException e) {
-            Bukkit.getLogger().warning("Particle name " + particleName + " doesn't exits!");
-            return;
-        }
-
-        Objects.requireNonNull(loc.getWorld()).spawnParticle(particle, loc, count, xOffset, yOffset, zOffset, speed);
-    }
-
-    public static boolean pasaConfigInventario(Player jugador, YamlDocument config) {
-        if (!config.getBoolean("empty_inventory_to_join")) {
-            return true;
-        }
-
-        PlayerInventory inv = jugador.getInventory();
-        for (ItemStack item : inv.getContents()) {
-            if (item != null && !item.getType().equals(Material.AIR)) {
-                return false;
-            }
-        }
-        for (ItemStack item : inv.getArmorContents()) {
-            if (item != null && !item.getType().equals(Material.AIR)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static double eval(final String str) {

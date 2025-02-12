@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitScheduler;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.utils.UtilidadesOtros;
 
 public class CooldownSnowballParticle {
 
@@ -35,7 +34,7 @@ public class CooldownSnowballParticle {
     protected boolean ejecutar() {
         if (snowball != null && !snowball.isDead()) {
             Location l = snowball.getLocation();
-            UtilidadesOtros.generarParticula(particula, l, 0.01F, 0.01F, 0.01F, 0.01F, 1);
+            //UtilidadesOtros.generarParticula(particula, l, 0.01F, 0.01F, 0.01F, 0.01F, 1);
             return true;
         } else {
             return false;
