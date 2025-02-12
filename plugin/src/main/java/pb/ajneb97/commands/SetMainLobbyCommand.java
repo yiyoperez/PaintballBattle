@@ -6,8 +6,9 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
-import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.utils.LocationUtils;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -20,8 +21,7 @@ public class SetMainLobbyCommand extends MainCommand {
     @Named("config")
     private YamlDocument config;
     @Inject
-    @Named("messages")
-    private YamlDocument messages;
+    private MessageHandler messageHandler;
 
     @Execute
     @Permission("paintball.command.setmainlobby")
@@ -30,8 +30,10 @@ public class SetMainLobbyCommand extends MainCommand {
         try {
             config.save();
         } catch (IOException e) {
+            // Could not save, send message?
             throw new RuntimeException(e);
+        } finally {
+            messageHandler.sendMessage(player, Messages.MAIN_LOBBY_DEFINED);
         }
-        player.sendMessage(MessageUtils.translateColor(messages.getString("mainLobbyDefined")));
     }
 }

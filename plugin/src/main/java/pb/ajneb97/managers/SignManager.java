@@ -4,6 +4,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitTask;
 import pb.ajneb97.PaintballBattle;
+import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.structures.Game;
 import pb.ajneb97.tasks.SignUpdateTask;
 import pb.ajneb97.utils.LocationUtils;
@@ -21,10 +22,9 @@ public class SignManager {
     @Named("signs")
     private YamlDocument signsDocument;
     @Inject
-    @Named("messages")
-    private YamlDocument messages;
-    @Inject
     private GameManager gameManager;
+    @Inject
+    private MessageHandler messageHandler;
 
     private BukkitTask task;
     private final Map<String, Set<Location>> locationMap = new HashMap<>();
@@ -51,7 +51,7 @@ public class SignManager {
             task.cancel();
         }
 
-        this.task = new SignUpdateTask(messages, this, gameManager)
+        this.task = new SignUpdateTask(this, gameManager, messageHandler)
                 .runTaskTimer(plugin, 0, 20L);
     }
 

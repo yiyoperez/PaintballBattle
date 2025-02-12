@@ -20,12 +20,10 @@ public class PaintInvalidUsageHandler implements InvalidUsageHandler<CommandSend
         CommandSender sender = invocation.sender();
         Schematic schematic = result.getSchematic();
 
-        //TODO: Remove debug
-        messageHandler.sendManualMessage(sender, "Cause " + result.getCause().toString());
-
         messageHandler.sendMessage(sender, Messages.COMMAND_MANAGER_HEADER);
-        String message = messageHandler.getMessage(Messages.COMMAND_MANAGER_MESSAGE.getPath());
-        String prefix = messageHandler.getMessage(Messages.COMMAND_MANAGER_PREFIX.getPath());
+
+        String message = messageHandler.getMessage(Messages.COMMAND_MANAGER_MESSAGE);
+        String prefix = messageHandler.getMessage(Messages.COMMAND_MANAGER_PREFIX);
 
         if (schematic.isOnlyFirst()) {
             messageHandler.sendManualMessage(sender, message + " " + prefix + schematic.first());

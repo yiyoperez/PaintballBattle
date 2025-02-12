@@ -1,6 +1,5 @@
 package pb.ajneb97.commands;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
@@ -9,16 +8,10 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pb.ajneb97.core.utils.message.MessageUtils;
-import team.unnamed.inject.Inject;
-import team.unnamed.inject.Named;
 
 @Command(name = "paintball givecoins", aliases = "paintball gc")
 public class GiveCoinsCommand extends MainCommand {
 
-    @Inject
-    @Named("messages")
-    private YamlDocument messages;
 
     @Execute
     @Description("Give coins to specified player.")
@@ -35,8 +28,8 @@ public class GiveCoinsCommand extends MainCommand {
 //        }
 //        JugadorDatos jDatos = plugin.getJugador(target.getName());
 //        jDatos.aumentarCoins(amount);
-        sender.sendMessage(MessageUtils.translateColor(messages.getString("giveCoinsMessage").replace("%player%", target.getName()).replace("%amount%", amount + "")));
-        target.sendMessage(MessageUtils.translateColor(messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
+        //sender.sendMessage(MessageUtils.translateColor(messages.getString("giveCoinsMessage").replace("%player%", target.getName()).replace("%amount%", amount + "")));
+        //target.sendMessage(MessageUtils.translateColor(messages.getString("receiveCoinsMessage").replace("%amount%", amount + "")));
 
 //        if (!MySQL.isEnabled(plugin.getConfigDocument())) {
 //            if (MySQL.jugadorExiste(plugin, player)) {

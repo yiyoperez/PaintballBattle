@@ -1,27 +1,28 @@
 package pb.ajneb97.tasks;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
+import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
 import pb.ajneb97.structures.Game;
+import pb.ajneb97.utils.enums.Messages;
 
 import java.util.List;
 
 public class SignUpdateTask extends BukkitRunnable {
 
-    private final YamlDocument messages;
     private final SignManager signManager;
     private final GameManager gameManager;
+    private final MessageHandler messageHandler;
 
-    public SignUpdateTask(YamlDocument messages, SignManager signManager, GameManager gameManager) {
-        this.messages = messages;
+    public SignUpdateTask(SignManager signManager, GameManager gameManager, MessageHandler messageHandler) {
         this.signManager = signManager;
         this.gameManager = gameManager;
+        this.messageHandler = messageHandler;
     }
 
     @Override
@@ -40,14 +41,14 @@ public class SignUpdateTask extends BukkitRunnable {
 
                 Game game = gameManager.getGame(arena);
                 String state = switch (game.getState()) {
-                    case PLAYING -> messages.getString("signStatusIngame");
-                    case STARTING -> messages.getString("signStatusStarting");
-                    case WAITING -> messages.getString("signStatusWaiting");
-                    case DISABLED -> messages.getString("signStatusDisabled");
-                    case ENDING -> messages.getString("signStatusFinishing");
+                    case PLAYING -> messageHandler.getMessage(Messages.SIGN_STATUS_INGAME);
+                    case WAITING -> messageHandler.getMessage(Messages.SIGN_STATUS_WAITING);
+                    case ENDING -> messageHandler.getMessage(Messages.SIGN_STATUS_FINISHING);
+                    case DISABLED -> messageHandler.getMessage(Messages.SIGN_STATUS_DISABLED);
+                    case STARTING -> messageHandler.getMessage(Messages.SIGN_STATUS_STARTING);
                 };
 
-                List<String> signFormat = messages.getStringList("signFormat").stream().limit(4).toList();
+                List<String> signFormat = messageHandler.getRawStringList(Messages.SIGN_FORMAT.getPath()).stream().limit(4).toList();
                 signFormat.forEach(line ->
                         sign.setLine(signFormat.indexOf(line), MessageUtils.translateColor(line
                                 .replace("%arena%", arena)

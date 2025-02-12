@@ -8,9 +8,11 @@ import dev.rollczi.litecommands.annotations.description.Description;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
-import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.structures.Game;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -21,28 +23,29 @@ public class CreateCommand extends MainCommand {
     @Inject
     @Named("config")
     private YamlDocument config;
-    @Inject
-    @Named("messages")
-    private YamlDocument messages;
 
     @Inject
     private GameManager gameManager;
+
+    @Inject
+    private MessageHandler messageHandler;
 
 
     @Execute
     @Permission("paintball.admin.create")
     public void command(@Context Player player, @Arg("arenaName") String arenaName) {
         if (gameManager.gameExists(arenaName)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("arenaAlreadyExists")));
+            messageHandler.sendMessage(player, Messages.ARENA_ALREADY_EXISTS);
             return;
         }
         if (!config.contains("MainLobby")) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("noMainLobby")));
+            messageHandler.sendMessage(player, Messages.NO_MAIN_LOBBY);
             return;
         }
 
+        Placeholder placeholder = new Placeholder("%name%", arenaName);
         gameManager.addGame(new Game(arenaName));
-        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaCreated").replace("%name%", arenaName)));
-        player.sendMessage(MessageUtils.translateColor(messages.getString("arenaCreatedExtraInfo").replace("%name%", arenaName)));
+        messageHandler.sendMessage(player, Messages.ARENA_CREATED, placeholder);
+        messageHandler.sendMessage(player, Messages.ARENA_CREATED_EXTRA_INFO, placeholder);
     }
 }

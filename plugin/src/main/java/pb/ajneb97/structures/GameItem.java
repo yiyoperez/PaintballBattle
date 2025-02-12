@@ -4,10 +4,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class GameItem {
 
-    private boolean enabled;
-    private ItemStack item;
-    private int slot;
-
+    private final boolean enabled;
+    private final ItemStack item;
+    private final int slot;
 
     public GameItem(boolean enabled, ItemStack item, int slot) {
         this.enabled = enabled;

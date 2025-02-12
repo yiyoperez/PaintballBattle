@@ -48,7 +48,10 @@ public class MessageHandler {
     public String intercept(String message) {
         if (message.contains("%prefix%")) {
             String prefix = messages.getString("PREFIX", "");
-            message = StringUtils.replace(message, new Placeholder("%prefix%", prefix));
+
+            if (!prefix.isEmpty()) {
+                message = StringUtils.replace(message, new Placeholder("%prefix%", prefix));
+            }
         }
         return MessageUtils.translateColor(message);
     }

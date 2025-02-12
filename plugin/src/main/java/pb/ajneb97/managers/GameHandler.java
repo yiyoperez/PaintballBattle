@@ -16,6 +16,7 @@ import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.core.logger.Logger;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.structures.Game;
 import pb.ajneb97.structures.GameItem;
 import pb.ajneb97.structures.PaintballPlayer;
@@ -26,6 +27,7 @@ import pb.ajneb97.utils.LocationUtils;
 import pb.ajneb97.utils.UtilidadesItems;
 import pb.ajneb97.utils.UtilidadesOtros;
 import pb.ajneb97.utils.enums.GameState;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -40,9 +42,6 @@ public final class GameHandler {
     @Inject
     @Named("config")
     private YamlDocument config;
-    @Inject
-    @Named("messages")
-    private YamlDocument messages;
 
     @Inject
     private GameManager gameManager;
@@ -65,8 +64,7 @@ public final class GameHandler {
             List<String> worlds = config.getStringList("BROADCAST.DENIED_WORLDS");
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (!worlds.contains(player.getWorld().getName())) {
-                    player.sendMessage(MessageUtils.translateColor(messages.getString("arenaStartingBroadcast")
-                            .replace("%arena%", game.getName())));
+                    player.sendMessage(messageHandler.getMessage(Messages.ARENA_STARTING_BROADCAST, new Placeholder("%arena%", game.getName())));
                 }
             });
         }
@@ -104,16 +102,8 @@ public final class GameHandler {
         String nameTeam1 = game.getFirstTeam().getName();
         String nameTeam2 = game.getSecondTeam().getName();
 
-        String status = "";
-        if (ganador == null) {
-            //empate
-            status = messages.getString("gameFinishedTieStatus");
-        } else {
-            status = messages.getString("gameFinishedWinnerStatus").replace("%winner_team%", ganador.getName());
-        }
-
         // Initialize default top names and kills.
-        String[] tops = {messages.getString("topKillsNone"), messages.getString("topKillsNone"), messages.getString("topKillsNone")};
+        String[] tops = {messageHandler.getMessage(Messages.TOP_KILLS_NONE), messageHandler.getMessage(Messages.TOP_KILLS_NONE), messageHandler.getMessage(Messages.TOP_KILLS_NONE)};
         int[] topKills = {0, 0, 0};
 
 //        List<PaintballPlayer> jugadoresKillsOrd = game.getPlayerKills();
@@ -127,10 +117,10 @@ public final class GameHandler {
         String top1 = tops[0], top2 = tops[1], top3 = tops[2];
         int top1Kills = topKills[0], top2Kills = topKills[1], top3Kills = topKills[2];
 
-        List<String> msg = messages.getStringList("gameFinished");
+        List<String> msg = messageHandler.getRawStringList("GAME_FINISHED");
         for (String s : msg) {
             String finalMessage = s
-                    .replace("%status_message%", status)
+                    .replace("%status_message%", messageHandler.getMessage((ganador == null ? Messages.GAME_FINISHED_TIE_STATUS : Messages.GAME_FINISHED_WINNER_STATUS), new Placeholder("%winner_team%", ganador.getName())))
                     .replace("%team1%", nameTeam1)
                     .replace("%team2%", nameTeam2)
                     .replace("%kills_team1%", game.getFirstTeam().getKills() + "")
@@ -198,9 +188,10 @@ public final class GameHandler {
         //TODO: Improve sound thing.
         // startGameSound
 
-        game.notifyPlayers(MessageUtils.translateColor(messages.getString("gameStarted")));
+
+        game.notifyPlayers(messageHandler.getMessage(Messages.GAME_STARTED));
         game.getCurrentPlayers().forEach(player -> {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("teamInformation").replace("%team%", game.getPlayerTeam(player).getName())));
+            player.sendMessage(messageHandler.getMessage(Messages.TEAM_INFORMATION, new Placeholder("%team%", game.getPlayerTeam(player).getName())));
         });
 
         schedulePlayingTask();
@@ -241,8 +232,11 @@ public final class GameHandler {
 
         game.addPlayer(player);
 
-        game.notifyPlayers(MessageUtils.translateColor(messages.getString("playerJoin").replace("%player%", player.getName())
-                .replace("%current_players%", game.getCurrentPlayersSize() + "").replace("%max_players%", game.getMaxPlayers() + "")));
+        game.notifyPlayers(messageHandler.getMessage(Messages.PLAYER_JOIN,
+                new Placeholder("%player%", player.getName()),
+                new Placeholder("%max_players%", game.getMaxPlayers()),
+                new Placeholder("%current_players%", player.getName())
+        ));
 
         player.getInventory().clear();
         player.getEquipment().clear();
@@ -281,8 +275,11 @@ public final class GameHandler {
     }
 
     public void handlePlayerQuit(Player player, Game game) {
-        game.notifyPlayers(MessageUtils.translateColor(messages.getString("playerLeave").replace("%player%", player.getName())
-                .replace("%current_players%", game.getCurrentPlayersSize() + "").replace("%max_players%", game.getMaxPlayers() + "")));
+        game.notifyPlayers(messageHandler.getMessage(Messages.PLAYER_LEAVE,
+                new Placeholder("%player%", player.getName()),
+                new Placeholder("%max_players%", game.getMaxPlayers()),
+                new Placeholder("%current_players%", game.getCurrentPlayersSize())
+        ));
         game.removePlayer(player);
 
         Location mainLobby = LocationUtils.deserialize(config.getString("MainLobby"));
@@ -341,7 +338,7 @@ public final class GameHandler {
 
         dead.increaseDeaths();
         dead.setDeathLocation(dead.getPlayer().getLocation().clone());
-        dead.getPlayer().sendMessage(MessageUtils.translateColor(messages.getString("killedBy").replace("%player%", killer.getPlayer().getName())));
+        dead.getPlayer().sendMessage(messageHandler.getMessage(Messages.KILLED_BY, new Placeholder("%player%", killer.getPlayer().getName())));
         String[] separados = config.getString("killedBySound").split(";");
         try {
             Sound sound = Sound.valueOf(separados[0]);
@@ -430,7 +427,7 @@ public final class GameHandler {
 //                }
 //            }
 //        }
-        killer.getPlayer().sendMessage(MessageUtils.translateColor(messages.getString("kill").replace("%player%", dead.getPlayer().getName())));
+        killer.getPlayer().sendMessage(messageHandler.getMessage(Messages.KILL, new Placeholder("%player%", dead.getPlayer().getName())));
 //        if (!nuke) {
 //            separados = config.getString("killSound").split(";");
 //            try {

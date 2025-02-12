@@ -17,9 +17,6 @@ public class PaintMissingPermissionHandler implements MissingPermissionsHandler<
 
     @Override
     public void handle(Invocation<CommandSender> invocation, MissingPermissions missingPermissions, ResultHandlerChain<CommandSender> chain) {
-        String permissions = missingPermissions.asJoinedText();
-        CommandSender sender = invocation.sender();
-
-        messageHandler.sendMessage(sender, Messages.COMMAND_MANAGER_NO_PERMISSION, new Placeholder("%permission%", permissions));
+        messageHandler.sendMessage(invocation.sender(), Messages.COMMAND_MANAGER_NO_PERMISSION, new Placeholder("%permission%", missingPermissions.asJoinedText()));
     }
 }

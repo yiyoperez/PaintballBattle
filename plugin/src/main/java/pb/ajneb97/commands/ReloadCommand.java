@@ -6,7 +6,8 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.command.CommandSender;
-import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -25,6 +26,9 @@ public class ReloadCommand extends MainCommand {
     @Named("messages")
     private YamlDocument messages;
 
+    @Inject
+    private MessageHandler messageHandler;
+
     @Execute
     @Permission("paintball.admin.reload")
     public void command(@Context CommandSender sender) {
@@ -34,10 +38,11 @@ public class ReloadCommand extends MainCommand {
             shop.reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            messageHandler.sendMessage(sender, Messages.RELOADED);
         }
 
         // TODO: usage scoreboard manager.
         //plugin.recargarScoreboard();
-        sender.sendMessage(MessageUtils.translateColor(messages.getString("configReloaded")));
     }
 }

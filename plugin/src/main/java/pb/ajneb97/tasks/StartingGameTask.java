@@ -7,17 +7,16 @@ import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.structures.Game;
 import pb.ajneb97.utils.enums.GameState;
+import pb.ajneb97.utils.enums.Messages;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class StartingGameTask implements Runnable {
 
-
     private final GameManager gameManager;
     private final GameHandler gameHandler;
     private final MessageHandler messageHandler;
-
 
     public StartingGameTask(GameManager gameManager, GameHandler gameHandler, MessageHandler messageHandler) {
         this.gameManager = gameManager;
@@ -44,7 +43,7 @@ public class StartingGameTask implements Runnable {
         for (Game game : collect) {// Is elapsed game is below 5 "seconds" send starting message.
             long elapsedTime = (game.getStartingTime() - System.currentTimeMillis()) / 1000;
             if (elapsedTime > 0) {
-                game.notifyPlayers(messageHandler.getMessage("arenaStartingMessage", new Placeholder("%time%", elapsedTime)));
+                game.notifyPlayers(messageHandler.getMessage(Messages.ARENA_STARTING_MESSAGE, new Placeholder("%time%", elapsedTime)));
                 continue;
             }
 

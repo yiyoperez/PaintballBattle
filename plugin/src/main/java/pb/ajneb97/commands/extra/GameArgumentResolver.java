@@ -28,7 +28,7 @@ public class GameArgumentResolver extends ArgumentResolver<CommandSender, Game> 
     ) {
         if (!gameManager.gameExists(string)) {
             messageHandler.sendMessage(invocation.sender(), Messages.ARENA_DOES_NOT_EXIST);
-            return ParseResult.failure("arenaDoesNotExists");
+            return ParseResult.failure(Messages.ARENA_DOES_NOT_EXIST);
         }
 
         return ParseResult.success(gameManager.getGame(string));

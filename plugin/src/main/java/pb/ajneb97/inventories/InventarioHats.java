@@ -1,4 +1,4 @@
-package pb.ajneb97.managers.inventory;
+package pb.ajneb97.inventories;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.event.Listener;
@@ -17,7 +17,7 @@ public class InventarioHats implements Listener {
     @Inject
     @Named("messages")
     private YamlDocument messages;
-    
+
 //
 //    public static void crearInventario(Player jugador, PaintballBattle plugin) {
 //        Inventory inv = Bukkit.createInventory(null, 27, MessageUtils.translateColor(config.getString("hats_inventory_title")));

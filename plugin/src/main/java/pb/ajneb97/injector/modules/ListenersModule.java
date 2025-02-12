@@ -7,7 +7,7 @@ import pb.ajneb97.listeners.GameListeners;
 import pb.ajneb97.listeners.PreJoinGameListener;
 import pb.ajneb97.listeners.ShopListeners;
 import pb.ajneb97.listeners.SignsListener;
-import pb.ajneb97.managers.inventory.InventarioHats;
+import pb.ajneb97.inventories.InventarioHats;
 import team.unnamed.inject.AbstractModule;
 
 public class ListenersModule extends AbstractModule {

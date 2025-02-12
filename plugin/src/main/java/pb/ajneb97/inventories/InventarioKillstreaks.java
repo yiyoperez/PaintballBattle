@@ -1,4 +1,4 @@
-package pb.ajneb97.managers.inventory;
+package pb.ajneb97.inventories;
 
 public class InventarioKillstreaks {
 
