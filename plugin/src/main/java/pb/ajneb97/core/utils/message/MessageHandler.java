@@ -2,108 +2,250 @@ package pb.ajneb97.core.utils.message;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pb.ajneb97.core.utils.SPlugin;
 import pb.ajneb97.utils.enums.Messages;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MessageHandler {
 
-    private final SPlugin plugin;
-    private final YamlDocument messages;
+    private final YamlDocument lang;
+    private final boolean placeholderAPI;
 
     public MessageHandler(SPlugin plugin, YamlDocument messages) {
-        this.plugin = plugin;
-        this.messages = messages;
+        this.lang = messages;
+        this.placeholderAPI = plugin.isPluginEnabled("PlaceholderAPI");
     }
 
-    private String replacePlaceholders(String message, List<Placeholder> placeholders) {
-        if (placeholders != null && !placeholders.isEmpty()) {
-            message = StringUtils.replace(message, placeholders);
-        }
-        return MessageUtils.translateColor(message);
+    // # ~ # -------- MESSAGE PROCESSING -------- # ~ # //
+
+    private String processMessage(String message, Placeholder... placeholders) {
+        // Uses processMessage instead of replace to reduce code repetition.
+        return processMessage(message, List.of(placeholders));
     }
 
-    private String handlePAPIPlaceholders(CommandSender sender, String message) {
-        if (plugin.isPluginEnabled("PlaceholderAPI") && sender instanceof Player) {
-            message = PlaceholderAPI.setPlaceholders((Player) sender, message);
-        }
-        return message;
+    private String processMessage(String message, List<Placeholder> placeholders) {
+        return replacePlaceholders(message, placeholders);
     }
 
-    public String intercept(CommandSender sender, String message, List<Placeholder> placeholders) {
-        return replacePlaceholders(intercept(sender, message), placeholders);
+    private String processMessage(CommandSender sender, String message, Placeholder... placeholders) {
+        // Uses processMessage instead of replace to reduce code repetition.
+        return processMessage(sender, message, List.of(placeholders));
     }
 
-    public String intercept(CommandSender sender, String message) {
-        message = handlePAPIPlaceholders(sender, message);
-        return replacePlaceholders(intercept(message), Collections.emptyList());
+    private String processMessage(CommandSender sender, String message, List<Placeholder> placeholders) {
+        message = applyPlaceholderAPI(sender, message);
+        return replacePlaceholders(message, placeholders);
     }
 
-    public String intercept(String message) {
-        if (message.contains("%prefix%")) {
-            String prefix = messages.getString("PREFIX", "");
+    // # ~ # -------- COMPONENT PROCESSING -------- # ~ # //
 
-            if (!prefix.isEmpty()) {
-                message = StringUtils.replace(message, new Placeholder("%prefix%", prefix));
-            }
-        }
-        return MessageUtils.translateColor(message);
+    private Component processComponent(String message, Placeholder... placeholders) {
+        return processComponent(message, List.of(placeholders));
     }
 
-    public String getRawMessage(String path) {
-        if (messages.isList(path) && !messages.getStringList(path).isEmpty()) {
-            return String.join(" ", messages.getStringList(path));
-        }
-        return messages.getString(path, String.format("Message not found in path %s", path));
+    private Component processComponent(String message, List<Placeholder> placeholders) {
+        message = replacePlaceholders(message, placeholders);
+        return MessageUtils.parse(message);
     }
 
-    public String getRawMessage(String path, Placeholder... placeholders) {
-        return getRawMessage(path, Arrays.asList(placeholders));
+    private Component processComponent(CommandSender sender, String message, Placeholder... placeholders) {
+        return processComponent(sender, message, List.of(placeholders));
     }
 
-    public String getRawMessage(String path, Object... placeholders) {
-        return String.format(getRawMessage(path), placeholders);
+    private Component processComponent(CommandSender sender, String message, List<Placeholder> placeholders) {
+        message = applyPlaceholderAPI(sender, message);
+        message = replacePlaceholders(message, placeholders);
+
+        return MessageUtils.parse(message);
     }
 
-    public String getRawMessage(String path, List<Placeholder> placeholders) {
-        return replacePlaceholders(getRawMessage(path), placeholders);
-    }
 
-    public String getMessage(Messages message, Placeholder... placeholders) {
-        return intercept(getRawMessage(message.getPath(), placeholders));
+    // # ~ # -------- GET COMPLETELY MESSAGES -------- # ~ # //
+
+    public String getMessage(Messages messages, Placeholder... placeholders) {
+        return getMessage(messages.getPath(), placeholders);
     }
 
     public String getMessage(String path, Placeholder... placeholders) {
-        return intercept(getRawMessage(path, placeholders));
+        String message = getParsedMessage(path, placeholders);
+        return MessageUtils.parseMessage(message);
     }
 
     public String getMessage(CommandSender sender, String path, Placeholder... placeholders) {
-        return getMessage(sender, path, Arrays.asList(placeholders));
+        String message = getParsedMessage(sender, path, placeholders);
+        return MessageUtils.parseMessage(message);
     }
 
-    public String getMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
-        return intercept(sender, getRawMessage(path, placeholders), placeholders);
+    // # ~ # -------- GET PARSED MESSAGES -------- # ~ # //
+
+    public String getParsedMessage(Messages messages, Placeholder... placeholders) {
+        return getParsedMessage(messages.getPath(), placeholders);
+    }
+
+    public String getParsedMessage(String path, Placeholder... placeholders) {
+        String message = getRawMessage(path);
+        return replacePlaceholders(message, placeholders);
+    }
+
+    public String getParsedMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        String message = getRawMessage(path);
+        return processMessage(sender, message, placeholders);
+    }
+
+    // # ~ # -------- GET COMPONENT MESSAGES -------- # ~ # //
+
+    public Component getComponent(Messages messages, Placeholder... placeholders) {
+        return getComponent(messages.getPath(), placeholders);
+    }
+
+    public Component getComponent(String path, Placeholder... placeholders) {
+        String message = getParsedMessage(path, placeholders);
+        return MessageUtils.parse(message);
+    }
+
+    public Component getComponent(CommandSender sender, String path, Placeholder... placeholders) {
+        String message = getParsedMessage(sender, path, placeholders);
+        return MessageUtils.parse(message);
+    }
+
+    // # ~ # -------- RAW MESSAGE -------- # ~ # //
+
+    public String getRawMessage(Messages messages) {
+        return getRawMessage(messages.getPath());
+    }
+
+    public String getRawMessage(String path) {
+        if (lang.getString(path) == null) {
+            return String.format("Message not found in path: %s", path);
+        }
+
+        return lang.getString(path);
+    }
+
+    // # ~ # -------- GET LISTS -------- # ~ # //
+
+    public List<String> getMessages(Messages messages, Placeholder... placeholders) {
+        return getMessages(messages.getPath(), placeholders);
+    }
+
+    public List<String> getMessages(String path, Placeholder... placeholders) {
+        List<String> messages = getParsedMessages(path, placeholders);
+
+        List<String> list = new ArrayList<>();
+        for (String string : messages) {
+            list.add(MessageUtils.parseMessage(string));
+        }
+        return list;
     }
 
     public List<String> getMessages(CommandSender sender, String path, Placeholder... placeholders) {
-        return getMessages(sender, path, Arrays.asList(placeholders));
+        List<String> messages = getParsedMessages(sender, path, placeholders);
+
+        List<String> list = new ArrayList<>();
+        for (String message : messages) {
+            list.add(MessageUtils.parseMessage(message));
+        }
+        return list;
     }
 
-    public List<String> getMessages(CommandSender sender, String path, List<Placeholder> placeholders) {
-        List<String> rawMessages = messages.isList(path) ? messages.getStringList(path) : Collections.singletonList(getRawMessage(path));
-        return rawMessages.stream()
-                .map(message -> intercept(sender, message, placeholders))
-                .collect(Collectors.toList());
+    // # ~ # -------- GET PARSED LISTS -------- # ~ # //
+
+    public List<String> getParsedMessages(Messages messages, Placeholder... placeholders) {
+        return getParsedMessages(messages.getPath(), placeholders);
     }
 
-    private void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage(MessageUtils.translateColor(message));
+    public List<String> getParsedMessages(String path, Placeholder... placeholders) {
+        List<String> messages = getRawStringList(path);
+
+        List<String> list = new ArrayList<>();
+        for (String string : messages) {
+            String s = replacePlaceholders(string, placeholders);
+            list.add(s);
+        }
+        return list;
+    }
+
+    public List<String> getParsedMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        List<String> rawMessages = getRawStringList(path);
+
+        List<String> processedMessages = new ArrayList<>();
+        for (String message : rawMessages) {
+            processedMessages.add(processMessage(sender, message, placeholders));
+        }
+
+        return processedMessages;
+    }
+
+    // # ~ # -------- GET COMPONENT LISTS -------- # ~ # //
+
+    public List<Component> getComponentMessages(Messages messages, Placeholder... placeholders) {
+        return getComponentMessages(messages.getPath(), placeholders);
+    }
+
+    public List<Component> getComponentMessages(String path, Placeholder... placeholders) {
+        List<String> messages = getParsedMessages(path, placeholders);
+
+        List<Component> list = new ArrayList<>();
+        for (String string : messages) {
+            list.add(MessageUtils.parse(string));
+        }
+        return list;
+    }
+
+    public List<Component> getComponentMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        List<String> messages = getParsedMessages(sender, path, placeholders);
+
+        List<Component> list = new ArrayList<>();
+        for (String message : messages) {
+            list.add(MessageUtils.parse(message));
+        }
+        return list;
+    }
+
+    // # ~ # -------- RAW LISTS -------- # ~ # //
+
+    public List<String> getRawStringList(Messages messages) {
+        return getRawStringList(messages.getPath());
+    }
+
+    public List<String> getRawStringList(String path) {
+        return lang.isList(path) ? lang.getStringList(path) : List.of(getRawMessage(path));
+    }
+
+    // # ~ # -------- SEND METHODS -------- # ~ # //
+
+    public void sendMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
+        sendMessage(sender, messages.getPath(), placeholders);
+    }
+
+    public void sendMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        sendManualMessage(sender, getMessage(sender, path, placeholders));
+    }
+
+    public void sendListMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
+        sendListMessage(sender, messages.getPath(), placeholders);
+    }
+
+    public void sendListMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        List<String> messages = getMessages(sender, path, placeholders);
+        for (String message : messages) {
+            sendManualMessage(sender, message);
+        }
+    }
+
+    // # ~ # -------- SPECIAL METHODS -------- # ~ # //
+
+    public void sendManualMessage(CommandSender sender, String message, Placeholder... placeholders) {
+        sender.sendMessage(processMessage(message, placeholders));
+    }
+
+    public void sendManualMessage(CommandSender sender, String message, List<Placeholder> placeholders) {
+        sender.sendMessage(processMessage(message, placeholders));
     }
 
     public void sendCenteredMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
@@ -111,57 +253,54 @@ public class MessageHandler {
     }
 
     public void sendCenteredMessage(CommandSender sender, String path, Placeholder... placeholders) {
-        sendMessage(sender, CenteredString.formatMessage(getMessage(sender, path, placeholders)));
+        String message = getParsedMessage(sender, path, placeholders);
+        sendManualMessage(sender, CenteredString.formatMessage(message));
     }
 
-    public void sendManualMessage(CommandSender sender, String message, Placeholder... placeholders) {
-        sendManualMessage(sender, message, Arrays.asList(placeholders));
+    public void sendCenteredMessages(CommandSender sender, Messages message, Placeholder... placeholders) {
+        sendCenteredMessages(sender, message.getPath(), placeholders);
     }
 
-    public void sendManualMessage(CommandSender sender, String message, List<Placeholder> placeholders) {
-        sendMessage(sender, intercept(sender, message, placeholders));
+    public void sendCenteredMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        List<String> messages = getMessages(sender, path, placeholders);
+        messages.forEach(message -> sendManualMessage(sender, CenteredString.formatMessage(message)));
     }
 
-    public void sendMessage(CommandSender sender, Messages message, Placeholder... placeholders) {
-        sendMessage(sender, message.getPath(), Arrays.asList(placeholders));
+    // # ~ # -------------- * -------------- # ~ # //
+    // # ~ # -------- UTILS METHODS -------- # ~ # //
+    // # ~ # -------------- * -------------- # ~ # //
+
+    public String applyPlaceholderAPI(CommandSender sender, String message) {
+        if (!placeholderAPI || !(sender instanceof Player)) {
+            return message;
+        }
+
+        message = PlaceholderAPI.setPlaceholders((Player) sender, message);
+        return message;
     }
 
-    public void sendMessage(CommandSender sender, String path, Placeholder... placeholders) {
-        sendMessage(sender, path, Arrays.asList(placeholders));
+    public String replacePlaceholders(String message, Placeholder... placeholders) {
+        return replacePlaceholders(message, List.of(placeholders));
     }
 
-    public void sendMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
-        sendMessage(sender, getMessage(sender, path, placeholders));
+    public String replacePlaceholders(String message, List<Placeholder> placeholders) {
+        message = replaceLocalPlaceholders(message);
+
+        if (placeholders == null || placeholders.isEmpty()) {
+            return message;
+        }
+
+        message = StringUtils.replace(message, placeholders);
+        return message;
     }
 
-    public List<String> getRawStringList(String path, Placeholder... placeholders) {
-        return getRawStringList(path, Arrays.asList(placeholders));
-    }
+    public String replaceLocalPlaceholders(String message) {
+        String prefix = lang.getString("PREFIX", "");
+        if (prefix.isEmpty()) {
+            return message;
+        }
 
-    public List<String> getRawStringList(String path, List<Placeholder> placeholders) {
-        List<String> rawMessages = messages.isList(path) ? messages.getStringList(path) : Collections.singletonList(getRawMessage(path));
-        return rawMessages.stream()
-                .map(message -> replacePlaceholders(message, placeholders))
-                .collect(Collectors.toList());
-    }
-
-    public void sendCenteredListMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
-        sendCenteredListMessage(sender, messages.getPath(), placeholders);
-    }
-
-    public void sendCenteredListMessage(CommandSender sender, String path, Placeholder... placeholders) {
-        getMessages(sender, path, placeholders).forEach(message -> sendMessage(sender, CenteredString.formatMessage(message)));
-    }
-
-    public void sendListMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
-        sendListMessage(sender, messages.getPath(), Arrays.asList(placeholders));
-    }
-
-    public void sendListMessage(CommandSender sender, String path, Placeholder... placeholders) {
-        sendListMessage(sender, path, Arrays.asList(placeholders));
-    }
-
-    public void sendListMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
-        getMessages(sender, path, placeholders).forEach(string -> sendMessage(sender, string));
+        message = StringUtils.replace(message, new Placeholder("%prefix%", prefix));
+        return message;
     }
 }
