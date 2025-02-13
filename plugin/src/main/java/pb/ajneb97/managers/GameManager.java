@@ -2,8 +2,10 @@ package pb.ajneb97.managers;
 
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
+import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
 import java.io.File;
@@ -22,6 +24,8 @@ public class GameManager {
 
     @Inject
     private PaintballBattle plugin;
+    @Inject
+    private MessageHandler messageHandler;
 
     private final Set<Game> gameSet = new HashSet<>();
 
@@ -112,5 +116,15 @@ public class GameManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getState(Game game) {
+        return switch (game.getState()) {
+            case PLAYING -> messageHandler.getRawMessage(Messages.SIGN_STATUS_INGAME);
+            case WAITING -> messageHandler.getRawMessage(Messages.SIGN_STATUS_WAITING);
+            case ENDING -> messageHandler.getRawMessage(Messages.SIGN_STATUS_FINISHING);
+            case DISABLED -> messageHandler.getRawMessage(Messages.SIGN_STATUS_DISABLED);
+            case STARTING -> messageHandler.getRawMessage(Messages.SIGN_STATUS_STARTING);
+        };
     }
 }

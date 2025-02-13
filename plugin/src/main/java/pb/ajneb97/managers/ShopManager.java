@@ -84,7 +84,7 @@ public class ShopManager {
     }
 
     public void openPerksInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, MessageUtils.translateColor(shop.getString("shopPerksInventoryTitle")));
+        Inventory inv = Bukkit.createInventory(null, 54, MessageUtils.translateLegacyColor(shop.getString("shopPerksInventoryTitle")));
 
         Gui menu = Gui.gui()
                 .title(Component.text(shop.getString("shopPerksInventoryTitle")))
@@ -216,7 +216,7 @@ public class ShopManager {
             ItemStack stack = getItemStack(section, id);
             GuiItem item = ItemBuilder.from(Objects.requireNonNull(stack))
                     .setName(name)
-                    .setLore(MessageUtils.translateColor(lore))
+                    .setLore(MessageUtils.translateLegacyColor(lore))
                     .unbreakable() // Not sure why?
                     .asGuiItem();
 
@@ -305,7 +305,7 @@ public class ShopManager {
                 TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
                 float dineroF = tokenManager.getTokens(player).orElse(0);
                 if (dineroF < cost) {
-                    player.sendMessage(MessageUtils.translateColor(messages.getString("buyNoSufficientCoins")));
+                    player.sendMessage(MessageUtils.translateLegacyColor(messages.getString("buyNoSufficientCoins")));
                     return;
                 }
                 tokenManager.removeTokens(player, cost);

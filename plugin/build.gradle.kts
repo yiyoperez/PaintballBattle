@@ -20,12 +20,16 @@ dependencies {
     }
 
     zap("team.unnamed:inject:2.0.1")
-    zap("fr.mrmicky:fastboard:2.1.3")
     zap("dev.dejvokep:boosted-yaml:1.3.1")
     zap("dev.triumphteam:triumph-gui:3.1.11")
     zap("dev.rollczi:litecommands-bukkit:3.9.7")
     zap("com.github.cryptomorin:XSeries:11.2.0.1")
+    zap("net.megavex:scoreboard-library-api:2.2.2")
+    zap("net.kyori:adventure-text-minimessage:4.17.0")
+
     implementation("net.wesjd:anvilgui:1.10.4-SNAPSHOT")
+    runtimeOnly("net.megavex:scoreboard-library-modern:2.2.2")
+    runtimeOnly("net.megavex:scoreboard-library-implementation:2.2.2")
 }
 
 group = "pb.ajneb97"

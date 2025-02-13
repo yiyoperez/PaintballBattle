@@ -39,7 +39,7 @@ public class ItemStackBuilder extends ItemStack {
         if (name == null) return this;
 
         ItemMeta itemMeta = getItemMeta();
-        itemMeta.setDisplayName(name.isEmpty() ? " " : MessageUtils.translateColor(name));
+        itemMeta.setDisplayName(name.isEmpty() ? " " : MessageUtils.translateLegacyColor(name));
         setItemMeta(itemMeta);
         return this;
     }
@@ -54,7 +54,7 @@ public class ItemStackBuilder extends ItemStack {
         ItemMeta itemMeta = getItemMeta();
         List<String> original = itemMeta.getLore();
         if (original == null) original = new ArrayList<>();
-        Collections.addAll(original, MessageUtils.translateToArray(lore));
+        Collections.addAll(original, MessageUtils.translateLegacyToArray(lore));
         itemMeta.setLore(original);
         setItemMeta(itemMeta);
         return this;
@@ -65,7 +65,7 @@ public class ItemStackBuilder extends ItemStack {
         ItemMeta itemMeta = getItemMeta();
         List<String> original = itemMeta.getLore();
         if (original == null) original = new ArrayList<>();
-        original.addAll(MessageUtils.translateColor(lore));
+        original.addAll(MessageUtils.translateLegacyColor(lore));
         itemMeta.setLore(original);
         setItemMeta(itemMeta);
         return this;
@@ -74,7 +74,7 @@ public class ItemStackBuilder extends ItemStack {
     public ItemStackBuilder lore(String... lore) {
         if (lore == null) return this;
         ItemMeta itemMeta = getItemMeta();
-        itemMeta.setLore(MessageUtils.translateColor(lore));
+        itemMeta.setLore(MessageUtils.translateLegacyColor(lore));
         setItemMeta(itemMeta);
         return this;
     }
@@ -82,7 +82,7 @@ public class ItemStackBuilder extends ItemStack {
     public ItemStackBuilder lore(List<String> lore) {
         if (lore == null) return this;
         ItemMeta itemMeta = getItemMeta();
-        itemMeta.setLore(MessageUtils.translateColor(lore));
+        itemMeta.setLore(MessageUtils.translateLegacyColor(lore));
         setItemMeta(itemMeta);
         return this;
     }

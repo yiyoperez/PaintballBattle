@@ -1,7 +1,6 @@
 package pb.ajneb97.managers;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import fr.mrmicky.fastboard.adventure.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -16,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.core.logger.Logger;
+import pb.ajneb97.core.utils.message.MessageBuilder;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.core.utils.message.Placeholder;
@@ -32,6 +32,7 @@ import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -51,9 +52,6 @@ public final class GameHandler {
     @Inject
     private ScoreboardManager scoreboardManager;
 
-    @Inject
-    @Named("board-cache")
-    private Cache<UUID, FastBoard> boardCache;
     @Inject
     @Named("item-cache")
     private Cache<String, GameItem> itemCache;
@@ -123,23 +121,26 @@ public final class GameHandler {
         String top1 = tops[0], top2 = tops[1], top3 = tops[2];
         int top1Kills = topKills[0], top2Kills = topKills[1], top3Kills = topKills[2];
 
-        List<String> msg = messageHandler.getRawStringList("GAME_FINISHED");
-        for (String s : msg) {
-            String finalMessage = s
-                    .replace("%status_message%", messageHandler.getMessage((ganador == null ? Messages.GAME_FINISHED_TIE_STATUS : Messages.GAME_FINISHED_WINNER_STATUS), new Placeholder("%winner_team%", ganador.getName())))
-                    .replace("%team1%", nameTeam1)
-                    .replace("%team2%", nameTeam2)
-                    .replace("%kills_team1%", game.getFirstTeam().getKills() + "")
-                    .replace("%kills_team2%", game.getSecondTeam().getKills() + "")
-                    .replace("%player1%", top1).replace("%player2%", top2)
-                    .replace("%player3%", top3)
-                    .replace("%kills_player1%", top1Kills + "")
-                    .replace("%kills_player2%", top2Kills + "")
-                    .replace("%kills_player3%", top3Kills + "")
-                    .replace("%kills_player%", 0 /*TODO: Replace player kills*/ + "");
+        List<Placeholder> placeholderList = new ArrayList<>();
+        placeholderList.add(new Placeholder("%status_message%", messageHandler.getMessage((ganador == null ? Messages.GAME_FINISHED_TIE_STATUS : Messages.GAME_FINISHED_WINNER_STATUS), new Placeholder("%winner_team%", ganador.getName()))));
+        placeholderList.add(new Placeholder("%team1%", nameTeam1));
+        placeholderList.add(new Placeholder("%team2%", nameTeam2));
+        placeholderList.add(new Placeholder("%kills_team1%", game.getFirstTeam().getKills()));
+        placeholderList.add(new Placeholder("%kills_team2%", game.getSecondTeam().getKills() + ""));
+        placeholderList.add(new Placeholder("%player1%", top1));
+        placeholderList.add(new Placeholder("%player2%", top2));
+        placeholderList.add(new Placeholder("%player3%", top3));
+        placeholderList.add(new Placeholder("%kills_player1%", top1Kills));
+        placeholderList.add(new Placeholder("%kills_player2%", top2Kills));
+        placeholderList.add(new Placeholder("%kills_player3%", top3Kills));
+        /*TODO: Replace player kills*/
+        placeholderList.add(new Placeholder("%kills_player%", 0));
 
-            game.notifyPlayers(MessageUtils.translateColor(finalMessage));
-        }
+        new MessageBuilder(messageHandler)
+                .toPlayerSet(game.getCurrentPlayers())
+                .withMessage(Messages.GAME_FINISHED)
+                .withPlaceholders(placeholderList)
+                .sendList();
 
         game.getCurrentPlayers().forEach(player -> {
             player.getInventory().clear();
@@ -235,6 +236,7 @@ public final class GameHandler {
 
     public void handlePlayerJoin(Player player, Game game) {
         scoreboardManager.createScoreboard(player);
+
         playerCache.add(player.getUniqueId(), new PaintballPlayer(player));
 
         game.addPlayer(player);
@@ -242,7 +244,7 @@ public final class GameHandler {
         game.notifyPlayers(messageHandler.getMessage(Messages.PLAYER_JOIN,
                 new Placeholder("%player%", player.getName()),
                 new Placeholder("%max_players%", game.getMaxPlayers()),
-                new Placeholder("%current_players%", player.getName())
+                new Placeholder("%current_players%", game.getCurrentPlayersSize())
         ));
 
         player.getInventory().clear();
@@ -357,7 +359,7 @@ public final class GameHandler {
             Sound sound = Sound.valueOf(separados[0]);
             dead.getPlayer().playSound(dead.getPlayer().getLocation(), sound, Float.valueOf(separados[1]), Float.valueOf(separados[2]));
         } catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage(MessageUtils.translateColor("&7Sound Name: &c" + separados[0] + " &7is not valid."));
+            Logger.info("Sound Name: " + separados[0] + " is not valid.");
         }
         dead.setRecentDeath(true);
         dead.setLastKilledBy(killer.getPlayer().getName());
@@ -503,7 +505,7 @@ public final class GameHandler {
         for (String command : commands) {
             if (command.startsWith("msg %player%")) {
                 String mensaje = command.replace("msg %player% ", "");
-                j.getPlayer().sendMessage(MessageUtils.translateColor(mensaje));
+                j.getPlayer().sendMessage(MessageUtils.translateLegacyColor(mensaje));
             } else {
                 String comandoAEnviar = command.replaceAll("%player%", j.getPlayer().getName());
                 if (comandoAEnviar.contains("%random")) {

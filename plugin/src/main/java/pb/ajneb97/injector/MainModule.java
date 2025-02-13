@@ -7,6 +7,7 @@ import pb.ajneb97.injector.modules.FilesModule;
 import pb.ajneb97.injector.modules.ListenersModule;
 import pb.ajneb97.injector.modules.LoadersModule;
 import pb.ajneb97.injector.modules.ManagersModule;
+import pb.ajneb97.injector.modules.ScoreboardModule;
 import pb.ajneb97.injector.modules.ServicesModule;
 import team.unnamed.inject.AbstractModule;
 
@@ -24,6 +25,8 @@ public final class MainModule extends AbstractModule {
 
         install(new FilesModule());
         install(new CacheModule());
+
+        install(new ScoreboardModule());
 
         install(new ManagersModule());
 

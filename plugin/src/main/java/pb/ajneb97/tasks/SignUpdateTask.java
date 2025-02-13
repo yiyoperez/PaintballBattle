@@ -4,13 +4,15 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
+import pb.ajneb97.core.utils.message.MessageBuilder;
 import pb.ajneb97.core.utils.message.MessageHandler;
-import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.Messages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SignUpdateTask extends BukkitRunnable {
@@ -19,6 +21,7 @@ public class SignUpdateTask extends BukkitRunnable {
     private final GameManager gameManager;
     private final MessageHandler messageHandler;
 
+    //TODO: Replace task to game state update.
     public SignUpdateTask(SignManager signManager, GameManager gameManager, MessageHandler messageHandler) {
         this.signManager = signManager;
         this.gameManager = gameManager;
@@ -40,21 +43,20 @@ public class SignUpdateTask extends BukkitRunnable {
                 if (!gameManager.gameExists(arena)) continue;
 
                 Game game = gameManager.getGame(arena);
-                String state = switch (game.getState()) {
-                    case PLAYING -> messageHandler.getMessage(Messages.SIGN_STATUS_INGAME);
-                    case WAITING -> messageHandler.getMessage(Messages.SIGN_STATUS_WAITING);
-                    case ENDING -> messageHandler.getMessage(Messages.SIGN_STATUS_FINISHING);
-                    case DISABLED -> messageHandler.getMessage(Messages.SIGN_STATUS_DISABLED);
-                    case STARTING -> messageHandler.getMessage(Messages.SIGN_STATUS_STARTING);
-                };
+                String state = gameManager.getState(game);
 
-                List<String> signFormat = messageHandler.getRawStringList(Messages.SIGN_FORMAT.getPath()).stream().limit(4).toList();
-                signFormat.forEach(line ->
-                        sign.setLine(signFormat.indexOf(line), MessageUtils.translateColor(line
-                                .replace("%arena%", arena)
-                                .replace("%status%", state)
-                                .replace("%max_players%", String.valueOf(game.getMaxPlayers()))
-                                .replace("%current_players%", String.valueOf(game.getCurrentPlayersSize())))));
+                List<Placeholder> placeholderList = new ArrayList<>();
+                placeholderList.add(new Placeholder("%arena%", arena));
+                placeholderList.add(new Placeholder("%status%", state));
+                placeholderList.add(new Placeholder("%max_players%", game.getMaxPlayers()));
+                placeholderList.add(new Placeholder("%current_players%", game.getCurrentPlayersSize()));
+
+                List<String> signFormat = new MessageBuilder(messageHandler)
+                        .withMessage(Messages.SIGN_FORMAT)
+                        .withPlaceholders(placeholderList)
+                        .buildList();
+
+                signFormat.forEach(line -> sign.setLine(signFormat.indexOf(line), line));
 
                 sign.update();
             }

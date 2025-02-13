@@ -13,6 +13,7 @@ import pb.ajneb97.managers.EditManager;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.structures.game.GameEdit;
 import pb.ajneb97.utils.LocationUtils;
+import pb.ajneb97.utils.enums.Messages;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public class EditInventory implements BaseMenu {
         GameEdit edit = editManager.getGameEdit(admin);
         Game arena = edit.getArena();
 
-        Gui menu = Gui.gui().title(Component.text("&2Editing Arena: &7" + arena.getName())).rows(5).create();
+        Gui menu = Gui.gui().title(messageHandler.getComponent(Messages.EDIT_MENU_TITLE, new Placeholder("%arena%", arena.getName()))).rows(5).create();
 
         // Populate items.
         addLobbyItem(menu, edit);
@@ -76,16 +77,13 @@ public class EditInventory implements BaseMenu {
         Game arena = edit.getArena();
 
         addMenuItem(menu, 10, Material.BEACON,
-                Component.text("&6&lSet Lobby"),
-                List.of(Component.text("&7Click to define the arena Lobby in your"),
-                        Component.text("&7current position."),
-                        Component.text(""),
-                        Component.text("Current location: " + (arena.hasLobby() ? "Tiene lobby" : "NONE"))),
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_LOBBY_NAME),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE, new Placeholder("%location%", arena.hasLobby() ? "tiene lobby" : "no tiene lobby")),
                 event -> {
                     event.setCancelled(true);
                     Player player = (Player) event.getWhoClicked();
                     arena.setLobby(player.getLocation());
-                    messageHandler.sendManualMessage(player, "lobbyDefined %name%", new Placeholder("%name%", arena.getName()));
+                    messageHandler.sendMessage(player, Messages.LOBBY_DEFINED, new Placeholder("%name%", arena.getName()));
                 });
     }
 
@@ -266,7 +264,7 @@ public class EditInventory implements BaseMenu {
                         Component.text("&9Current Lobby: &7" + arena.getStartingLives())),
                 (event) -> {
                     event.setCancelled(true);
-                    
+
                     Player player = (Player) event.getWhoClicked();
                     editManager.getGameEdit(player).setStep(STARTING_LIVES);
                     //jugador.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aWrite a number. This will be the amount of starting lives for each team."));

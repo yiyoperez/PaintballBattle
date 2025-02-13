@@ -7,7 +7,9 @@ import dev.rollczi.litecommands.invocation.Invocation;
 import jdk.jfr.Description;
 import org.bukkit.command.CommandSender;
 import pb.ajneb97.commands.extra.PaintCommand;
+import pb.ajneb97.core.utils.message.MessageBuilder;
 import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
@@ -21,6 +23,10 @@ public class MainCommand implements PaintCommand {
     @ExecuteDefault
     public void command(@Context CommandSender sender, @Context Invocation<CommandSender> invocation) {
         //TODO: Maybe get argument from invocation and set specific usages per command?
-        messageHandler.sendListMessage(sender, Messages.HELP_MESSAGE);
+
+        new MessageBuilder(messageHandler, sender)
+                .withMessage(Messages.HELP_MESSAGE)
+                .withPlaceholders(new Placeholder("%command%", invocation.label()))
+                .sendList();
     }
 }

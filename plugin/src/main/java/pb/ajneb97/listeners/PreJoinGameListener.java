@@ -23,19 +23,19 @@ public class PreJoinGameListener implements Listener {
         Game game = event.getGame();
         Player player = event.getPlayer();
         if (!game.isEnabled()) {
-            messageHandler.sendMessage(player, "arenaDisabledError");
+            messageHandler.sendMessage(player, Messages.ARENA_DISABLED_ERROR);
             event.setCancelled(true);
             return;
         }
 
         if (game.hasStarted()) {
-            messageHandler.sendMessage(player, "arenaAlreadyStarted");
+            messageHandler.sendMessage(player, Messages.ARENA_ALREADY_STARTED);
             event.setCancelled(true);
             return;
         }
 
         if (gameManager.isPlaying(player)) {
-            messageHandler.sendMessage(player, "alreadyInArena");
+            messageHandler.sendMessage(player, Messages.ALREADY_IN_ARENA);
             event.setCancelled(true);
             return;
         }
@@ -47,17 +47,12 @@ public class PreJoinGameListener implements Listener {
         }
 
         if (game.isFull()) {
-            messageHandler.sendMessage(player, "arenaIsFull");
+            messageHandler.sendMessage(player, Messages.ARENA_IS_FULL);
             event.setCancelled(true);
             return;
         }
 
-        //TODO empty_inventory_to_join
-//        if (!UtilidadesOtros.pasaConfigInventario(player, config)) {
-//            messageHandler.sendMessage(player, "arenaDisabledError");
-//            player.sendMessage(MessageUtils.translateColor(messages.getString("errorClearInventory")));
-//            event.setCancelled(true);
-//        }
+        //TODO empty_inventory_to_join | errorClearInventory
 
         new GameJoinEvent(game, player).call();
     }

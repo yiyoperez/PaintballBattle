@@ -13,16 +13,20 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.core.utils.message.MessageUtils;
+import pb.ajneb97.core.utils.message.MessageBuilder;
+import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
 import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.LocationUtils;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,9 +44,9 @@ public class SignsListener implements Listener {
     @Inject
     @Named("config")
     private YamlDocument config;
+
     @Inject
-    @Named("messages")
-    private YamlDocument messages;
+    private MessageHandler messageHandler;
 
     @EventHandler
     public void onSignCreate(SignChangeEvent event) {
@@ -56,23 +60,21 @@ public class SignsListener implements Listener {
             if (gameManager.gameExists(arena)) {
 
                 Game game = gameManager.getGame(arena);
-                String state = switch (game.getState()) {
-                    case PLAYING -> messages.getString("signStatusIngame");
-                    case STARTING -> messages.getString("signStatusStarting");
-                    case WAITING -> messages.getString("signStatusWaiting");
-                    case DISABLED -> messages.getString("signStatusDisabled");
-                    case ENDING -> messages.getString("signStatusFinishing");
-                };
+                String state = gameManager.getState(game);
 
-                List<String> signFormat = messages.getStringList("signFormat").stream().limit(4).toList();
-                signFormat.forEach(string ->
-                        event.setLine(signFormat.indexOf(string), MessageUtils.translateColor(string
-                                .replace("%arena%", arena)
-                                .replace("%status%", state)
-                                .replace("%max_players%", String.valueOf(game.getMaxPlayers()))
-                                .replace("%current_players%", String.valueOf(game.getCurrentPlayersSize()))
-                        )));
-                
+                List<Placeholder> placeholderList = new ArrayList<>();
+                placeholderList.add(new Placeholder("%arena%", arena));
+                placeholderList.add(new Placeholder("%status%", state));
+                placeholderList.add(new Placeholder("%max_players%", game.getMaxPlayers()));
+                placeholderList.add(new Placeholder("%current_players%", game.getCurrentPlayersSize()));
+
+                List<String> signFormat = new MessageBuilder(messageHandler)
+                        .withMessage(Messages.SIGN_FORMAT)
+                        .withPlaceholders(placeholderList)
+                        .buildList();
+
+                signFormat.forEach(string -> event.setLine(signFormat.indexOf(string), string));
+
                 signManager.addSignLocation(game, event.getBlock().getLocation());
                 player.sendMessage("Created a new sign selector.");
             }
@@ -153,7 +155,7 @@ public class SignsListener implements Listener {
         if (!block.getType().name().contains("SIGN")) return;
 
         if (gameManager.isPlaying(player)) {
-            player.sendMessage(MessageUtils.translateColor(messages.getString("alreadyInArena")));
+            messageHandler.sendMessage(player, Messages.ALREADY_IN_ARENA);
             event.setCancelled(true);
             return;
         }
