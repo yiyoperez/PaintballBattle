@@ -49,17 +49,4 @@ public final class PaintballBattle extends SPlugin {
         return API;
     }
 
-//    private void setupEconomy() {
-//        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-//            return;
-//        }
-//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-//        if (rsp == null) {
-//            getLogger().severe("No Economy plugin found, please install one.");
-//            //getServer().getPluginManager().disablePlugin(this);
-//            return;
-//        }
-//        economy = rsp.getProvider();
-//    }
-
 }

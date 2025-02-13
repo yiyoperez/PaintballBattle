@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.managers.GameManager;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
@@ -36,6 +36,6 @@ public class ListCommand extends MainCommand {
             joiner.add(s);
         }
         //TODO: Create list message and format at messages enum and file configuration.
-        player.sendMessage("Lista de arenas: " + MessageUtils.translateColor(joiner.toString()));
+        player.sendMessage("Lista de arenas: " + MessageUtils.translateLegacyColor(joiner.toString()));
     }
 }

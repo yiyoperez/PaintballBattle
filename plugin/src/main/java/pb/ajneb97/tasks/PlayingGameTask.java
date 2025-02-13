@@ -3,7 +3,7 @@ package pb.ajneb97.tasks;
 import pb.ajneb97.core.logger.Logger;
 import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
 
 import java.util.HashSet;

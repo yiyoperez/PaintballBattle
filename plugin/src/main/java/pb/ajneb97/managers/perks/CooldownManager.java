@@ -4,8 +4,8 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.structures.Game;
 import pb.ajneb97.structures.Team;
+import pb.ajneb97.structures.game.Game;
 
 
 public class CooldownManager {

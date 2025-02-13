@@ -7,7 +7,8 @@ import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.listeners.customevents.GameJoinEvent;
 import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
 import pb.ajneb97.managers.GameManager;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
+import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
 public class PreJoinGameListener implements Listener {

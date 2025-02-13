@@ -7,9 +7,9 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitScheduler;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.structures.Game;
 import pb.ajneb97.structures.Killstreak;
 import pb.ajneb97.structures.PaintballPlayer;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
 
 public class CooldownKillstreaks {

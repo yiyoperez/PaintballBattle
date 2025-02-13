@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitTask;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.core.utils.message.MessageHandler;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.tasks.SignUpdateTask;
 import pb.ajneb97.utils.LocationUtils;
 import team.unnamed.inject.Inject;
@@ -52,7 +52,7 @@ public class SignManager {
         }
 
         this.task = new SignUpdateTask(this, gameManager, messageHandler)
-                .runTaskTimer(plugin, 0, 20L);
+                .runTaskTimer(plugin, 0, 60L);
     }
 
     public void cancelTask() {

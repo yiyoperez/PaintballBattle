@@ -1,4 +1,4 @@
-package pb.ajneb97.structures;
+package pb.ajneb97.structures.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -7,6 +7,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import pb.ajneb97.core.logger.Logger;
+import pb.ajneb97.structures.PaintballPlayer;
+import pb.ajneb97.structures.Team;
 import pb.ajneb97.utils.LocationUtils;
 import pb.ajneb97.utils.enums.GameState;
 

@@ -2,7 +2,7 @@ package pb.ajneb97.listeners.customevents;
 
 import org.bukkit.entity.Player;
 import pb.ajneb97.core.events.BaseEvent;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 
 public class GameJoinEvent extends BaseEvent {
 

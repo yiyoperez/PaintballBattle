@@ -1,4 +1,4 @@
-package pb.ajneb97.structures;
+package pb.ajneb97.structures.game;
 
 import org.bukkit.entity.Player;
 import pb.ajneb97.utils.enums.EditStep;

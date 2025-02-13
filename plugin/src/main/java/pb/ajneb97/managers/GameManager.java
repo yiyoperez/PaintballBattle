@@ -2,7 +2,7 @@ package pb.ajneb97.managers;
 
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
 import team.unnamed.inject.Inject;
 

@@ -8,7 +8,7 @@ import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.Messages;
 
 import java.util.List;

@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.inventories.EditInventory;
-import pb.ajneb97.structures.Game;
-import pb.ajneb97.structures.GameEdit;
+import pb.ajneb97.structures.game.Game;
+import pb.ajneb97.structures.game.GameEdit;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -19,7 +19,7 @@ public class EditManager {
     @Inject
     @Named("messages")
     private YamlDocument messages;
-    
+
     @Inject
     private PaintballBattle plugin;
     @Inject

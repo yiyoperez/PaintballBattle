@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import pb.ajneb97.listeners.customevents.GameJoinEvent;
 import pb.ajneb97.managers.GameHandler;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import team.unnamed.inject.Inject;
 
 public class GameJoinListener implements Listener {

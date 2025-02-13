@@ -2,6 +2,7 @@ package pb.ajneb97.structures;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import pb.ajneb97.structures.game.SavedElements;
 
 import java.util.ArrayList;
 

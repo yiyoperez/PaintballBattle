@@ -3,7 +3,7 @@ package pb.ajneb97.listeners.customevents;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import pb.ajneb97.core.events.BaseEvent;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 
 public class PreJoinGameEvent extends BaseEvent implements Cancellable {
 

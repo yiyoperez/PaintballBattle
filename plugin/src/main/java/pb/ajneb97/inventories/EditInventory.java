@@ -10,8 +10,8 @@ import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.inventories.util.BaseMenu;
 import pb.ajneb97.managers.EditManager;
-import pb.ajneb97.structures.Game;
-import pb.ajneb97.structures.GameEdit;
+import pb.ajneb97.structures.game.Game;
+import pb.ajneb97.structures.game.GameEdit;
 import pb.ajneb97.utils.LocationUtils;
 
 import java.util.Arrays;

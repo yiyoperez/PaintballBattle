@@ -3,8 +3,8 @@ package pb.ajneb97.injector.services;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import pb.ajneb97.commons.service.Service;
 import pb.ajneb97.core.logger.Logger;
-import pb.ajneb97.structures.Game;
 import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.structures.game.Game;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 

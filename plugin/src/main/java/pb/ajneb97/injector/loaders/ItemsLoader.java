@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.commons.loader.Loader;
 import pb.ajneb97.core.logger.Logger;
-import pb.ajneb97.structures.GameItem;
+import pb.ajneb97.structures.game.GameItem;
 import pb.ajneb97.utils.item.ItemStackBuilder;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;

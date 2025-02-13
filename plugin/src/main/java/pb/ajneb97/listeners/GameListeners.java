@@ -27,8 +27,8 @@ import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.listeners.customevents.GameLeaveEvent;
 import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
-import pb.ajneb97.structures.GameItem;
 import pb.ajneb97.structures.Team;
+import pb.ajneb97.structures.game.GameItem;
 import pb.ajneb97.utils.enums.GameState;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
@@ -241,7 +241,7 @@ public class GameListeners implements Listener {
 
 //        Game partida = gameManager.getPlayerGame(player.getName());
 //        if (partida != null) {
-//            String message = event.getMessage();
+//            String message = event.getParsedMessage();
 //            event.setCancelled(true);
 //            ArrayList<PaintballPlayer> jugadores = partida.getPlayers();
 //            if (partida.hasStarted()) {

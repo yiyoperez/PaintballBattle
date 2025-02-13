@@ -1,4 +1,4 @@
-package pb.ajneb97.structures;
+package pb.ajneb97.structures.game;
 
 import org.bukkit.inventory.ItemStack;
 

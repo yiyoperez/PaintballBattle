@@ -18,7 +18,7 @@ import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
 import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
-import pb.ajneb97.structures.Game;
+import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.LocationUtils;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
