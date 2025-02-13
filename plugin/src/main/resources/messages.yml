@@ -1,169 +1,178 @@
 # Do not touch!
 lang-version: 1
 
-PREFIX: "&7[&9&lPaintball Battle&7]"
-
 # Common plugin message.
-NO_PERMISSION: '%prefix% &cYou have no permissions to do that.'
-RELOADED: '%prefix% &cPlayer &e"%player%" &chas been not found!'
+PREFIX: '<gray>[<blue><bold>Paintball Battle</bold></blue>]'
+NO_PERMISSION: '<prefix> <red>You have no permissions to do that.'
 
 MAIN:
   HELP:
-    - "&7[ [ &4[&fPaintball Battle&4] &7] ]"
-    - ""
-    - "&6/paintball create <arena> &8Creates a new arena."
-    - "&6/paintball delete <arena> &8Deletes an arena."
-    - "&6/paintball join <arena> &8Joins an arena."
-    - "&6/paintball joinrandom &8Joins a random arena."
-    - "&6/paintball leave &8Leaves from the arena."
-    - "&6/paintball shop &8Opens the Paintball Shop."
-    - "&6/paintball givecoins <player> <amount>"
-    - "&6/paintball setmainlobby &8Defines the minigame main lobby."
-    - "&6/paintball enable <arena> &8Enables an arena."
-    - "&6/paintball disable <arena> &8Disables an arena."
-    - "&6/paintball edit <arena> &8Edit the properties of an arena."
-    - "&6/paintball reload &8Reloads the configuration files."
-    - ""
-    - "&7[ [ &4[&fPaintball Battle&4] &7] ]"
+    - '%prefix%'
+    - ''
+    - '<gold>/paintball create <arena></gold> <dark_gray>Creates a new arena.'
+    - '<gold>/paintball delete <arena></gold> <dark_gray>Deletes an arena.'
+    - '<gold>/paintball join <arena></gold> <dark_gray>Joins an arena.'
+    - '<gold>/paintball joinrandom</gold> <dark_gray>Joins a random arena.'
+    - '<gold>/paintball leave</gold> <dark_gray>Leaves from the arena.'
+    - '<gold>/paintball shop</gold> <dark_gray>Opens the Paintball Shop.'
+    - '<gold>/paintball givecoins <player> <amount></gold>'
+    - '<gold>/paintball setmainlobby</gold> <dark_gray>Defines the minigame main lobby.'
+    - '<gold>/paintball enable <arena></gold> <dark_gray>Enables an arena.'
+    - '<gold>/paintball disable <arena></gold> <dark_gray>Disables an arena.'
+    - '<gold>/paintball edit <arena></gold> <dark_gray>Edit the properties of an arena.'
+    - '<gold>/paintball reload</gold> <dark_gray>Reloads the configuration files.'
+    - ''
+    - '%prefix%'
 
-ARENA_DOES_NOT_EXIST: "&cThat arena doesn't exists."
-ARENA_ALREADY_EXISTS: "&cThat arena already exists."
-COMMAND_CREATE_ERROR_USE: "&cYou need to use &7/paintball create <arena>"
-COMMAND_DELETE_ERROR_USE: "&cYou need to use &7/paintball delete <arena>"
-COMMAND_JOIN_ERROR_USE: "&cYou need to use &7/paintball join <arena>"
-COMMAND_ENABLE_ERROR_USE: "&cYou need to use &7/paintball enable <arena>"
-COMMAND_DISABLE_ERROR_USE: "&cYou need to use &7/paintball disable <arena>"
-COMMAND_ADMIN_ERROR_USE: "&cYou need to use &7/paintball edit <arena>"
-COMMAND_GIVE_COINS_ERROR_USE: "&cYou need to use &7/paintball givecoins <player> <amount>"
-NO_MAIN_LOBBY: "&cBefore creating an arena you need to set the Main Lobby with: &7/paintball setmainlobby"
-ARENA_CREATED: "&aArena &e%name% &acreated!"
-ARENA_DELETED: "&aArena &e%name% &adeleted!"
-ARENA_CREATED_EXTRA_INFO: "&7Now you can use &6/paintball edit %name% &7to set the arena properties."
-CONFIG_RELOADED: "&aConfig Reloaded."
-LOBBY_DEFINED: "&aLobby defined for arena &e%name%&a."
-SPAWN_TEAM_DEFINED: "&aTeam %number% Spawn defined for arena &e%name%&a."
-TYPE_DEFINED: "&aTeam %number% Type defined for arena &e%name%&a."
-VALID_NUMBER_ERROR: "&cYou need to use a valid number."
-MIN_PLAYERS_DEFINED: "&aMin Players defined for arena &e%name%&a."
-MAX_PLAYERS_DEFINED: "&aMax Players defined for arena &e%name%&a."
-TIME_DEFINED: "&aTime defined for arena &e%name%&a."
-LIVES_DEFINED: "&aStarting Lives defined for arena &e%name%&a."
-MAIN_LOBBY_DEFINED: "&aMain Lobby defined."
-ARENA_DISABLED_ERROR: "&cThat arena is disabled."
-ALREADY_IN_ARENA: "&cYou are already in a game."
-ARENA_ALREADY_STARTED: "&cThat arena already started."
-ARENA_IS_FULL: "&cThat arena is full."
-NOT_IN_A_GAME: "&cYou are not in a game."
-ARENA_ALREADY_ENABLED: "&cThat arena is already enabled."
-ARENA_ALREADY_DISABLED: "&cThat arena is already disabled."
-ARENA_MUST_BE_DISABLED: "&cThe arena must be disable to do that."
-ARENA_MODIFYING_ERROR: "&cOnly one arena can be modified at a time."
-ARENA_ENABLED: "&aArena &e%name% &aenabled."
-ARENA_DISABLED: "&aArena &e%name% &adisabled."
-ENABLE_ARENA_LOBBY_ERROR: "&cTo enable the arena you need to define the Lobby first."
-ENABLE_ARENA_SPAWN_ERROR: "&cTo enable the arena you need to define the Team %number% Spawn first."
+ARENA_DOES_NOT_EXIST: '<red>That arena doesn''t exist.'
+ARENA_ALREADY_EXISTS: '<red>That arena already exists.'
+COMMAND_CREATE_ERROR_USE: '<red>You need to use <gray>/paintball create <arena>'
+COMMAND_DELETE_ERROR_USE: '<red>You need to use <gray>/paintball delete <arena>'
+COMMAND_JOIN_ERROR_USE: '<red>You need to use <gray>/paintball join <arena>'
+COMMAND_ENABLE_ERROR_USE: '<red>You need to use <gray>/paintball enable <arena>'
+COMMAND_DISABLE_ERROR_USE: '<red>You need to use <gray>/paintball disable <arena>'
+COMMAND_ADMIN_ERROR_USE: '<red>You need to use <gray>/paintball edit <arena>'
+COMMAND_GIVE_COINS_ERROR_USE: '<red>You need to use <gray>/paintball givecoins <player> <amount>'
+NO_MAIN_LOBBY: '<red>Before creating an arena you need to set the Main Lobby with: <gray>/paintball setmainlobby'
+ARENA_CREATED: '<green>Arena <yellow>%name%</yellow> created!'
+ARENA_DELETED: '<green>Arena <yellow>%name%</yellow> deleted!'
+ARENA_CREATED_EXTRA_INFO: '<gray>Now you can use <gold>/paintball edit %name%</gold> to set the arena properties.'
+CONFIG_RELOADED: '<green>Config Reloaded.'
+LOBBY_DEFINED: '<green>Lobby defined for arena <yellow>%name%</yellow>.'
+SPAWN_TEAM_DEFINED: '<green>Team %number% Spawn defined for arena <yellow>%name%</yellow>.'
+TYPE_DEFINED: '<green>Team %number% Type defined for arena <yellow>%name%</yellow>.'
+VALID_NUMBER_ERROR: '<red>You need to use a valid number.'
+MIN_PLAYERS_DEFINED: '<green>Min Players defined for arena <yellow>%name%</yellow>.'
+MAX_PLAYERS_DEFINED: '<green>Max Players defined for arena <yellow>%name%</yellow>.'
+TIME_DEFINED: '<green>Time defined for arena <yellow>%name%</yellow>.'
+LIVES_DEFINED: '<green>Starting Lives defined for arena <yellow>%name%</yellow>.'
+MAIN_LOBBY_DEFINED: '<green>Main Lobby defined.'
+ARENA_DISABLED_ERROR: '<red>That arena is disabled.'
+ALREADY_IN_ARENA: '<red>You are already in a game.'
+ARENA_ALREADY_STARTED: '<red>That arena already started.'
+ARENA_IS_FULL: '<red>That arena is full.'
+NOT_IN_A_GAME: '<red>You are not in a game.'
+ARENA_ALREADY_ENABLED: '<red>That arena is already enabled.'
+ARENA_ALREADY_DISABLED: '<red>That arena is already disabled.'
+ARENA_MUST_BE_DISABLED: '<red>The arena must be disabled to do that.'
+ARENA_MODIFYING_ERROR: '<red>Only one arena can be modified at a time.'
+ARENA_ENABLED: '<green>Arena <yellow>%name%</yellow> enabled.'
+ARENA_DISABLED: '<green>Arena <yellow>%name%</yellow> disabled.'
+ENABLE_ARENA_LOBBY_ERROR: '<red>To enable the arena you need to define the Lobby first.'
+ENABLE_ARENA_SPAWN_ERROR: '<red>To enable the arena you need to define the Team %number% Spawn first.'
 SIGN_FORMAT:
-  - "&8[&9Paintball&8]"
-  - "&1%arena%"
-  - "%status%"
-  - "&a%current_players%&8/&a%max_players%"
-SIGN_STATUS_WAITING: "&1WAITING"
-SIGN_STATUS_STARTING: "&6STARTING"
-SIGN_STATUS_INGAME: "&cINGAME"
-SIGN_STATUS_DISABLED: "&8DISABLED"
-SIGN_STATUS_FINISHING: "&4FINISHING"
-ARENA_STARTING_MESSAGE: "&eThe game starts in &7%time% &eseconds!"
-GAME_STARTING_CANCELLED: "&7There are not enough players to start the game."
-PLAYER_JOIN: "&7%player% &ehas joined the game (&b%current_players%&8/&b%max_players%&e)"
-PLAYER_LEAVE: "&7%player% &ehas left the game (&b%current_players%&8/&b%max_players%&e)"
-GAME_STARTED: "&aGame started! The team with the most lives at the end of the game is the winner."
-TEAM_INFORMATION: "&eYou are on the &7&l%team% &eTeam."
-GAME_FINISHED_WINNER_STATUS: "&a&l            %winner_team% &eTeam have won!"
-GAME_FINISHED_TIE_STATUS: "&e&l            It's a tie!"
-TOP_KILLS_NONE: "&aNone"
+  - '<dark_gray>[<blue>Paintball</blue>]'
+  - '<dark_blue>%arena%'
+  - '%status%'
+  - '<green>%current_players%<dark_gray>/<green>%max_players%'
+SIGN_STATUS_WAITING: '<dark_blue>WAITING'
+SIGN_STATUS_STARTING: '<gold>STARTING'
+SIGN_STATUS_INGAME: '<red>INGAME'
+SIGN_STATUS_DISABLED: '<dark_gray>DISABLED'
+SIGN_STATUS_FINISHING: '<dark_red>FINISHING'
+ARENA_STARTING_MESSAGE: '<yellow>The game starts in <gray>%time%</gray> seconds!'
+GAME_STARTING_CANCELLED: '<gray>There are not enough players to start the game.'
+PLAYER_JOIN: '<gray>%player%</gray> <yellow>has joined the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
+PLAYER_LEAVE: '<gray>%player%</gray> <yellow>has left the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
+GAME_STARTED: '<green>Game started! The team with the most lives at the end of the game is the winner.'
+TEAM_INFORMATION: '<yellow>You are on the <gray><bold>%team%</bold></gray> Team.'
+GAME_FINISHED_WINNER_STATUS: '<green><bold>            %winner_team%</bold></green> <yellow>Team have won!'
+GAME_FINISHED_TIE_STATUS: '<yellow><bold>            It''s a tie!</bold></yellow>'
+TOP_KILLS_NONE: '<green>None'
 GAME_FINISHED:
-  - "&f&l: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :"
-  - "%status_message%"
-  - ""
-  - "&9%team1% &ekills: &7%kills_team1% &8- &9%team2% &ekills: &7%kills_team2%"
-  - ""
-  - "&f&lTop Kills"
-  - "&8- &a%player1% &7(&e%kills_player1% kills&7)"
-  - "&8- &a%player2% &7(&e%kills_player2% kills&7)"
-  - "&8- &a%player3% &7(&e%kills_player3% kills&7)"
-  - ""
-  - "&7Your Kills: &e%kills_player%"
-  - "&f&l: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :"
-WINNER_TITLE_MESSAGE: "&a&lYou've won!"
-LOSER_TITLE_MESSAGE: "&c&lYou've lost!"
-TIE_TITLE_MESSAGE: "&9&lIt's a tie!"
-TEAM_SELECTED: "&eYou selected to be in &7&l%team% &eTeam."
-ERROR_TEAM_SELECTED: "&cYou can't select that team right now."
-ERROR_TEAM_ALREADY_SELECTED: "&cYou are already on that team."
-TEAM_INFORMATION_NONE: "NONE"
-KILLED_BY: "&cYou have been killed by &6%player%&c."
-KILL: "&aYou have killed &6%player%&a."
-MATERIAL_NAME_ERROR: "&cThere is an error on your config. Material: &7&l%material% &cis not valid for your Minecraft version."
-TEAM_CHOOSE: "&eChoose &7&l%team% &eTeam"
+  - '<white><bold>: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :'
+  - '%status_message%'
+  - ''
+  - '<blue>%team1%</blue> <yellow>kills: <gray>%kills_team1%</gray> <dark_gray>-</dark_gray> <blue>%team2%</blue> <yellow>kills: <gray>%kills_team2%</gray>'
+  - ''
+  - '<white><bold>Top Kills</bold></white>'
+  - '<dark_gray>- <green>%player1%</green> <gray>(<yellow>%kills_player1% kills</yellow>)</gray>'
+  - '<dark_gray>- <green>%player2%</green> <gray>(<yellow>%kills_player2% kills</yellow>)</gray>'
+  - '<dark_gray>- <green>%player3%</green> <gray>(<yellow>%kills_player3% kills</yellow>)</gray>'
+  - ''
+  - '<gray>Your Kills: <yellow>%kills_player%</yellow>'
+  - '<white><bold>: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :'
+WINNER_TITLE_MESSAGE: '<green><bold>You''ve won!</bold></green>'
+LOSER_TITLE_MESSAGE: '<red><bold>You''ve lost!</bold></red>'
+TIE_TITLE_MESSAGE: '<blue><bold>It''s a tie!</bold></blue>'
+TEAM_SELECTED: '<yellow>You selected to be in <gray><bold>%team%</bold></gray> Team.'
+ERROR_TEAM_SELECTED: '<red>You can''t select that team right now.'
+ERROR_TEAM_ALREADY_SELECTED: '<red>You are already on that team.'
+TEAM_INFORMATION_NONE: NONE
+KILLED_BY: '<red>You have been killed by <gold>%player%</gold>.'
+KILL: '<green>You have killed <gold>%player%</gold>.'
+MATERIAL_NAME_ERROR: '<red>There is an error on your config. Material: <gray><bold>%material%</bold></gray> is not valid for your Minecraft version.'
+TEAM_CHOOSE: '<yellow>Choose <gray><bold>%team%</bold></gray> Team'
 GAME_SCOREBOARD:
-  TITLE: "<blue><bold>PAINTBALL"
+  TITLE: '<blue><bold>PAINTBALL</bold></blue>'
   BODY:
-    - "<r>"
-    - "<white>Status:"
-    - "<gray>%status%"
-    - "<r>"
-    - "<gray><bold>%team_1%</bold> <white>Lives: <light_green>%team_1_lives%"
-    - "<gray><bold/%team_2%</bold> <white>Lives: <lime>%team_2_lives%"
-    - "<r>"
-    - "<white>Your Kills: <red>%kills%"
-    - "<white>Map: <green>%arena%"
-    - "<r>"
-    - "<white>Players:"
-    - "<white>%current_players%<gray>/<white>%max_players%"
-STATUS_WAITING: "&7WAITING"
-STATUS_STARTING: "&7STARTING IN &a%time%"
-STATUS_INGAME: "&7ENDS IN &a%time%"
-STATUS_FINISHING: "&7FINISHING IN &a%time%"
-NO_SUFFICIENT_COINS: "&cYou don't have the sufficient amount of Killcoins to buy that."
-KILLSTREAK_ACTIVATED: "&aYou've activated &6%killstreak%&a!"
-KILLSTREAK_ALREADY_ACTIVATED: "&cThat Killstreak is already activated!"
-KILLSTREAK_EXPIRED: "&cYour &6%killstreak% &ckillstreak has expired!"
-KILLSTREAK_CURRENTLY_ACTIVE: "&7Active for &a%time% &7seconds."
-KILLSTREAK_ACTIONBAR: "&eYour %killstreak% &ekillstreak expires in &c%time% &eseconds!"
-KILLSTREAK_ACTIVATED_PLAYER: "&8[&7%team%&8] &a%player% &eactivated %killstreak%&e!"
-NUKE_IMPACT: "&c&lNUKE IMPACT IN: &f%time%"
-NUKE_ERROR: "&cA Nuke is already on progress!"
-NUKE_KILL_MESSAGE: "&8[&7%team_player1%&8] &a%player1% &ewas nuked by &8[&7%team_player2%&8] &a%player2%"
-NO_ARENAS_AVAILABLE: "&cThere are no arenas available."
-ERROR_PLAYER_ONLINE: "&cThe player must be online to do that."
-GIVE_COINS_MESSAGE: "&aYou gave &e%amount% &acoins to &e%player%&a."
-RECEIVE_COINS_MESSAGE: "&aYou received &e%amount% &acoins."
-BUY_NO_SUFFICIENT_COINS: "&cYou don't have enough coins to buy that."
-PERK_ERROR_PREVIOUS: "&cYou need to unlock the previous perk level."
-PERK_ERROR_UNLOCKED: "&cYou've already unlocked that perk."
-PERK_UNLOCKED: "&aPerk %name% &aUnlocked!"
-HAT_ERROR_BOUGHT: "&cYou've already bought that hat."
-HAT_BOUGHT: "&aHat %name% &abought!"
-HAT_STATUS_SELECTED: "&aSELECTED"
-HAT_STATUS_NOT_SELECTED: "&cNOT SELECTED"
-HAT_SELECTED: "&aHat %name% &aselected!"
-HAT_ALREADY_SELECTED: "&cYou've already selected that hat."
-HAT_REMOVED: "&aYour hat was removed."
-PRESENT_HAT_RECEIVE: "&aYou've just received 3 Killcoins from &e%player% &9&lPresent Hat&a!"
-PRESENT_HAT_GIVE: "&aYou've just gived 3 Killcoins to &e%player%&a!"
-HAT_ABILITY_ACTIVATED: "&7Hat ability activated!"
-HAT_COOLDOWN_ERROR: "&cYou need to wait &7%time% &cseconds to use your Hat ability again."
-HAT_COOLDOWN_FINISHED: "&7You can use your Hat ability again."
-ERROR_CLEAR_INVENTORY: "&c&lERROR! &7To join an arena clear your inventory first."
-ARENA_STARTING_BROADCAST: "&aArena &6&l%arena% &ais about to start! Use &b/pb join %arena% &ato join the game!"
+    - '<reset>'
+    - '<white>Status:'
+    - '<gray>%status%'
+    - '<reset>'
+    - '<gray><bold>%team_1%</bold> <white>Lives: <green>%team_1_lives%'
+    - '<gray><bold>%team_2%</bold> <white>Lives: <green>%team_2_lives%'
+    - '<reset>'
+    - '<white>Your Kills: <green>%kills%'
+    - '<white>Map: <green>%arena%'
+    - '<reset>'
+    - '<white>Players:'
+    - '<green>%current_players%<gray>/<green>%max_players%'
+STATUS_WAITING: '<gray>WAITING'
+STATUS_STARTING: '<gray>STARTING IN <green>%time%'
+STATUS_INGAME: '<gray>ENDS IN <green>%time%'
+STATUS_FINISHING: '<gray>FINISHING IN <green>%time%'
+NO_SUFFICIENT_COINS: '<red>You don''t have the sufficient amount of Killcoins to buy that.'
+KILLSTREAK_ACTIVATED: '<green>You''ve activated <gold>%killstreak%</gold>!'
+KILLSTREAK_ALREADY_ACTIVATED: '<red>That Killstreak is already activated!'
+KILLSTREAK_EXPIRED: '<red>Your <gold>%killstreak%</gold> killstreak has expired!'
+KILLSTREAK_CURRENTLY_ACTIVE: '<gray>Active for <green>%time%</green> seconds.'
+KILLSTREAK_ACTIONBAR: '<yellow>Your %killstreak% killstreak expires in <red>%time%</red> seconds!'
+KILLSTREAK_ACTIVATED_PLAYER: '<dark_gray>[<gray>%team%</gray>] <green>%player%</green> <yellow>activated %killstreak%</yellow>!'
+NUKE_IMPACT: '<red><bold>NUKE IMPACT IN: <white>%time%'
+NUKE_ERROR: '<red>A Nuke is already on progress!'
+NUKE_KILL_MESSAGE: '<dark_gray>[<gray>%team_player1%</gray>] <green>%player1%</green> <yellow>was nuked by <dark_gray>[<gray>%team_player2%</gray>] <green>%player2%</green>'
+NO_ARENAS_AVAILABLE: '<red>There are no arenas available.'
+ERROR_PLAYER_ONLINE: '<red>The player must be online to do that.'
+GIVE_COINS_MESSAGE: '<green>You gave <gold>%amount%</gold> coins to <gold>%player%</gold>.'
+RECEIVE_COINS_MESSAGE: '<green>You received <gold>%amount%</gold> coins.'
+BUY_NO_SUFFICIENT_COINS: '<red>You don''t have enough coins to buy that.'
+PERK_ERROR_PREVIOUS: '<red>You need to unlock the previous perk level.'
+PERK_ERROR_UNLOCKED: '<red>You''ve already unlocked that perk.'
+PERK_UNLOCKED: '<green>Perk %name% Unlocked!'
+HAT_ERROR_BOUGHT: '<red>You''ve already bought that hat.'
+HAT_BOUGHT: '<green>Hat %name% bought!'
+HAT_STATUS_SELECTED: '<green>SELECTED'
+HAT_STATUS_NOT_SELECTED: '<red>NOT SELECTED'
+HAT_SELECTED: '<green>Hat %name% selected!'
+HAT_ALREADY_SELECTED: '<red>You''ve already selected that hat.'
+HAT_REMOVED: '<green>Your hat was removed.'
+PRESENT_HAT_RECEIVE: '<green>You''ve just received 3 Killcoins from <gold>%player%</gold> <blue><bold>Present Hat</bold></blue>!'
+PRESENT_HAT_GIVE: '<green>You''ve just gave 3 Killcoins to <gold>%player%</gold>!'
+HAT_ABILITY_ACTIVATED: '<gray>Hat ability activated!'
+HAT_COOLDOWN_ERROR: '<red>You need to wait <gray>%time%</gray> seconds to use your Hat ability again.'
+HAT_COOLDOWN_FINISHED: '<gray>You can use your Hat ability again.'
+ERROR_CLEAR_INVENTORY: '<red><bold>ERROR!</bold> <gray>To join an arena clear your inventory first.'
+ARENA_STARTING_BROADCAST: '<green>Arena <gold><bold>%arena%</bold></gold> is about to start! Use <aqua>/pb join %arena%</aqua> to join the game!'
+
+INVENTORIES:
+  EDIT:
+    TITLE: "<blue>Editing Arena: <gray>%arena%"
+    SET_LOBBY:
+      NAME: "<gold><bold>Set Lobby"
+      LORE:
+        - "<gray>Click to define the arena Lobby in your"
+        - "<gray>current position."
+        - ""
+        - "<white>Current location: <green>%location%"
 
 COMMAND_MANAGER:
   USAGE:
-    HEADER: "&8x &9&lPaintball Battle &7‣ &f<required> [optional] (description)"
-    MESSAGE: "&cInvalid usage of command!"
-    PREFIX: "&8x &c"
+    HEADER: '<dark_gray>x %prefix% <gray>‣ <white><required> [optional] (description)'
+    MESSAGE: '<red>Invalid usage of command!'
+    PREFIX: '<dark_gray>x <red>'
   TRANSLATIONS:
-    NO_PERMISSION: "%prefix% &cYou have no permissions to use that command."
-    ONLY_PLAYERS: "%prefix% &cYou can only run this command in-game!"
-    ONLY_CONSOLE: "%prefix% &cYou can only run this command at the console!"
-    INVALID_SUB_COMMAND: "%prefix% &cSub-command &e\"%sub-command%\" &cdoesn't exists!"
+    NO_PERMISSION: '%prefix% <red>You have no permissions to use that command.'
+    ONLY_PLAYERS: '%prefix% <red>You can only run this command in-game!'
+    ONLY_CONSOLE: '%prefix% <red>You can only run this command at the console!'
+    INVALID_SUB_COMMAND: '%prefix% <red>Sub-command <yellow>"%sub-command%"</yellow> doesn''t exist!'
