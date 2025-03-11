@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+//TODO: Needs better approach or completely recode.
 public class EditManager {
 
     @Inject

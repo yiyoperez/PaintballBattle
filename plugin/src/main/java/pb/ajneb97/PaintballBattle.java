@@ -20,29 +20,30 @@ public final class PaintballBattle extends SPlugin {
     public void onEnable() {
         preEnable();
 
-        Injector.create(new MainModule(this))
-                .injectMembers(this);
-
         try {
+            Injector.create(new MainModule(this))
+                    .injectMembers(this);
+
             service.start();
         } catch (Exception e) {
             this.failedEnable();
-            Logger.info(e.getMessage(), Logger.LogType.WARNING);
-            return;
+            Logger.info(e.getMessage(), Logger.LogType.ERROR);
+        } finally {
+            postEnable();
         }
-
-        postEnable();
     }
 
     @Override
     public void onDisable() {
         preDisable();
 
-        if (service != null) {
+        try {
             service.finish();
+        } catch (Exception e) {
+            Logger.info(e.getMessage(), Logger.LogType.ERROR);
+        } finally {
+            postDisable();
         }
-
-        postDisable();
     }
 
     public PaintballAPI getAPI() {
