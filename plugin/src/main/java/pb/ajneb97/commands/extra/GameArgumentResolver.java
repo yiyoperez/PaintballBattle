@@ -21,11 +21,7 @@ public class GameArgumentResolver extends ArgumentResolver<CommandSender, Game> 
     private MessageHandler messageHandler;
 
     @Override
-    protected ParseResult<Game> parse(
-            Invocation<CommandSender> invocation,
-            Argument<Game> argument,
-            String string
-    ) {
+    protected ParseResult<Game> parse(Invocation<CommandSender> invocation, Argument<Game> argument, String string) {
         if (!gameManager.gameExists(string)) {
             messageHandler.sendMessage(invocation.sender(), Messages.ARENA_DOES_NOT_EXIST);
             return ParseResult.failure(Messages.ARENA_DOES_NOT_EXIST);
@@ -35,11 +31,7 @@ public class GameArgumentResolver extends ArgumentResolver<CommandSender, Game> 
     }
 
     @Override
-    public SuggestionResult suggest(
-            Invocation<CommandSender> invocation,
-            Argument<Game> argument,
-            SuggestionContext context
-    ) {
+    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Game> argument, SuggestionContext context) {
         return gameManager.getGames().stream().map(Game::getName).collect(SuggestionResult.collector());
     }
 }

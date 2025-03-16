@@ -23,10 +23,8 @@ public class CreateCommand extends MainCommand {
     @Inject
     @Named("config")
     private YamlDocument config;
-
     @Inject
     private GameManager gameManager;
-
     @Inject
     private MessageHandler messageHandler;
 

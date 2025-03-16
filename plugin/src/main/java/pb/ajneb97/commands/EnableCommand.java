@@ -8,7 +8,6 @@ import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
-import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
 import pb.ajneb97.utils.enums.Messages;
@@ -17,8 +16,6 @@ import team.unnamed.inject.Inject;
 @Command(name = "paintball enable")
 public class EnableCommand extends MainCommand {
 
-    @Inject
-    private GameManager gameManager;
     @Inject
     private MessageHandler messageHandler;
 
