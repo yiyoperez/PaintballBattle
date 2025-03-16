@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -26,12 +27,7 @@ public interface BaseMenu {
 
     }
 
-    default void addMenuItem(Gui menu, int slot, Material material, Component name, List<Component> lore, Consumer<InventoryClickEvent> clickAction) {
-        GuiItem item = ItemBuilder.from(material)
-                .name(name)
-                .lore(lore)
-                .lore(lore)
-                .asGuiItem();
+    default void addMenuItem(Gui menu, GuiItem item, int slot, Consumer<InventoryClickEvent> clickAction) {
 
         item.setAction(event -> {
             ItemStack stack = event.getCurrentItem();
@@ -41,5 +37,13 @@ public interface BaseMenu {
         });
 
         menu.setItem(slot, item);
+    }
+
+    default GuiItem createGuiItem(Material material, Component name, List<Component> lore) {
+        return ItemBuilder.from(material)
+                .name(name)
+                .lore(lore)
+                .lore(lore)
+                .asGuiItem();
     }
 }

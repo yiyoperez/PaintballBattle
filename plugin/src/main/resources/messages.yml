@@ -158,13 +158,48 @@ ARENA_STARTING_BROADCAST: '<green>Arena <gold><bold>%arena%</bold></gold> is abo
 INVENTORIES:
   EDIT:
     TITLE: "<blue>Editing Arena: <gray>%arena%"
-    SET_LOBBY:
-      NAME: "<gold><bold>Set Lobby"
-      LORE:
-        - "<gray>Click to define the arena Lobby in your"
-        - "<gray>current position."
-        - ""
-        - "<white>Current location: <green>%location%"
+    SET:
+      MIN_PLAYERS:
+        NAME: "<gold><bold>Set Min Players</bold></gold>"
+        LORE:
+          - "<gray>Click to define the arena minimum number"
+          - "<gray>of players."
+          - ""
+          - "<blue>Current value: <gray>%min_players%"
+      MAX_PLAYERS:
+        NAME: "<gold><bold>Set Max Players</bold></gold>"
+        LORE:
+          - "<gray>Click to define the arena maximum number"
+          - "<gray>of players."
+          - ""
+          - "<blue>Current value: <gray>%max_players%"
+      MAX_TIME:
+        NAME: "<gold><bold>Set Max Time</bold></gold>"
+        LORE:
+          - "<gray>Click to define the arena time in seconds."
+          - ""
+          - "<blue>Current time: <gray>%max_time%"
+      STARTING_LIVES:
+        NAME: "<gold><bold>Set Starting Lives</bold></gold>"
+        LORE:
+          - "<gray>Click to define the starting amount of lives"
+          - "<gray>for both teams."
+          - ""
+          - "<blue>Current Lives: <gray>%starting_lives%"
+      SPAWN:
+        NAME: "<gold><bold>Set Team %number% Spawn</bold></gold>"
+        LORE:
+          - "<gray>Click to define the arena team %number% Spawn"
+          - "<gray>at your current position."
+          - ""
+          - "<blue>Current Position: <gray>%location%"
+      LOBBY:
+        NAME: "<gold><bold>Set Lobby</bold></gold>"
+        LORE:
+          - "<gray>Click to define the arena Lobby in your"
+          - "<gray>current position."
+          - ""
+          - "<white>Current location: <green>%location%"
 
 COMMAND_MANAGER:
   USAGE:

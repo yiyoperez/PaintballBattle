@@ -1,10 +1,13 @@
 package pb.ajneb97.inventories;
 
+import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
+import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
@@ -76,64 +79,75 @@ public class EditInventory implements BaseMenu {
     private void addLobbyItem(Gui menu, GameEdit edit) {
         Game arena = edit.getArena();
 
-        addMenuItem(menu, 10, Material.BEACON,
+        GuiItem item = createGuiItem(Material.BEACON,
                 messageHandler.getComponent(Messages.EDIT_MENU_SET_LOBBY_NAME),
-                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE, new Placeholder("%location%", arena.hasLobby() ? "tiene lobby" : "no tiene lobby")),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE,
+                        new Placeholder("%location%", arena.hasLobby() ? "tiene lobby" : "no tiene lobby")));
+
+        addMenuItem(menu, item,10,
                 event -> {
                     event.setCancelled(true);
                     Player player = (Player) event.getWhoClicked();
                     arena.setLobby(player.getLocation());
                     messageHandler.sendMessage(player, Messages.LOBBY_DEFINED, new Placeholder("%name%", arena.getName()));
+
+                    ItemStack itemstack = ItemBuilder.from(item.getItemStack())
+                            .lore(messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE,
+                            new Placeholder("%location%", arena.hasLobby() ? "tiene lobby" : "no tiene lobby"))).build();
+                    item.setItemStack(itemstack);
+                    menu.update();
                 });
     }
 
     private void addTeam1SpawnItem(Gui menu, GameEdit edit) {
         Game game = edit.getArena();
-        addMenuItem(menu, 11, Material.QUARTZ_BLOCK,
-                Component.text("&6&lSet Team 1 Spawn"),
-                List.of(Component.text("&7Click to define the arena team 1 Spawn"),
-                        Component.text("&7at your current position."),
-                        Component.text(""),
-                        Component.text("&9Current Position: "),
-                        Component.text(game.getPointOne() != null ? LocationUtils.serialize(game.getPointOne()) : "NONE")),
+
+        GuiItem item = createGuiItem(Material.QUARTZ_BLOCK,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_TEAM_SPAWN_NAME, new Placeholder("%number%", 1)),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_TEAM_SPAWN_LORE,
+                        new Placeholder("%location%", game.getPointOne() != null ? LocationUtils.serialize(game.getPointOne()) : "NONE"))
+        );
+
+        addMenuItem(menu,item, 11,
                 event -> {
                     event.setCancelled(true);
                     Player player = (Player) event.getWhoClicked();
                     game.setPointOne(player.getLocation());
-                    player.sendMessage("Set team 1 spawn location.");
-                    //jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("spawnTeamDefined").replace("%number%", "1").replace("%name%", partida.getArena().getNombre())));
+                    messageHandler.sendMessage(player, Messages.SPAWN_TEAM_DEFINED, new Placeholder("%number%", 1), new Placeholder("%name%", game.getName()));
+
+                    ItemStack itemstack = ItemBuilder.from(item.getItemStack()).lore(messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_TEAM_SPAWN_LORE, new Placeholder("%location%", game.getPointOne() != null ? LocationUtils.serialize(game.getPointOne()) : "NONE"))).build();
+                    item.setItemStack(itemstack);
+                    menu.update();
                 });
     }
 
     private void addTeam2SpawnItem(Gui menu, GameEdit edit) {
-        Game arena = edit.getArena();
-        addMenuItem(menu, 12, Material.QUARTZ_BLOCK,
-                Component.text("&6&lSet Team 2 Spawn"),
-                List.of(Component.text("&7Click to define the arena team 1 Spawn"),
-                        Component.text("&7at your current position."),
-                        Component.text(""),
-                        Component.text("&9Current Position: "),
-                        Component.text(arena.getPointTwo() != null ? LocationUtils.serialize(arena.getPointTwo()) : "NONE")),
+        Game game = edit.getArena();
+
+        GuiItem item = createGuiItem(Material.QUARTZ_BLOCK,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_TEAM_SPAWN_NAME, new Placeholder("%number%", 2)),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_TEAM_SPAWN_LORE, new Placeholder("%location%", game.getPointTwo() != null ? LocationUtils.serialize(game.getPointTwo()) : "NONE")));
+
+        addMenuItem(menu, item, 12,
                 event -> {
                     event.setCancelled(true);
                     Player player = (Player) event.getWhoClicked();
-                    arena.setPointTwo(player.getLocation());
-                    player.sendMessage("Set team 2 spawn location.");
-                    //jugador.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', messages.getString("spawnTeamDefined").replace("%number%", "2").replace("%name%", partida.getArena().getNombre())));
+                    game.setPointTwo(player.getLocation());
+                    messageHandler.sendMessage(player, Messages.SPAWN_TEAM_DEFINED, new Placeholder("%number%", 2), new Placeholder("%name%", game.getName()));
                 });
     }
 
     private void addMinPlayersItems(Gui menu, GameEdit edit) {
-        Game arena = edit.getArena();
-        addMenuItem(menu, 13, Material.GHAST_TEAR,
-                Component.text("&6&lSet Min Players"),
-                List.of(Component.text("&7Click to define the arena minimum number"),
-                        Component.text("&7of players."),
-                        Component.text(""),
-                        Component.text("&9Current value: " + arena.getMinPlayers()))
+        Game game = edit.getArena();
+
+        GuiItem item = createGuiItem(Material.GHAST_TEAR,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_MIN_PLAYERS_NAME),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_MIN_PLAYERS_LORE, new Placeholder("%min_players%", game.getMinPlayers())));
+
+        addMenuItem(menu, item,13
                 , event -> {
                     event.setCancelled(true);
-                    int currentValue = arena.getMinPlayers();
+                    int currentValue = game.getMinPlayers();
 
                     if (event.isLeftClick()) {
                         currentValue += 1;
@@ -144,25 +158,28 @@ public class EditInventory implements BaseMenu {
                         }
                     }
 
-                    arena.setMinPlayers(currentValue);
-                    messageHandler.sendManualMessage(event.getWhoClicked(), "minPlayersDefined", new Placeholder("%name%", arena.getName()));
+                    game.setMinPlayers(currentValue);
+                    messageHandler.sendMessage(event.getWhoClicked(), Messages.MIN_PLAYERS_DEFINED, new Placeholder("%min_players%", currentValue), new Placeholder("%name%", game.getName()));
+
+                    ItemStack itemstack = ItemBuilder.from(item.getItemStack())
+                            .lore(messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_MIN_PLAYERS_LORE, new Placeholder("%min_players%", game.getMinPlayers()))).build();
+                    item.setItemStack(itemstack);
                     menu.update();
                 }
         );
     }
 
     private void addMaxPlayersItems(Gui menu, GameEdit edit) {
-        Game arena = edit.getArena();
+        Game game = edit.getArena();
 
-        addMenuItem(menu, 13, Material.GHAST_TEAR,
-                Component.text("&6&lSet Min Players"),
-                List.of(Component.text("&7Click to define the arena minimum number"),
-                        Component.text("&7of players."),
-                        Component.text(""),
-                        Component.text("&9Current value: " + arena.getMinPlayers()))
-                , event -> {
+        GuiItem item = createGuiItem(Material.GHAST_TEAR,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_MAX_PLAYERS_NAME),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_MAX_PLAYERS_LORE, new Placeholder("%max_players%", game.getMaxPlayers())));
+
+        addMenuItem(menu,  item,14,
+                event -> {
                     event.setCancelled(true);
-                    int currentValue = arena.getMinPlayers();
+                    int currentValue = game.getMaxPlayers();
 
                     if (event.isLeftClick()) {
                         currentValue += 1;
@@ -173,21 +190,28 @@ public class EditInventory implements BaseMenu {
                         }
                     }
 
-                    arena.setMaxPlayers(currentValue);
-                    messageHandler.sendManualMessage(event.getWhoClicked(), "maxPlayersDefined", new Placeholder("%name%", arena.getName()));
+                    game.setMaxPlayers(currentValue);
+                    messageHandler.sendMessage(event.getWhoClicked(), Messages.MAX_PLAYERS_DEFINED, new Placeholder("%min_players%", currentValue), new Placeholder("%name%", game.getName()));
+
+                    ItemStack itemstack = ItemBuilder.from(item.getItemStack())
+                            .lore(messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_MAX_PLAYERS_LORE, new Placeholder("%max_players%", game.getMaxPlayers()))).build();
+                    item.setItemStack(itemstack);
                     menu.update();
                 });
     }
 
     private void addTeam1ColorItems(Gui menu, GameEdit edit) {
         Game arena = edit.getArena();
-        addMenuItem(menu, 15, Material.NAME_TAG,
+
+        GuiItem item = createGuiItem(Material.NAME_TAG,
                 Component.text("&6&lSet Team 1 Color"),
                 List.of(Component.text("&7Click to define the arena team 1 Color."),
                         Component.text(""),
                         Component.text("&9Current value: &7"),
-                        Component.text(arena.getSecondTeam() == null ? "NOT SET" : arena.getSecondTeam().getName()))
-                , event -> {
+                        Component.text(arena.getSecondTeam() == null ? "NOT SET" : arena.getSecondTeam().getName())));
+
+        addMenuItem(menu, item, 15,
+                event -> {
                     Player player = (Player) event.getWhoClicked();
                     event.setCancelled(true);
 
@@ -199,12 +223,14 @@ public class EditInventory implements BaseMenu {
     private void addTeam2ColorItems(Gui menu, GameEdit edit) {
         Game arena = edit.getArena();
 
-        addMenuItem(menu, 16, Material.NAME_TAG,
+        GuiItem item = createGuiItem(Material.NAME_TAG,
                 Component.text("&6&lSet Team 2 Color"),
                 List.of(Component.text("&7Click to define the arena team 2 Color."),
                         Component.text(""),
                         Component.text("&9Current value: &7"),
-                        Component.text(arena.getSecondTeam() == null ? "NOT SET" : arena.getSecondTeam().getName()))
+                        Component.text(arena.getSecondTeam() == null ? "NOT SET" : arena.getSecondTeam().getName())));
+
+        addMenuItem(menu, item, 16
                 , event -> {
                     Player player = (Player) event.getWhoClicked();
                     event.setCancelled(true);
@@ -216,13 +242,12 @@ public class EditInventory implements BaseMenu {
 
     private void addMaxTimeItem(Gui menu, GameEdit edit) {
         Game arena = edit.getArena();
-        addMenuItem(menu,
-                21,
-                Material.CLOCK,
-                Component.text("&6&lSet Max Time"),
-                List.of(Component.text("&7Click to define the arena time in seconds."),
-                        Component.text(""),
-                        Component.text("&9Current Time: &7" + arena.getMaxTime())),
+
+        GuiItem item = createGuiItem(Material.CLOCK,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_MAX_TIME_NAME),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_MAX_TIME_LORE, new Placeholder("%max_time%", arena.getMaxTime())));
+
+        addMenuItem(menu, item, 21,
                 (event) -> {
                     event.setCancelled(true);
                     edit.setStep(TIME);
@@ -254,14 +279,13 @@ public class EditInventory implements BaseMenu {
     }
 
     private void addLivesItem(Gui menu, GameEdit edit) {
-        Game arena = edit.getArena();
+        Game game = edit.getArena();
 
-        addMenuItem(menu, 23, Material.REDSTONE_BLOCK,
-                Component.text("&6&lSet Starting Lives"),
-                List.of(Component.text("&7Click to define the starting amount of lives"),
-                        Component.text("&7for both teams."),
-                        Component.text(""),
-                        Component.text("&9Current Lobby: &7" + arena.getStartingLives())),
+        GuiItem item = createGuiItem(Material.REDSTONE_BLOCK,
+                messageHandler.getComponent(Messages.EDIT_MENU_SET_STARTING_LIVES_NAME),
+                messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_STARTING_LIVES_LORE, new Placeholder("%starting_lives%", game.getStartingLives())));
+
+        addMenuItem(menu, item, 23,
                 (event) -> {
                     event.setCancelled(true);
 
@@ -289,8 +313,10 @@ public class EditInventory implements BaseMenu {
                                         return Arrays.asList(
                                                 AnvilGUI.ResponseAction.close(),
                                                 AnvilGUI.ResponseAction.run(() -> {
-                                                    arena.setStartingLives(value);
-                                                    stateSnapshot.getPlayer().sendMessage("Starting lives count is now " + value);
+                                                    game.setStartingLives(value);
+                                                    messageHandler.sendMessage(stateSnapshot.getPlayer(), Messages.LIVES_DEFINED ,
+                                                            new Placeholder("%value%", value),
+                                                            new Placeholder("%name%", game.getName()));
                                                 })
                                         );
                                     })

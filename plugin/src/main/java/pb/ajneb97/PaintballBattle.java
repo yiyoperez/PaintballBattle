@@ -19,7 +19,6 @@ public final class PaintballBattle extends SPlugin {
 
     public void onEnable() {
         preEnable();
-
         try {
             Injector.create(new MainModule(this))
                     .injectMembers(this);
@@ -36,7 +35,6 @@ public final class PaintballBattle extends SPlugin {
     @Override
     public void onDisable() {
         preDisable();
-
         try {
             service.finish();
         } catch (Exception e) {
