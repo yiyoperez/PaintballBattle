@@ -25,8 +25,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.listeners.customevents.GameLeaveEvent;
-import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.managers.controller.GameController;
 import pb.ajneb97.structures.Team;
 import pb.ajneb97.structures.game.GameItem;
 import pb.ajneb97.utils.enums.GameState;
@@ -44,7 +44,7 @@ public class GameListeners implements Listener {
     @Inject
     private GameManager gameManager;
     @Inject
-    private GameHandler gameHandler;
+    private GameController gameController;
 
     @Inject
     @Named("item-cache")
@@ -96,6 +96,8 @@ public class GameListeners implements Listener {
         if (!(event.getEntity() instanceof Player player)) return;
 
         if (gameManager.isPlaying(player)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.KILL) return;
+
             event.setCancelled(true);
         }
     }
@@ -158,7 +160,7 @@ public class GameListeners implements Listener {
         if (event.getCause() != EntityDamageEvent.DamageCause.VOID) return;
 
         gameManager.getPlayerGame(player).ifPresent(game -> {
-            Team team = game.getPlayerTeam(player);
+            Team team = gameManager.getPlayerTeam(player);
             event.setCancelled(true);
             player.teleport(team.getSpawnLocation());
         });
@@ -185,18 +187,18 @@ public class GameListeners implements Listener {
         Entity damagetEntity = event.getDamager();
         if (!(damagetEntity instanceof Snowball projectile)) return;
 
+        if (projectile.getShooter() == null) return;
 
         Entity victimEntity = event.getEntity();
         if (!(victimEntity instanceof Player victim)) return;
 
         ProjectileSource shooter = projectile.getShooter();
-        if (!(shooter instanceof Player damager)) return;
+        if (!(shooter instanceof Player killer)) return;
 
-        gameManager.getPlayerGame(damager).ifPresent(game -> {
+        gameManager.getPlayerGame(killer).ifPresent(game -> {
             if (game.getState() == GameState.PLAYING) {
                 event.setCancelled(true);
-
-                //gameHandler.handlePlayerDeath(game, );
+                gameController.handlePlayerDeath(game, victim, killer);
             }
         });
     }
@@ -220,12 +222,18 @@ public class GameListeners implements Listener {
                 event.setCancelled(true);
 
                 switch (name) {
-                    case "LEAVE" -> gameHandler.handlePlayerQuit(player, game);
+                    case "LEAVE" -> gameController.handlePlayerQuit(player, game);
                     //TODO
-                    case "HATS" -> {/* Open hats */}
-                    case "PERKS" -> {/* Open perks*/}
-                    case "PLAY_AGAIN" -> {/* Queue player again. */}
-                    case "TEAM_SELECTOR" -> {/* Open team selector */ }
+                    case "HATS" -> {
+                        player.sendMessage("Not implemented yet.");
+                    }
+                    case "PERKS" -> {
+                        player.sendMessage("Not implemented yet.");
+                    }
+                    case "PLAY_AGAIN" -> gameManager.attemptRandomJoin(player);
+                    case "TEAM_SELECTOR" -> {
+                        player.sendMessage("Not implemented yet.");
+                    }
                 }
             });
         });

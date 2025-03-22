@@ -12,7 +12,7 @@ PERKS:
   ENABLED: true
   SLOT: 0
   MATERIAL: GOLD_NUGGET
-  NAME: "&ePerk: &a%amount%"
+  NAME: "&7[&b&lPerks&7]"
   LORE:
     - "&7Right Click to buy Perks."
 

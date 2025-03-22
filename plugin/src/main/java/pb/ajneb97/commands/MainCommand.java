@@ -20,11 +20,14 @@ public class MainCommand implements PaintCommand {
     @Inject
     private MessageHandler messageHandler;
 
+    //TODO add forcestart, forceend commands?
+
     @ExecuteDefault
     public void command(@Context CommandSender sender, @Context Invocation<CommandSender> invocation) {
         //TODO: Maybe get argument from invocation and set specific usages per command?
 
-        new MessageBuilder(messageHandler, sender)
+        new MessageBuilder(messageHandler)
+                .toSender(sender)
                 .withMessage(Messages.HELP_MESSAGE)
                 .withPlaceholders(new Placeholder("%command%", invocation.label()))
                 .sendList();

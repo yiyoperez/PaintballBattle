@@ -6,15 +6,15 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.structures.game.Game;
-import pb.ajneb97.utils.enums.GameState;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
 @Command(name = "paintball disable")
-public class DisableCommand extends MainCommand {
+public class DisableCommand implements PaintCommand {
 
     @Inject
     private MessageHandler messageHandler;
@@ -28,7 +28,6 @@ public class DisableCommand extends MainCommand {
         }
 
         game.setEnabled(false);
-        game.setState(GameState.DISABLED);
         messageHandler.sendMessage(player, Messages.ARENA_DISABLED, new Placeholder("%name%", game.getName()));
     }
 }

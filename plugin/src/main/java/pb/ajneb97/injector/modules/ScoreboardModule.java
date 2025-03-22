@@ -9,7 +9,7 @@ import team.unnamed.inject.AbstractModule;
 import team.unnamed.inject.Provides;
 import team.unnamed.inject.Singleton;
 
-public class ScoreboardModule extends AbstractModule {
+public final class ScoreboardModule extends AbstractModule {
 
     @Provides
     @Singleton

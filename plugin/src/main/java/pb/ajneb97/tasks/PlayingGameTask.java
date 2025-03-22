@@ -1,8 +1,8 @@
 package pb.ajneb97.tasks;
 
 import pb.ajneb97.core.logger.Logger;
-import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
+import pb.ajneb97.managers.controller.GameController;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
 
@@ -12,11 +12,11 @@ import java.util.Set;
 public class PlayingGameTask implements Runnable {
 
     private final GameManager gameManager;
-    private final GameHandler gameHandler;
+    private final GameController gameController;
 
-    public PlayingGameTask(GameManager gameManager, GameHandler gameHandler) {
+    public PlayingGameTask(GameManager gameManager, GameController gameController) {
         this.gameManager = gameManager;
-        this.gameHandler = gameHandler;
+        this.gameController = gameController;
     }
 
     @Override
@@ -31,16 +31,15 @@ public class PlayingGameTask implements Runnable {
         }
 
         if (collect.isEmpty()) {
-            gameHandler.stopPlayingTask();
+            gameController.stopPlayingTask();
             return;
         }
 
         for (Game game : collect) {
             long remainingTime = (game.getStartingTime() - System.currentTimeMillis()) / 1000;
-            Logger.info("Remaining time is " + remainingTime);
             if (remainingTime <= 0) {
                 Logger.info("Starting ending phase due time limit.");
-                gameHandler.initEndingPhase(game);
+                gameController.initEndingPhase(game);
             }
         }
     }

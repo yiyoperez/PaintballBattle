@@ -6,6 +6,7 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.utils.LocationUtils;
 import pb.ajneb97.utils.enums.Messages;
@@ -15,7 +16,7 @@ import team.unnamed.inject.Named;
 import java.io.IOException;
 
 @Command(name = "paintball setmainlobby")
-public class SetMainLobbyCommand extends MainCommand {
+public class SetMainLobbyCommand implements PaintCommand {
 
     @Inject
     @Named("config")

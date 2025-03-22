@@ -4,7 +4,6 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.structures.game.Game;
-import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
@@ -159,12 +158,6 @@ public final class PaintballAPI {
         }
 
         Game match = getGameManager().getGame(arenaName);
-        return switch (match.getState()) {
-            case WAITING -> messageHandler.getMessage(Messages.SIGN_STATUS_WAITING);
-            case STARTING -> messageHandler.getMessage(Messages.SIGN_STATUS_STARTING);
-            case PLAYING -> messageHandler.getMessage(Messages.SIGN_STATUS_INGAME);
-            case ENDING -> messageHandler.getMessage(Messages.SIGN_STATUS_FINISHING);
-            default -> messageHandler.getMessage(Messages.SIGN_STATUS_DISABLED);
-        };
+        return gameManager.getState(match);
     }
 }

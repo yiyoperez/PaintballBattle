@@ -5,6 +5,7 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.managers.GameManager;
@@ -15,7 +16,7 @@ import team.unnamed.inject.Inject;
 import java.util.StringJoiner;
 
 @Command(name = "paintball list")
-public class ListCommand extends MainCommand {
+public class ListCommand implements PaintCommand {
 
     @Inject
     private GameManager gameManager;

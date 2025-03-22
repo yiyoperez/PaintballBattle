@@ -3,7 +3,6 @@ package pb.ajneb97.core.utils.message;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pb.ajneb97.core.logger.Logger;
 import pb.ajneb97.utils.enums.Messages;
 
 import java.util.ArrayList;
@@ -12,26 +11,15 @@ import java.util.Set;
 
 public class MessageBuilder {
 
+    private String path;
+    private CommandSender sender;
+    private Set<Player> playerSet;
+
     private final MessageHandler handler;
     private final List<Placeholder> placeholders = new ArrayList<>();
 
-    private String path;
-    private CommandSender sender;
-    //TODO: Allow to send built message to a set of players.
-    private Set<Player> playerSet;
-
     public MessageBuilder(MessageHandler handler) {
         this.handler = handler;
-    }
-
-    public MessageBuilder(MessageHandler handler, CommandSender sender) {
-        this.handler = handler;
-        this.sender = sender;
-    }
-
-    public MessageBuilder(MessageHandler handler, Set<Player> playerSet) {
-        this.handler = handler;
-        this.playerSet = playerSet;
     }
 
     public MessageBuilder toPlayerSet(Set<Player> playerSet) {
@@ -69,87 +57,71 @@ public class MessageBuilder {
         return this;
     }
 
+    private void sendToRecipients(MessageSenderFunction senderFunction) {
+        if (path == null || (sender == null && (playerSet == null || playerSet.isEmpty()))) {
+            return;
+        }
+
+        // Send to all players in playerSet if it's not empty
+        if (playerSet != null && !playerSet.isEmpty()) {
+            playerSet.forEach(player -> senderFunction.send(player, path, placeholders));
+        }
+
+        // Send to the sender if it's not null
+        if (sender != null) {
+            senderFunction.send(sender, path, placeholders);
+        }
+    }
+
     public void send() {
-        if (sender == null) {
-            Logger.info("Sender must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        if (path == null) {
-            Logger.info("Message path must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        handler.sendMessage(sender, path, placeholders.toArray(new Placeholder[0]));
+        sendToRecipients(handler::sendMessage);
     }
 
     public void sendCentered() {
-        if (sender == null) {
-            Logger.info("Sender must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        if (path == null) {
-            Logger.info("Message path must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        handler.sendCenteredMessage(sender, path, placeholders.toArray(new Placeholder[0]));
+        sendToRecipients(handler::sendCenteredMessage);
     }
 
     public void sendList() {
-        if (sender == null) {
-            Logger.info("Sender must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        if (path == null) {
-            Logger.info("Message path must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-
-        handler.sendListMessage(sender, path, placeholders.toArray(new Placeholder[0]));
+        sendToRecipients(handler::sendListMessage);
     }
 
     public void sendCenteredList() {
-        if (sender == null) {
-            Logger.info("Sender must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        if (path == null) {
-            Logger.info("Message path must be provided.", Logger.LogType.WARNING);
-            return;
-        }
-        handler.sendCenteredMessages(sender, path, placeholders.toArray(new Placeholder[0]));
+        sendToRecipients(handler::sendCenteredMessages);
     }
 
     public String build() {
-        if (path == null) {
-            throw new IllegalStateException("Message path must be provided.");
-        }
-        return handler.getMessage(sender, path, placeholders.toArray(new Placeholder[0]));
+        validatePath();
+        return handler.getMessage(sender, path, placeholders);
     }
 
     public List<String> buildParsedList() {
-        if (path == null) {
-            throw new IllegalStateException("Message path must be provided.");
-        }
-        return handler.getParsedMessages(sender, path, placeholders.toArray(new Placeholder[0]));
+        validatePath();
+        return handler.getParsedMessages(sender, path, placeholders);
     }
 
     public List<String> buildList() {
-        if (path == null) {
-            throw new IllegalStateException("Message path must be provided.");
-        }
-        return handler.getMessages(sender, path, placeholders.toArray(new Placeholder[0]));
+        validatePath();
+        return handler.getMessages(sender, path, placeholders);
     }
 
     public Component buildComponent() {
-        if (path == null) {
-            throw new IllegalStateException("Message path must be provided.");
-        }
-        return handler.getComponent(sender, path, placeholders.toArray(new Placeholder[0]));
+        validatePath();
+        return handler.getComponent(sender, path, placeholders);
     }
 
     public List<Component> buildComponentList() {
+        validatePath();
+        return handler.getComponentMessages(sender, path, placeholders);
+    }
+
+    private void validatePath() {
         if (path == null) {
             throw new IllegalStateException("Message path must be provided.");
         }
-        return handler.getComponentMessages(sender, path, placeholders.toArray(new Placeholder[0]));
+    }
+
+    @FunctionalInterface
+    private interface MessageSenderFunction {
+        void send(CommandSender sender, String path, List<Placeholder> placeholders);
     }
 }

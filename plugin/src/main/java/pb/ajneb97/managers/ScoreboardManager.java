@@ -44,7 +44,6 @@ public class ScoreboardManager {
     public void scheduleTask() {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         if (!scheduler.isCurrentlyRunning(taskID)) {
-            Logger.info("Starting scoreboard task");
             taskID = scheduler.scheduleSyncRepeatingTask(plugin,
                     new ScoreboardTask(this), 0L, 20L);
         }
@@ -58,7 +57,6 @@ public class ScoreboardManager {
     }
 
     public void createScoreboard(Player player) {
-        Logger.info("Creating helper.");
         boardCache.add(player.getUniqueId(), new ScoreboardHelper(scoreboardLibrary));
 
         updateScoreboard(player.getUniqueId());
@@ -79,15 +77,11 @@ public class ScoreboardManager {
                     return newHelper;
                 });
 
-        Logger.info("Returning found helper.");
-
         // Update the scoreboard with the latest data
         helper.setTitle(messageHandler.getComponent(Messages.GAME_SCOREBOARD_TITLE));
 
         List<Placeholder> placeholderList = new ArrayList<>();
         gameManager.getPlayerGame(uuid).ifPresent(game -> {
-            Logger.info("Adding placeholders to scoreboard.");
-
             placeholderList.add(new Placeholder("%arena%", game.getName()));
             placeholderList.add(new Placeholder("%team_1%", game.getFirstTeam().getName()));
             placeholderList.add(new Placeholder("%team_1_lives%", game.getFirstTeam().getLives()));
@@ -113,10 +107,6 @@ public class ScoreboardManager {
         boardCache.find(player.getUniqueId()).ifPresent(helper -> {
             helper.removePlayer(player);
             boardCache.remove(player.getUniqueId());
-
-            org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-            player.setScoreboard(scoreboardManager.getMainScoreboard());
-
         });
     }
 

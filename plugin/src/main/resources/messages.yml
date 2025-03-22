@@ -2,6 +2,7 @@
 lang-version: 1
 
 # Common plugin message.
+CONFIG_RELOADED: '<green>Config Reloaded.'
 PREFIX: '<gray>[<blue><bold>Paintball Battle</bold></blue>]'
 NO_PERMISSION: '<prefix> <red>You have no permissions to do that.'
 
@@ -26,6 +27,26 @@ MAIN:
 
 ARENA_DOES_NOT_EXIST: '<red>That arena doesn''t exist.'
 ARENA_ALREADY_EXISTS: '<red>That arena already exists.'
+ARENA_STARTING_BROADCAST: '<green>Arena <gold><bold>%arena%</bold></gold> is about to start! Use <aqua>/pb join %arena%</aqua> to join the game!'
+ARENA_CREATED: '<green>Arena <yellow>%name%</yellow> created!'
+ARENA_DELETED: '<green>Arena <yellow>%name%</yellow> deleted!'
+ARENA_CREATED_EXTRA_INFO: '<gray>Now you can use <gold>/paintball edit %name%</gold> to set the arena properties.'
+
+ARENA:
+  SETUP:
+    STATUS:
+      - "GAME SETUP STATUS"
+      - ""
+      - "%lobby_status% /paintball setup lobby"
+      - "%point1_status% /paintball setup point1"
+      - "%point2_status% /paintball setup point2"
+      - "%team_status% /paintball addteam <team>"
+      - ""
+      - "Use /paintball setup save to end the setup."
+      - "Use /paintball setup to QUIT the setup."
+      - ""
+    ALREADY_IN_SETUP: ""
+
 COMMAND_CREATE_ERROR_USE: '<red>You need to use <gray>/paintball create <arena>'
 COMMAND_DELETE_ERROR_USE: '<red>You need to use <gray>/paintball delete <arena>'
 COMMAND_JOIN_ERROR_USE: '<red>You need to use <gray>/paintball join <arena>'
@@ -34,10 +55,7 @@ COMMAND_DISABLE_ERROR_USE: '<red>You need to use <gray>/paintball disable <arena
 COMMAND_ADMIN_ERROR_USE: '<red>You need to use <gray>/paintball edit <arena>'
 COMMAND_GIVE_COINS_ERROR_USE: '<red>You need to use <gray>/paintball givecoins <player> <amount>'
 NO_MAIN_LOBBY: '<red>Before creating an arena you need to set the Main Lobby with: <gray>/paintball setmainlobby'
-ARENA_CREATED: '<green>Arena <yellow>%name%</yellow> created!'
-ARENA_DELETED: '<green>Arena <yellow>%name%</yellow> deleted!'
-ARENA_CREATED_EXTRA_INFO: '<gray>Now you can use <gold>/paintball edit %name%</gold> to set the arena properties.'
-CONFIG_RELOADED: '<green>Config Reloaded.'
+
 LOBBY_DEFINED: '<green>Lobby defined for arena <yellow>%name%</yellow>.'
 SPAWN_TEAM_DEFINED: '<green>Team %number% Spawn defined for arena <yellow>%name%</yellow>.'
 TYPE_DEFINED: '<green>Team %number% Type defined for arena <yellow>%name%</yellow>.'
@@ -58,8 +76,9 @@ ARENA_MUST_BE_DISABLED: '<red>The arena must be disabled to do that.'
 ARENA_MODIFYING_ERROR: '<red>Only one arena can be modified at a time.'
 ARENA_ENABLED: '<green>Arena <yellow>%name%</yellow> enabled.'
 ARENA_DISABLED: '<green>Arena <yellow>%name%</yellow> disabled.'
-ENABLE_ARENA_LOBBY_ERROR: '<red>To enable the arena you need to define the Lobby first.'
-ENABLE_ARENA_SPAWN_ERROR: '<red>To enable the arena you need to define the Team %number% Spawn first.'
+ENABLE_ARENA_LOBBY_ERROR: '<red>To enable the arena you need to set the Lobby first.'
+ENABLE_ARENA_SPAWN_ERROR: '<red>To enable the arena you need to set the Teams Spawn first.'
+ENABLE_ARENA_TEAM_ERROR: '<red>To enable the arena you need to set the Teams first.'
 SIGN_FORMAT:
   - '<dark_gray>[<blue>Paintball</blue>]'
   - '<dark_blue>%arena%'
@@ -70,12 +89,14 @@ SIGN_STATUS_STARTING: '<gold>STARTING'
 SIGN_STATUS_INGAME: '<red>INGAME'
 SIGN_STATUS_DISABLED: '<dark_gray>DISABLED'
 SIGN_STATUS_FINISHING: '<dark_red>FINISHING'
-ARENA_STARTING_MESSAGE: '<yellow>The game starts in <gray>%time%</gray> seconds!'
-GAME_STARTING_CANCELLED: '<gray>There are not enough players to start the game.'
+
 PLAYER_JOIN: '<gray>%player%</gray> <yellow>has joined the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
 PLAYER_LEAVE: '<gray>%player%</gray> <yellow>has left the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
 GAME_STARTED: '<green>Game started! The team with the most lives at the end of the game is the winner.'
 TEAM_INFORMATION: '<yellow>You are on the <gray><bold>%team%</bold></gray> Team.'
+
+ARENA_STARTING_MESSAGE: '<yellow>The game starts in <gray>%time%</gray> seconds!'
+GAME_STARTING_CANCELLED: '<gray>There are not enough players to start the game.'
 GAME_FINISHED_WINNER_STATUS: '<green><bold>            %winner_team%</bold></green> <yellow>Team have won!'
 GAME_FINISHED_TIE_STATUS: '<yellow><bold>            It''s a tie!</bold></yellow>'
 TOP_KILLS_NONE: '<green>None'
@@ -95,14 +116,17 @@ GAME_FINISHED:
 WINNER_TITLE_MESSAGE: '<green><bold>You''ve won!</bold></green>'
 LOSER_TITLE_MESSAGE: '<red><bold>You''ve lost!</bold></red>'
 TIE_TITLE_MESSAGE: '<blue><bold>It''s a tie!</bold></blue>'
+
 TEAM_SELECTED: '<yellow>You selected to be in <gray><bold>%team%</bold></gray> Team.'
 ERROR_TEAM_SELECTED: '<red>You can''t select that team right now.'
 ERROR_TEAM_ALREADY_SELECTED: '<red>You are already on that team.'
+TEAM_CHOOSE: '<yellow>Choose <gray><bold>%team%</bold></gray> Team'
 TEAM_INFORMATION_NONE: NONE
+
 KILLED_BY: '<red>You have been killed by <gold>%player%</gold>.'
 KILL: '<green>You have killed <gold>%player%</gold>.'
+
 MATERIAL_NAME_ERROR: '<red>There is an error on your config. Material: <gray><bold>%material%</bold></gray> is not valid for your Minecraft version.'
-TEAM_CHOOSE: '<yellow>Choose <gray><bold>%team%</bold></gray> Team'
 GAME_SCOREBOARD:
   TITLE: '<blue><bold>PAINTBALL</bold></blue>'
   BODY:
@@ -122,6 +146,7 @@ STATUS_WAITING: '<gray>WAITING'
 STATUS_STARTING: '<gray>STARTING IN <green>%time%'
 STATUS_INGAME: '<gray>ENDS IN <green>%time%'
 STATUS_FINISHING: '<gray>FINISHING IN <green>%time%'
+
 NO_SUFFICIENT_COINS: '<red>You don''t have the sufficient amount of Killcoins to buy that.'
 KILLSTREAK_ACTIVATED: '<green>You''ve activated <gold>%killstreak%</gold>!'
 KILLSTREAK_ALREADY_ACTIVATED: '<red>That Killstreak is already activated!'
@@ -136,10 +161,13 @@ NO_ARENAS_AVAILABLE: '<red>There are no arenas available.'
 ERROR_PLAYER_ONLINE: '<red>The player must be online to do that.'
 GIVE_COINS_MESSAGE: '<green>You gave <gold>%amount%</gold> coins to <gold>%player%</gold>.'
 RECEIVE_COINS_MESSAGE: '<green>You received <gold>%amount%</gold> coins.'
+
 BUY_NO_SUFFICIENT_COINS: '<red>You don''t have enough coins to buy that.'
+
 PERK_ERROR_PREVIOUS: '<red>You need to unlock the previous perk level.'
 PERK_ERROR_UNLOCKED: '<red>You''ve already unlocked that perk.'
 PERK_UNLOCKED: '<green>Perk %name% Unlocked!'
+
 HAT_ERROR_BOUGHT: '<red>You''ve already bought that hat.'
 HAT_BOUGHT: '<green>Hat %name% bought!'
 HAT_STATUS_SELECTED: '<green>SELECTED'
@@ -152,8 +180,8 @@ PRESENT_HAT_GIVE: '<green>You''ve just gave 3 Killcoins to <gold>%player%</gold>
 HAT_ABILITY_ACTIVATED: '<gray>Hat ability activated!'
 HAT_COOLDOWN_ERROR: '<red>You need to wait <gray>%time%</gray> seconds to use your Hat ability again.'
 HAT_COOLDOWN_FINISHED: '<gray>You can use your Hat ability again.'
+
 ERROR_CLEAR_INVENTORY: '<red><bold>ERROR!</bold> <gray>To join an arena clear your inventory first.'
-ARENA_STARTING_BROADCAST: '<green>Arena <gold><bold>%arena%</bold></gold> is about to start! Use <aqua>/pb join %arena%</aqua> to join the game!'
 
 INVENTORIES:
   EDIT:

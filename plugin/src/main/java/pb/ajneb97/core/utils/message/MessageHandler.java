@@ -72,11 +72,19 @@ public class MessageHandler {
     }
 
     public String getMessage(String path, Placeholder... placeholders) {
+        return getMessage(path, List.of(placeholders));
+    }
+
+    public String getMessage(String path, List<Placeholder> placeholders) {
         String message = getParsedMessage(path, placeholders);
         return MessageUtils.parseMessage(message);
     }
 
     public String getMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        return getMessage(sender, path, List.of(placeholders));
+    }
+
+    public String getMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
         String message = getParsedMessage(sender, path, placeholders);
         return MessageUtils.parseMessage(message);
     }
@@ -84,15 +92,27 @@ public class MessageHandler {
     // # ~ # -------- GET PARSED MESSAGES -------- # ~ # //
 
     public String getParsedMessage(Messages messages, Placeholder... placeholders) {
+        return getParsedMessage(messages, List.of(placeholders));
+    }
+
+    public String getParsedMessage(Messages messages, List<Placeholder> placeholders) {
         return getParsedMessage(messages.getPath(), placeholders);
     }
 
     public String getParsedMessage(String path, Placeholder... placeholders) {
+        return getParsedMessage(path, List.of(placeholders));
+    }
+
+    public String getParsedMessage(String path, List<Placeholder> placeholders) {
         String message = getRawMessage(path);
         return replacePlaceholders(message, placeholders);
     }
 
     public String getParsedMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        return getParsedMessage(sender, path, List.of(placeholders));
+    }
+
+    public String getParsedMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
         String message = getRawMessage(path);
         return processMessage(sender, message, placeholders);
     }
@@ -104,13 +124,15 @@ public class MessageHandler {
     }
 
     public Component getComponent(String path, Placeholder... placeholders) {
-        String message = getParsedMessage(path, placeholders);
-        return MessageUtils.parse(message);
+        return processComponent(getRawMessage(path), placeholders);
     }
 
     public Component getComponent(CommandSender sender, String path, Placeholder... placeholders) {
-        String message = getParsedMessage(sender, path, placeholders);
-        return MessageUtils.parse(message);
+        return getComponent(sender, path, List.of(placeholders));
+    }
+
+    public Component getComponent(CommandSender sender, String path, List<Placeholder> placeholders) {
+        return processComponent(sender, getRawMessage(path), placeholders);
     }
 
     // # ~ # -------- RAW MESSAGE -------- # ~ # //
@@ -130,20 +152,32 @@ public class MessageHandler {
     // # ~ # -------- GET LISTS -------- # ~ # //
 
     public List<String> getMessages(Messages messages, Placeholder... placeholders) {
+        return getMessages(messages, List.of(placeholders));
+    }
+
+    public List<String> getMessages(Messages messages, List<Placeholder> placeholders) {
         return getMessages(messages.getPath(), placeholders);
     }
 
     public List<String> getMessages(String path, Placeholder... placeholders) {
+        return getMessages(path, List.of(placeholders));
+    }
+
+    public List<String> getMessages(String path, List<Placeholder> placeholders) {
         List<String> messages = getParsedMessages(path, placeholders);
 
         List<String> list = new ArrayList<>();
-        for (String string : messages) {
-            list.add(MessageUtils.parseMessage(string));
+        for (String message : messages) {
+            list.add(MessageUtils.parseMessage(message));
         }
         return list;
     }
 
     public List<String> getMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        return getMessages(sender, path, List.of(placeholders));
+    }
+
+    public List<String> getMessages(CommandSender sender, String path, List<Placeholder> placeholders) {
         List<String> messages = getParsedMessages(sender, path, placeholders);
 
         List<String> list = new ArrayList<>();
@@ -156,21 +190,32 @@ public class MessageHandler {
     // # ~ # -------- GET PARSED LISTS -------- # ~ # //
 
     public List<String> getParsedMessages(Messages messages, Placeholder... placeholders) {
+        return getParsedMessages(messages, List.of(placeholders));
+    }
+
+    public List<String> getParsedMessages(Messages messages, List<Placeholder> placeholders) {
         return getParsedMessages(messages.getPath(), placeholders);
     }
 
     public List<String> getParsedMessages(String path, Placeholder... placeholders) {
+        return getParsedMessages(path, List.of(placeholders));
+    }
+
+    public List<String> getParsedMessages(String path, List<Placeholder> placeholders) {
         List<String> messages = getRawStringList(path);
 
         List<String> list = new ArrayList<>();
         for (String string : messages) {
-            String s = replacePlaceholders(string, placeholders);
-            list.add(s);
+            list.add(processMessage(string, placeholders));
         }
         return list;
     }
 
     public List<String> getParsedMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        return getParsedMessages(sender, path, List.of(placeholders));
+    }
+
+    public List<String> getParsedMessages(CommandSender sender, String path, List<Placeholder> placeholders) {
         List<String> rawMessages = getRawStringList(path);
 
         List<String> processedMessages = new ArrayList<>();
@@ -184,20 +229,32 @@ public class MessageHandler {
     // # ~ # -------- GET COMPONENT LISTS -------- # ~ # //
 
     public List<Component> getComponentMessages(Messages messages, Placeholder... placeholders) {
+        return getComponentMessages(messages.getPath(), List.of(placeholders));
+    }
+
+    public List<Component> getComponentMessages(Messages messages, List<Placeholder> placeholders) {
         return getComponentMessages(messages.getPath(), placeholders);
     }
 
     public List<Component> getComponentMessages(String path, Placeholder... placeholders) {
+        return getComponentMessages(path, List.of(placeholders));
+    }
+
+    public List<Component> getComponentMessages(String path, List<Placeholder> placeholders) {
         List<String> messages = getParsedMessages(path, placeholders);
 
         List<Component> list = new ArrayList<>();
-        for (String string : messages) {
-            list.add(MessageUtils.parse(string));
+        for (String message : messages) {
+            list.add(MessageUtils.parse(message));
         }
         return list;
     }
 
     public List<Component> getComponentMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        return getComponentMessages(sender, path, List.of(placeholders));
+    }
+
+    public List<Component> getComponentMessages(CommandSender sender, String path, List<Placeholder> placeholders) {
         List<String> messages = getParsedMessages(sender, path, placeholders);
 
         List<Component> list = new ArrayList<>();
@@ -227,11 +284,23 @@ public class MessageHandler {
         sendManualMessage(sender, getMessage(sender, path, placeholders));
     }
 
+    public void sendMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
+        sendManualMessage(sender, getMessage(sender, path, placeholders));
+    }
+
     public void sendListMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
+        sendListMessage(sender, messages, List.of(placeholders));
+    }
+
+    public void sendListMessage(CommandSender sender, Messages messages, List<Placeholder> placeholders) {
         sendListMessage(sender, messages.getPath(), placeholders);
     }
 
     public void sendListMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        sendListMessage(sender, path, List.of(placeholders));
+    }
+
+    public void sendListMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
         List<String> messages = getMessages(sender, path, placeholders);
         for (String message : messages) {
             sendManualMessage(sender, message);
@@ -249,10 +318,18 @@ public class MessageHandler {
     }
 
     public void sendCenteredMessage(CommandSender sender, Messages messages, Placeholder... placeholders) {
+        sendCenteredMessage(sender, messages, List.of(placeholders));
+    }
+
+    public void sendCenteredMessage(CommandSender sender, Messages messages, List<Placeholder> placeholders) {
         sendCenteredMessage(sender, messages.getPath(), placeholders);
     }
 
     public void sendCenteredMessage(CommandSender sender, String path, Placeholder... placeholders) {
+        sendCenteredMessage(sender, path, List.of(placeholders));
+    }
+
+    public void sendCenteredMessage(CommandSender sender, String path, List<Placeholder> placeholders) {
         String message = getParsedMessage(sender, path, placeholders);
         sendManualMessage(sender, CenteredString.formatMessage(message));
     }
@@ -262,6 +339,10 @@ public class MessageHandler {
     }
 
     public void sendCenteredMessages(CommandSender sender, String path, Placeholder... placeholders) {
+        sendCenteredMessages(sender, path, List.of(placeholders));
+    }
+
+    public void sendCenteredMessages(CommandSender sender, String path, List<Placeholder> placeholders) {
         List<String> messages = getMessages(sender, path, placeholders);
         messages.forEach(message -> sendManualMessage(sender, CenteredString.formatMessage(message)));
     }
@@ -277,10 +358,6 @@ public class MessageHandler {
 
         message = PlaceholderAPI.setPlaceholders((Player) sender, message);
         return message;
-    }
-
-    public String replacePlaceholders(String message, Placeholder... placeholders) {
-        return replacePlaceholders(message, List.of(placeholders));
     }
 
     public String replacePlaceholders(String message, List<Placeholder> placeholders) {

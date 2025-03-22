@@ -4,6 +4,7 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.listeners.customevents.GameLeaveEvent;
 import pb.ajneb97.managers.GameManager;
@@ -14,7 +15,7 @@ import team.unnamed.inject.Inject;
 import java.util.Optional;
 
 @Command(name = "paintball leave")
-public class LeaveCommand extends MainCommand {
+public class LeaveCommand implements PaintCommand {
 
     @Inject
     private GameManager gameManager;

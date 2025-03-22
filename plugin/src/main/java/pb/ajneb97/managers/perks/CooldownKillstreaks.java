@@ -2,12 +2,8 @@ package pb.ajneb97.managers.perks;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitScheduler;
 import pb.ajneb97.PaintballBattle;
-import pb.ajneb97.structures.Killstreak;
 import pb.ajneb97.structures.PaintballPlayer;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.GameState;
@@ -58,9 +54,9 @@ public class CooldownKillstreaks {
     }
 
     protected boolean ejecutarCooldownKillstreak(String nombre) {
-        if (partida != null && partida.getState().equals(GameState.PLAYING)) {
+        /*if (partida != null && partida.getState().equals(GameState.PLAYING)) {
             if (tiempo <= 0) {
-                jugador.removerKillstreak(nombre);
+                //jugador.removerKillstreak(nombre);
                 return false;
             } else {
                 Killstreak k = jugador.getKillstreak(nombre);
@@ -76,7 +72,8 @@ public class CooldownKillstreaks {
         } else {
             jugador.removerKillstreak(nombre);
             return false;
-        }
+        }*/
+        return false;
     }
 
     public void cooldownParticulasFury(final PaintballPlayer jugador, final Game partida) {
@@ -96,7 +93,7 @@ public class CooldownKillstreaks {
     protected boolean ejecutarParticulasFury() {
         if (partida != null && partida.getState().equals(GameState.PLAYING)) {
             if (jugador != null) {
-                if (jugador.getKillstreak("fury") != null) {
+                /*if (jugador.getKillstreak("fury") != null) {
                     Location l = jugador.getPlayer().getLocation().clone();
                     l.setY(l.getY() + 1.5);
                     if (Bukkit.getVersion().contains("1.8")) {
@@ -107,13 +104,12 @@ public class CooldownKillstreaks {
                     return true;
                 } else {
                     return false;
-                }
+                }*/
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void cooldownNuke(final PaintballPlayer jugador, final Game partida, final String[] separados1, final String[] separados2) {

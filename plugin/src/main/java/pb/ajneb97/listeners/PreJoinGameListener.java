@@ -41,7 +41,7 @@ public class PreJoinGameListener implements Listener {
         }
 
         if (!gameManager.isGameAvailable(game)) {
-            messageHandler.sendManualMessage(player, "Game is not currently available." + game.getState().name());
+            messageHandler.sendManualMessage(player, "Game is not currently available. " + game.getState().name());
             event.setCancelled(true);
             return;
         }
@@ -51,8 +51,6 @@ public class PreJoinGameListener implements Listener {
             event.setCancelled(true);
             return;
         }
-
-        //TODO empty_inventory_to_join | errorClearInventory
 
         new GameJoinEvent(game, player).call();
     }

@@ -25,6 +25,4 @@ public class Perk {
     public void setLevel(int level) {
         this.level = level;
     }
-
-
 }

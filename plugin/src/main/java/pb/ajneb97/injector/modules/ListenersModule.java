@@ -1,16 +1,11 @@
 package pb.ajneb97.injector.modules;
 
 import org.bukkit.event.Listener;
-import pb.ajneb97.listeners.GameJoinListener;
-import pb.ajneb97.listeners.GameLeaveListener;
-import pb.ajneb97.listeners.GameListeners;
-import pb.ajneb97.listeners.PreJoinGameListener;
-import pb.ajneb97.listeners.ShopListeners;
-import pb.ajneb97.listeners.SignsListener;
 import pb.ajneb97.inventories.InventarioHats;
+import pb.ajneb97.listeners.*;
 import team.unnamed.inject.AbstractModule;
 
-public class ListenersModule extends AbstractModule {
+public final class ListenersModule extends AbstractModule {
 
     @Override
     protected void configure() {
@@ -19,7 +14,12 @@ public class ListenersModule extends AbstractModule {
                 .to(GameListeners.class)
                 .to(GameJoinListener.class)
                 .to(GameLeaveListener.class)
+
                 .to(PreJoinGameListener.class)
+                .to(GameStartListener.class)
+                .to(GameEndedListener.class)
+                .to(GameDeathListener.class)
+                .to(GameEndingListener.class)
 
                 .to(SignsListener.class)
                 .to(ShopListeners.class)

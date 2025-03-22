@@ -8,9 +8,10 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 
 @Command(name = "paintball givecoins", aliases = "paintball gc")
-public class GiveCoinsCommand extends MainCommand {
+public class GiveCoinsCommand implements PaintCommand {
 
 
     @Execute

@@ -2,8 +2,13 @@ package pb.ajneb97.managers;
 
 import org.bukkit.entity.Player;
 import pb.ajneb97.PaintballBattle;
+import pb.ajneb97.core.logger.Logger;
 import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
+import pb.ajneb97.structures.PaintballPlayer;
+import pb.ajneb97.structures.Team;
 import pb.ajneb97.structures.game.Game;
+import pb.ajneb97.structures.game.GameEditSessionBuilder;
 import pb.ajneb97.utils.enums.GameState;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
@@ -14,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -68,11 +74,7 @@ public class GameManager {
     }
 
     public Optional<Game> getFirstAvailableGame() {
-        // Filter available games
-        return getAvailableGames()
-                .stream()
-                .sorted(Comparator.comparingInt(Game::getCurrentPlayersSize).reversed())
-                .findFirst();
+        return getAvailableGames().stream().max(Comparator.comparingInt(Game::getCurrentPlayersSize));
     }
 
     public boolean isPlaying(Player player) {
@@ -98,6 +100,7 @@ public class GameManager {
                 .findFirst();
     }
 
+    // idk why even have this
     public void deleteFile(String name) {
         File folder = new File(plugin.getDataFolder(), "arenas");
         try (Stream<Path> paths = Files.walk(folder.toPath())) {
@@ -126,5 +129,57 @@ public class GameManager {
             case DISABLED -> messageHandler.getRawMessage(Messages.SIGN_STATUS_DISABLED);
             case STARTING -> messageHandler.getRawMessage(Messages.SIGN_STATUS_STARTING);
         };
+    }
+
+    public void updateGame(String gameName, GameEditSessionBuilder session) {
+        Game gameToUpdate = getGame(gameName);
+
+        if (gameToUpdate != null) {
+            // Remove the old game from the set
+            gameSet.remove(gameToUpdate);
+
+            // Build the updated game
+            Game updatedGame = session.build();
+
+            // Add the updated game back to the set
+            gameSet.add(updatedGame);
+        } else {
+            Logger.info("Error attempting to update game.", Logger.LogType.WARNING);
+            Logger.info("Game not found: " + gameName, Logger.LogType.WARNING);
+        }
+    }
+
+    public Team getPlayerTeam(UUID uuid) {
+        if (getPlayerGame(uuid).isEmpty()) return null;
+
+        Game game = getPlayerGame(uuid).get();
+        if (!game.contains(uuid)) return null;
+
+        if (game.getFirstTeam().contains(uuid)) {
+            return game.getFirstTeam();
+        }
+        if (game.getSecondTeam().contains(uuid)) {
+            return game.getSecondTeam();
+        }
+
+        return null;
+    }
+
+    public Team getPlayerTeam(Player player) {
+        return getPlayerTeam(player.getUniqueId());
+    }
+
+    public List<PaintballPlayer> getPlayerKills() {
+        // Clone the players list and sort it by kills in descending order
+//        return getPlayers().stream()
+//                .sorted(Comparator.comparingInt(PaintballPlayer::getKills).reversed())
+//                .toList();
+        return null;
+    }
+
+    public void attemptRandomJoin(Player player) {
+        Optional<Game> optionalGame = getFirstAvailableGame();
+        optionalGame.ifPresentOrElse(game -> new PreJoinGameEvent(game, player).call(),
+                () -> messageHandler.sendMessage(player, Messages.NO_ARENAS_AVAILABLE));
     }
 }

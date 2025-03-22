@@ -23,6 +23,8 @@ GAME:
   NEEDS_CLEAR_INVENTORY: true
   # Seconds player won't get damaged after respawning from a death.
   RESPAWN_INVULNERABILITY: 4
+  # Lightning when player dies
+  DEATH_LIGHTING: true
   # Broadcast messages to the whole server.
   BROADCAST:
     ENABLED: true

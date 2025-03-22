@@ -5,6 +5,7 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.entity.Player;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.managers.GameManager;
@@ -13,7 +14,7 @@ import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 
 @Command(name = "paintball delete")
-public class DeleteCommand extends MainCommand {
+public class DeleteCommand implements PaintCommand {
 
     @Inject
     private GameManager gameManager;

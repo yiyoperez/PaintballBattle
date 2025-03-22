@@ -6,6 +6,7 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.command.CommandSender;
+import pb.ajneb97.commands.extra.PaintCommand;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
@@ -14,7 +15,7 @@ import team.unnamed.inject.Named;
 import java.io.IOException;
 
 @Command(name = "paintball reload")
-public class ReloadCommand extends MainCommand {
+public class ReloadCommand implements PaintCommand {
 
     @Inject
     @Named("shop")
@@ -41,8 +42,5 @@ public class ReloadCommand extends MainCommand {
         } finally {
             messageHandler.sendMessage(sender, Messages.RELOADED);
         }
-
-        // TODO: usage scoreboard manager.
-        //plugin.recargarScoreboard();
     }
 }

@@ -2,7 +2,6 @@ package pb.ajneb97.structures;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import pb.ajneb97.utils.enums.TeamReward;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,22 +11,25 @@ import java.util.UUID;
 public class Team {
 
     private final String name;
+    private final Set<UUID> players;
 
     private int lives;
     private int kills;
     private int deaths;
-    private TeamReward reward;
     private Location spawnLocation;
 
-    private final Set<UUID> players;
-
-    public Team(String name, int lives) {
+    public Team(String name) {
         this.name = name;
-        this.lives = lives;
         this.players = new HashSet<>();
+
+        this.lives = 0;
         this.kills = 0;
         this.deaths = 0;
-        this.reward = TeamReward.UNKNOWN;
+    }
+
+    public Team(String name, int lives) {
+        this(name);
+        this.lives = lives;
     }
 
     public String getName() {
@@ -36,6 +38,10 @@ public class Team {
 
     public int getLives() {
         return this.lives;
+    }
+
+    public void decreaseLives() {
+        decreaseLives(1);
     }
 
     public void decreaseLives(int amount) {
@@ -51,7 +57,11 @@ public class Team {
     }
 
     public boolean contains(Player player) {
-        return players.contains(player.getUniqueId());
+        return contains(player.getUniqueId());
+    }
+
+    public boolean contains(UUID uuid) {
+        return players.contains(uuid);
     }
 
     public boolean addPlayer(Player player) {
@@ -100,14 +110,6 @@ public class Team {
 
     public void setDeaths(int deaths) {
         this.deaths = deaths;
-    }
-
-    public TeamReward getReward() {
-        return reward;
-    }
-
-    public void setReward(TeamReward reward) {
-        this.reward = reward;
     }
 
     public Location getSpawnLocation() {

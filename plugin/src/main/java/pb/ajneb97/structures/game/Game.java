@@ -2,21 +2,16 @@ package pb.ajneb97.structures.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import pb.ajneb97.core.logger.Logger;
-import pb.ajneb97.structures.PaintballPlayer;
 import pb.ajneb97.structures.Team;
 import pb.ajneb97.utils.LocationUtils;
 import pb.ajneb97.utils.enums.GameState;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -108,6 +103,7 @@ public class Game implements ConfigurationSerializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        this.state = enabled ? GameState.WAITING : GameState.DISABLED;
     }
 
     public int getMinPlayers() {
@@ -242,78 +238,5 @@ public class Game implements ConfigurationSerializable {
 
     public boolean isFull() {
         return getCurrentPlayersSize() == this.maxPlayers;
-    }
-
-    public void notifyPlayers(String message) {
-        getCurrentPlayers().forEach(player -> player.sendMessage(message));
-    }
-
-    public void playSound(Sound sound, float volume, float pitch) {
-        getCurrentPlayers().forEach(player -> player.playSound(player.getLocation(), sound, volume, pitch));
-    }
-
-    // OLD SHYYt
-
-    public void sortPlayers() {
-        List<UUID> uuidList = new ArrayList<>(getCurrentPlayersUUID());
-        Collections.shuffle(uuidList);
-
-        int size = getCurrentPlayersSize();
-
-        uuidList.subList(0, size / 2).forEach(uuid -> firstTeam.addPlayer(uuid));
-        uuidList.subList(size / 2, size).forEach(uuid -> secondTeam.addPlayer(uuid));
-    }
-
-    public Team getPlayerTeam(Player player) {
-        if (!contains(player)) return null;
-
-        if (firstTeam.contains(player)) {
-            return firstTeam;
-        }
-        if (secondTeam.contains(player)) {
-            return secondTeam;
-        }
-
-        return null;
-    }
-
-    public Team getWinner() {
-        // If one team has no players, the other team automatically wins
-        if (firstTeam.getPlayers().isEmpty()) return secondTeam;
-        if (secondTeam.getPlayers().isEmpty()) return firstTeam;
-
-        // Compare lives to determine the winner
-        int vidasTeam1 = firstTeam.getLives();
-        int vidasTeam2 = secondTeam.getLives();
-
-        if (vidasTeam1 == vidasTeam2) {
-            return null; // Draw/tie
-        }
-
-        return vidasTeam1 > vidasTeam2 ? firstTeam : secondTeam;
-    }
-
-    public List<PaintballPlayer> getPlayerKills() {
-        // Clone the players list and sort it by kills in descending order
-//        return getPlayers().stream()
-//                .sorted(Comparator.comparingInt(PaintballPlayer::getKills).reversed())
-//                .toList();
-        return null;
-    }
-
-    public boolean canSelectTeam(String team) {
-//        int half = (getCurrentPlayersSize() + 1) / 2;
-//
-//        if (getCurrentPlayersSize() == 1) {
-//            return true;
-//        }
-//
-//        int teamPreferenceCount = (int) getPlayers().stream()
-//                .filter(player -> team.equals(player.getTeamChoice()))
-//                .count();
-//
-//        return teamPreferenceCount < half;
-
-        return false;
     }
 }

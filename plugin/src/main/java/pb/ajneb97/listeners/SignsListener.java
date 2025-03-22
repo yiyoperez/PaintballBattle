@@ -3,6 +3,7 @@ package pb.ajneb97.listeners;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,11 +16,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import pb.ajneb97.PaintballBattle;
 import pb.ajneb97.core.utils.message.MessageBuilder;
 import pb.ajneb97.core.utils.message.MessageHandler;
+import pb.ajneb97.core.utils.message.MessageUtils;
 import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.listeners.customevents.PreJoinGameEvent;
-import pb.ajneb97.managers.GameHandler;
 import pb.ajneb97.managers.GameManager;
 import pb.ajneb97.managers.SignManager;
+import pb.ajneb97.managers.controller.GameController;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.LocationUtils;
 import pb.ajneb97.utils.enums.Messages;
@@ -39,7 +41,7 @@ public class SignsListener implements Listener {
     @Inject
     private SignManager signManager;
     @Inject
-    private GameHandler gameHandler;
+    private GameController gameController;
 
     @Inject
     @Named("config")
@@ -149,29 +151,20 @@ public class SignsListener implements Listener {
     @EventHandler
     public void onSignClickJoin(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        if (event.getClickedBlock() == null) return;
+
         Block block = event.getClickedBlock();
-
         if (block == null || !event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+
         if (!block.getType().name().contains("SIGN")) return;
+        if (!signManager.isSignLocation(block.getLocation())) return;
 
-        if (gameManager.isPlaying(player)) {
-            messageHandler.sendMessage(player, Messages.ALREADY_IN_ARENA);
-            event.setCancelled(true);
-            return;
-        }
+        Sign sign = (Sign) block.getState();
+        String line = MessageUtils.strip(sign.getLine(1));
+        if (!gameManager.gameExists(line)) return;
 
-        signManager.getLocationMap().forEach((arena, locationSet) ->
-                locationSet.stream()
-                        // Filter if clicked block is a selector sign
-                        .filter(location -> location.equals(block.getLocation()))
-                        // Find first
-                        .findFirst()
-                        // If present
-                        .ifPresent(location -> {
-                            Game game = gameManager.getGame(arena);
-                            new PreJoinGameEvent(game, player).call();
-                            event.setCancelled(true);
-                        }));
-
+        Game game = gameManager.getGame(line);
+        new PreJoinGameEvent(game, player).call();
+        event.setCancelled(true);
     }
 }

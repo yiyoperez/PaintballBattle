@@ -1,6 +1,5 @@
 package pb.ajneb97.managers;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitTask;
 import pb.ajneb97.PaintballBattle;
@@ -9,7 +8,6 @@ import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.tasks.SignUpdateTask;
 import pb.ajneb97.utils.LocationUtils;
 import team.unnamed.inject.Inject;
-import team.unnamed.inject.Named;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,9 +16,6 @@ import java.util.Set;
 
 public class SignManager {
 
-    @Inject
-    @Named("signs")
-    private YamlDocument signsDocument;
     @Inject
     private GameManager gameManager;
     @Inject

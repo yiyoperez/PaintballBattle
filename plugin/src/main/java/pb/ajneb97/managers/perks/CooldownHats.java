@@ -43,15 +43,15 @@ public class CooldownHats {
     protected boolean ejecutarCooldownHat() {
         if (partida != null && partida.getState().equals(GameState.PLAYING)) {
             if (tiempo <= 0) {
-                jugador.setEfectoHatEnCooldown(false);
+                //jugador.setEfectoHatEnCooldown(false);
                 return false;
             } else {
                 tiempo--;
-                jugador.setTiempoEfectoHat(tiempo);
+                //jugador.setTiempoEfectoHat(tiempo);
                 return true;
             }
         } else {
-            jugador.setEfectoHatEnCooldown(false);
+            //jugador.setEfectoHatEnCooldown(false);
             return false;
         }
     }
@@ -74,14 +74,14 @@ public class CooldownHats {
     protected boolean ejecutarDurationHat() {
         if (partida != null && partida.getState().equals(GameState.PLAYING)) {
             if (tiempo <= 0) {
-                jugador.setEfectoHatActivado(false);
+                //jugador.setEfectoHatActivado(false);
                 return false;
             } else {
                 tiempo--;
                 return true;
             }
         } else {
-            jugador.setEfectoHatActivado(false);
+            //jugador.setEfectoHatActivado(false);
             return false;
         }
     }

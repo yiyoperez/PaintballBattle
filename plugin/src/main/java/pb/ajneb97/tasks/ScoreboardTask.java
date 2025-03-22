@@ -12,6 +12,9 @@ public class ScoreboardTask implements Runnable {
 
     @Override
     public void run() {
-        //
+        scoreboardManager.getBoardCache()
+                .get()
+                .keySet()
+                .forEach(scoreboardManager::updateScoreboard);
     }
 }
