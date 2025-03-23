@@ -129,7 +129,7 @@ public class GameListeners implements Listener {
 
     @EventHandler
     public void onCrafting(InventoryClickEvent event) {
-        if (event.getClickedInventory() != null) return;
+        if (event.getClickedInventory() == null) return;
         if (!event.getClickedInventory().getType().equals(InventoryType.CRAFTING)) return;
         if (event.getSlot() != 0 || !event.getSlotType().equals(InventoryType.SlotType.RESULT)) return;
 

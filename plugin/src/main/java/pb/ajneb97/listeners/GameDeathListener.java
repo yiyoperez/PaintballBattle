@@ -13,16 +13,17 @@ public class GameDeathListener implements Listener {
 
     @Inject
     private MessageHandler messageHandler;
-    
+
     @EventHandler
     public void onPlayerDeath(GameDeathEvent event) {
         Player dead = event.getDead();
         Player killer = event.getKiller();
 
+
         ///  DEATH PLAYER
 
         //dead.increaseDeaths();
-        dead.getPlayer().sendMessage(messageHandler.getMessage(Messages.KILLED_BY, new Placeholder("%player%", killer.getPlayer().getName())));
+        messageHandler.sendMessage(dead, Messages.KILLED_BY, new Placeholder("%player%", killer.getPlayer().getName()));
         //TODO player killedBySound
         //dead.setRecentDeathMillis(System.currentTimeMillis());
         //dead.setLastKilledBy(killer.getPlayer().getName());
@@ -30,7 +31,7 @@ public class GameDeathListener implements Listener {
         ///  KILLER
 
         //killer.increaseKills();
-        killer.getPlayer().sendMessage(messageHandler.getMessage(Messages.KILL, new Placeholder("%player%", dead.getPlayer().getName())));
+        messageHandler.sendMessage(killer, Messages.KILL, new Placeholder("%player%", dead.getPlayer().getName()));
 
         //TODO: Give player coins per kill
         //  givePlayerCoins(killer);

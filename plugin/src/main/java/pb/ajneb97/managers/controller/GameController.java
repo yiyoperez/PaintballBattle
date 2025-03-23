@@ -284,7 +284,7 @@ public final class GameController {
         targetTeam.decreaseLives();
         attackerTeam.increaseKills();
 
-        new GameDeathEvent(dead, killer);
+        new GameDeathEvent(dead, killer).call();
         dead.getPlayer().teleport(targetTeam.getSpawnLocation());
         handlePlayerRespawn(game, dead);
 
@@ -400,7 +400,7 @@ public final class GameController {
     private int countPlayersWithTeamPreference(String teamChoice) {
         int count = 0;
         for (PaintballPlayer cachedPlayer : playerCache.get().values()) {
-            if (cachedPlayer.getTeamChoice().equalsIgnoreCase(teamChoice)) {
+            if (cachedPlayer.getTeamChoice() != null && cachedPlayer.getTeamChoice().equalsIgnoreCase(teamChoice)) {
                 count++;
             }
         }
