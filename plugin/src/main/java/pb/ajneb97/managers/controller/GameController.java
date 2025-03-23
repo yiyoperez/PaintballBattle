@@ -290,10 +290,6 @@ public final class GameController {
 
         int snowballs = config.getInt("ARENA_SETTINGS.PER_KILL_SNOWBALL");
         killer.getPlayer().getInventory().addItem(new ItemStack(Material.SNOWBALL, snowballs));
-
-        if (targetTeam.getLives() <= 0) {
-            initEndingPhase(game);
-        }
     }
 
     public void teleportTeamToSpawn(Game game) {
