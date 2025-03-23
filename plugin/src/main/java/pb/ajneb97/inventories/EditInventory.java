@@ -21,7 +21,6 @@ import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Named;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -84,16 +83,22 @@ public class EditInventory implements BaseMenu {
         GuiItem item = createGuiItem(Material.BEACON,
                 messageHandler.getComponent(Messages.EDIT_MENU_SET_LOBBY_NAME),
                 messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE,
-                        new Placeholder("%location%", game.getLobby() == null ? "tiene lobby" : "no tiene lobby")));
+                        new Placeholder("%location%", game.getLobby() == null ? "no tiene lobby" : "tiene lobby")));
 
         addMenuItem(menu, item, 10,
                 event -> {
                     event.setCancelled(true);
                     Player player = (Player) event.getWhoClicked();
-                    game.setLobby(player.getLocation());
+                    game.setLobby(player.getLocation().clone());
+
                     messageHandler.sendMessage(player, Messages.LOBBY_DEFINED, new Placeholder("%name%", game.getName()));
-                    menu.open(player);
+
+                    ItemStack itemstack = ItemBuilder.from(item.getItemStack()).lore(messageHandler.getComponentMessages(Messages.EDIT_MENU_SET_LOBBY_LORE,
+                            new Placeholder("%location%", game.getLobby() == null ? "no tiene lobby" : "tiene lobby"))).build();
+                    item.setItemStack(itemstack);
+                    menu.update();
                 });
+
     }
 
     private void addTeam1SpawnItem(Gui menu, GameEditSessionBuilder game) {
@@ -235,6 +240,8 @@ public class EditInventory implements BaseMenu {
         addMenuItem(menu, item, 21,
                 (event) -> {
                     event.setCancelled(true);
+                    menu.setCloseGuiAction(null);
+
                     new AnvilGUI.Builder().plugin(plugin)
                             .title("Time")
                             .text("Change arena duration")
@@ -249,12 +256,12 @@ public class EditInventory implements BaseMenu {
                                             return List.of(AnvilGUI.ResponseAction.replaceInputText("Try again, value is not a number."));
                                         }
 
-                                        return Arrays.asList(
-                                                AnvilGUI.ResponseAction.close(),
+                                        return List.of(
                                                 AnvilGUI.ResponseAction.run(() -> {
                                                     game.setMaxTime(value);
                                                     stateSnapshot.getPlayer().sendMessage("Max time is now " + value);
-                                                })
+                                                }),
+                                                AnvilGUI.ResponseAction.close()
                                         );
                                     })
                             .onClose(closeEvent -> plugin.getServer().getScheduler().runTaskLater(plugin, () -> this.open((Player) event.getWhoClicked()), 5L))
@@ -271,6 +278,7 @@ public class EditInventory implements BaseMenu {
         addMenuItem(menu, item, 23,
                 (event) -> {
                     event.setCancelled(true);
+                    menu.setCloseGuiAction(null);
 
                     new AnvilGUI.Builder()
                             .plugin(plugin)
@@ -289,19 +297,18 @@ public class EditInventory implements BaseMenu {
                                             return List.of(AnvilGUI.ResponseAction.replaceInputText("Try again, value is not a number."));
                                         }
 
-                                        return Arrays.asList(
-                                                AnvilGUI.ResponseAction.close(),
+                                        return List.of(
                                                 AnvilGUI.ResponseAction.run(() -> {
                                                     game.setStartingLives(value);
                                                     messageHandler.sendMessage(stateSnapshot.getPlayer(), Messages.LIVES_DEFINED,
                                                             new Placeholder("%value%", value),
                                                             new Placeholder("%name%", game.getName()));
-                                                })
+                                                }),
+                                                AnvilGUI.ResponseAction.close()
                                         );
                                     })
                             .onClose(closeEvent -> plugin.getServer().getScheduler().runTaskLater(plugin, () -> this.open((Player) event.getWhoClicked()), 5L))
                             .open((Player) event.getWhoClicked());
-
                 }
         );
     }

@@ -138,11 +138,8 @@ public class GameManager {
             // Remove the old game from the set
             gameSet.remove(gameToUpdate);
 
-            // Build the updated game
-            Game updatedGame = session.build();
-
             // Add the updated game back to the set
-            gameSet.add(updatedGame);
+            gameSet.add(session.build());
         } else {
             Logger.info("Error attempting to update game.", Logger.LogType.WARNING);
             Logger.info("Game not found: " + gameName, Logger.LogType.WARNING);
