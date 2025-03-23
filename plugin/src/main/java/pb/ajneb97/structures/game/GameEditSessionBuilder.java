@@ -17,7 +17,6 @@ public class GameEditSessionBuilder {
     private Location lobby;
     private Location pointOne;
     private Location pointTwo;
-    private long startingTime;
     private int maxTime;
     private int startingLives;
 
@@ -42,7 +41,6 @@ public class GameEditSessionBuilder {
         this.lobby = game.getLobby();
         this.pointOne = game.getPointOne();
         this.pointTwo = game.getPointTwo();
-        this.startingTime = game.getStartingTime();
         this.maxTime = game.getMaxTime();
         this.startingLives = game.getStartingLives();
     }
@@ -89,11 +87,6 @@ public class GameEditSessionBuilder {
 
     public GameEditSessionBuilder setPointTwo(Location pointTwo) {
         this.pointTwo = pointTwo;
-        return this;
-    }
-
-    public GameEditSessionBuilder setStartingTime(long startingTime) {
-        this.startingTime = startingTime;
         return this;
     }
 
@@ -147,10 +140,6 @@ public class GameEditSessionBuilder {
         return pointTwo;
     }
 
-    public long getStartingTime() {
-        return startingTime;
-    }
-
     public int getMaxTime() {
         return maxTime;
     }
@@ -170,7 +159,6 @@ public class GameEditSessionBuilder {
         game.setLobby(lobby);
         game.setPointOne(pointOne);
         game.setPointTwo(pointTwo);
-        game.setStartingTime(startingTime);
         game.setMaxTime(maxTime);
         game.setStartingLives(startingLives);
 

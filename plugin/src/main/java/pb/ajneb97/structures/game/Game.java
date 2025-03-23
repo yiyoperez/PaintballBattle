@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-
 public class Game implements ConfigurationSerializable {
 
     private final String name;
