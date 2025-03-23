@@ -182,12 +182,20 @@ public final class GameController {
     public void handlePlayerJoin(Player player, Game game) {
         //TODO: JUST FOR TESTING, NEEDS PROPER IMPLEMENTATION OF CONFIGURABLE TEAMS.
         if (game.getFirstTeam() == null) {
+            Logger.info("Created dummy first team.");
             game.setFirstTeam(new Team("RED"));
-            game.getFirstTeam().setSpawnLocation(game.getPointOne());
+            Team firstTeam = game.getFirstTeam();
+            firstTeam.setSpawnLocation(game.getPointOne());
+            firstTeam.setLives(game.getStartingLives());
         }
+
         if (game.getSecondTeam() == null) {
+            Logger.info("Created dummy second team.");
             game.setSecondTeam(new Team("BLUE"));
-            game.getSecondTeam().setSpawnLocation(game.getPointTwo());
+
+            Team secondTeam = game.getSecondTeam();
+            secondTeam.setSpawnLocation(game.getPointTwo());
+            secondTeam.setLives(game.getStartingLives());
         }
 
         scoreboardManager.createScoreboard(player);

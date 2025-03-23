@@ -36,6 +36,12 @@ public class PlayingGameTask implements Runnable {
         }
 
         for (Game game : collect) {
+            if (game.getFirstTeam().getLives() <= 0 || game.getSecondTeam().getLives() <= 0) {
+                Logger.info("Starting ending phase due no lives left.");
+                gameController.initEndingPhase(game);
+                return;
+            }
+
             long remainingTime = (game.getStartingTime() - System.currentTimeMillis()) / 1000;
             if (remainingTime <= 0) {
                 Logger.info("Starting ending phase due time limit.");
