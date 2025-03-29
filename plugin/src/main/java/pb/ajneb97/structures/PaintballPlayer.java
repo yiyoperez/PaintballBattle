@@ -3,10 +3,9 @@ package pb.ajneb97.structures;
 import org.bukkit.entity.Player;
 import pb.ajneb97.structures.game.SavedElements;
 
-
 public class PaintballPlayer {
 
-    private Player player;
+    private final Player player;
 
     private int coins;
     private int kills;

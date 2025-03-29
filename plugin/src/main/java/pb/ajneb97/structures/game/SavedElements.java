@@ -1,10 +1,8 @@
 package pb.ajneb97.structures.game;
 
-
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 
 public class SavedElements {
 
@@ -25,7 +23,7 @@ public class SavedElements {
     public SavedElements(Player player) {
         this.gameMode = player.getGameMode();
         this.inventoryContent = player.getInventory().getContents().clone();
-        this.armorContent = player.getEquipment().getArmorContents().clone();
+        this.armorContent = player.getInventory().getArmorContents().clone();
 
         this.level = player.getLevel();
         this.hunger = player.getFoodLevel();
@@ -41,7 +39,7 @@ public class SavedElements {
     public void restorePlayerElements(Player player) {
         player.setGameMode(gameMode);
         player.getInventory().setContents(inventoryContent);
-        player.getEquipment().setArmorContents(armorContent);
+        player.getInventory().setArmorContents(armorContent);
 
         player.setLevel(level);
         player.setFoodLevel(hunger);

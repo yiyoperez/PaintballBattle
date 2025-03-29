@@ -67,6 +67,4 @@ public class PaintballPlayerData {
     public void setPerks(ArrayList<Perk> perks) {
         this.perks = perks;
     }
-
-
 }

@@ -34,7 +34,6 @@ public final class ItemsLoader implements Loader {
                     .name(getName(item))
                     .lore(getLore(item));
 
-
             GameItem staffItem = new GameItem(
                     getEnabled(item),
                     itemBuilder,

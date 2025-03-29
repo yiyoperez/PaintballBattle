@@ -42,7 +42,9 @@ public class StartingGameTask implements Runnable {
         for (Game game : collect) {// Is elapsed game is below 5 "seconds" send starting message.
             long elapsedTime = (game.getStartingTime() - System.currentTimeMillis()) / 1000;
             if (elapsedTime > 0) {
-                gameController.notifyPlayers(game, messageHandler.getMessage(Messages.ARENA_STARTING_MESSAGE, new Placeholder("%time%", elapsedTime)));
+                gameController.notifyPlayers(game,
+                        messageHandler.getMessage(Messages.ARENA_STARTING_MESSAGE,
+                                new Placeholder("%time%", elapsedTime)));
                 continue;
             }
 

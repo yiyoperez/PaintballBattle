@@ -2,18 +2,22 @@ package pb.ajneb97.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import pb.ajneb97.commons.cache.Cache;
 import pb.ajneb97.core.utils.message.MessageBuilder;
 import pb.ajneb97.core.utils.message.MessageHandler;
 import pb.ajneb97.core.utils.message.Placeholder;
 import pb.ajneb97.listeners.customevents.GameEndingEvent;
 import pb.ajneb97.managers.controller.GameController;
+import pb.ajneb97.structures.PaintballPlayer;
 import pb.ajneb97.structures.Team;
 import pb.ajneb97.structures.game.Game;
 import pb.ajneb97.utils.enums.Messages;
 import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GameEndingListener implements Listener {
 
@@ -21,6 +25,9 @@ public class GameEndingListener implements Listener {
     private GameController gameController;
     @Inject
     private MessageHandler messageHandler;
+    @Inject
+    @Named("player-cache")
+    private Cache<UUID, PaintballPlayer> playerCache;
 
     @EventHandler
     public void onGameEnding(GameEndingEvent event) {
@@ -33,12 +40,14 @@ public class GameEndingListener implements Listener {
         String[] tops = {messageHandler.getRawMessage(Messages.TOP_KILLS_NONE), messageHandler.getRawMessage(Messages.TOP_KILLS_NONE), messageHandler.getRawMessage(Messages.TOP_KILLS_NONE)};
         int[] topKills = {0, 0, 0};
 
-        /*List<PaintballPlayer> jugadoresKillsOrd = game.getPlayerKills();
+        List<PaintballPlayer> sortedPlayerKills = new ArrayList<>();
+        game.getCurrentPlayersUUID().forEach(uuid -> playerCache.find(uuid).ifPresent(sortedPlayerKills::add));
+
         // Fill the top arrays with available players.
-        for (int i = 0; i < Math.min(jugadoresKillsOrd.size(), 3); i++) {
-            tops[i] = jugadoresKillsOrd.get(i).getPlayer().getName();
-            topKills[i] = jugadoresKillsOrd.get(i).getKills();
-        }*/
+        for (int i = 0; i < Math.min(sortedPlayerKills.size(), 3); i++) {
+            tops[i] = sortedPlayerKills.get(i).getPlayer().getName();
+            topKills[i] = sortedPlayerKills.get(i).getKills();
+        }
 
         // Assign results to top variables.
         String top1 = tops[0], top2 = tops[1], top3 = tops[2];
@@ -58,7 +67,7 @@ public class GameEndingListener implements Listener {
         placeholderList.add(new Placeholder("%kills_player2%", top2Kills));
         placeholderList.add(new Placeholder("%kills_player3%", top3Kills));
         //*TODO: Replace player kills*//*
-        placeholderList.add(new Placeholder("%kills_player%", 0));
+        //placeholderList.add(new Placeholder("%kills_player%", 0));
 
         new MessageBuilder(messageHandler)
                 .toPlayerSet(game.getCurrentPlayers())

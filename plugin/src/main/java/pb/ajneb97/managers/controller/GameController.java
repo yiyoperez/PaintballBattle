@@ -109,13 +109,12 @@ public final class GameController {
             player.getInventory().clear();
 
             List<String> gameItemKeys = List.of("LEAVE", "PLAY_AGAIN");
-            gameItemKeys.forEach(key ->
-                    itemCache.find(key).ifPresent(gameItem -> {
-                        if (gameItem.isEnabled()) {
-                            player.getInventory().setItem(gameItem.getSlot(), gameItem.getItem());
-                        }
-                    })
-            );
+            for (String key : gameItemKeys) {
+                itemCache.find(key)
+                        .filter(GameItem::isEnabled)
+                        .ifPresent(gameItem ->
+                                player.getInventory().setItem(gameItem.getSlot(), gameItem.getItem()));
+            }
         });
 
         long endingTime = config.getLong("TIMES.ENDING");
@@ -176,7 +175,7 @@ public final class GameController {
 
         game.setFirstTeam(null);
         game.setSecondTeam(null);
-        game.getCurrentPlayers().clear();
+        game.getCurrentPlayersUUID().clear();
     }
 
     public void handlePlayerJoin(Player player, Game game) {
@@ -198,14 +197,11 @@ public final class GameController {
             secondTeam.setLives(game.getStartingLives());
         }
 
-        scoreboardManager.createScoreboard(player);
-
         playerCache.add(player.getUniqueId(), new PaintballPlayer(player));
         game.addPlayer(player);
 
         player.getInventory().clear();
-        player.getEquipment().clear();
-        player.updateInventory();
+        player.getInventory().setArmorContents(null);
 
         player.setGameMode(GameMode.ADVENTURE); // SHRUG
         player.setExp(0);
@@ -217,22 +213,28 @@ public final class GameController {
         player.setFlying(false);
         player.setAllowFlight(false);
 
-        player.getActivePotionEffects().clear();
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.teleport(game.getLobby());
 
         List<String> gameItemKeys = List.of("LEAVE", "PERKS", "HATS", "TEAM_SELECTOR");
-        gameItemKeys.forEach(key ->
-                itemCache.find(key).ifPresent(gameItem -> {
-                    if (gameItem.isEnabled()) {
-                        player.getInventory().setItem(gameItem.getSlot(), gameItem.getItem());
-                    }
-                })
-        );
-
-        if (game.getCurrentPlayersSize() >= game.getMinPlayers() && game.getState().equals(GameState.WAITING)) {
-            initStartingPhase(game);
+        for (String key : gameItemKeys) {
+            itemCache.find(key)
+                    .filter(GameItem::isEnabled)
+                    .ifPresent(gameItem ->
+                            player.getInventory().setItem(gameItem.getSlot(), gameItem.getItem()));
         }
 
+        if (game.getState() == GameState.WAITING) {
+            if (game.getCurrentPlayersSize() < game.getMinPlayers()) {
+                notifyPlayers(game, messageHandler.getMessage(Messages.PLAYER_NEEDED,
+                        new Placeholder("%amount%", game.getMinPlayers() - game.getCurrentPlayersSize())));
+            }
+            if (game.getCurrentPlayersSize() >= game.getMinPlayers()) {
+                initStartingPhase(game);
+            }
+        }
+
+        scoreboardManager.createScoreboard(player);
         scoreboardManager.scheduleTask();
     }
 
@@ -246,7 +248,6 @@ public final class GameController {
         playerCache.find(player.getUniqueId())
                 .ifPresent(paintballPlayer -> {
                     paintballPlayer.getSavedElements().restorePlayerElements(player);
-                    player.updateInventory();
                     playerCache.remove(player.getUniqueId());
                 });
 
@@ -271,7 +272,9 @@ public final class GameController {
     }
 
     public void handlePlayerRespawn(Game game, Player player) {
-        //TODO
+        Team targetTeam = gameManager.getPlayerTeam(player);
+        player.getPlayer().teleport(targetTeam.getSpawnLocation());
+        giveSnowballs(player);
     }
 
     public void handlePlayerDeath(Game game, Player dead, Player killer) {
@@ -280,20 +283,18 @@ public final class GameController {
         //if (dead.getRecentDeathMillis() == -1) return;
 
         Team targetTeam = gameManager.getPlayerTeam(dead.getPlayer());
-        Team attackerTeam = gameManager.getPlayerTeam(killer.getPlayer());
-        if (targetTeam.equals(attackerTeam)) {
-            return;
-        }
+        if (targetTeam.contains(killer)) return;
 
         if (config.getBoolean("GAME.DEATH_LIGHTNING")) {
             dead.getPlayer().getWorld().strikeLightningEffect(dead.getPlayer().getLocation());
         }
 
-        targetTeam.decreaseLives();
+        Team attackerTeam = gameManager.getPlayerTeam(killer.getPlayer());
         attackerTeam.increaseKills();
 
         new GameDeathEvent(dead, killer).call();
-        dead.getPlayer().teleport(targetTeam.getSpawnLocation());
+
+        targetTeam.decreaseLives();
         handlePlayerRespawn(game, dead);
 
         int snowballs = config.getInt("ARENA_SETTINGS.PER_KILL_SNOWBALL");

@@ -90,8 +90,10 @@ SIGN_STATUS_INGAME: '<red>INGAME'
 SIGN_STATUS_DISABLED: '<dark_gray>DISABLED'
 SIGN_STATUS_FINISHING: '<dark_red>FINISHING'
 
-PLAYER_JOIN: '<gray>%player%</gray> <yellow>has joined the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
-PLAYER_LEAVE: '<gray>%player%</gray> <yellow>has left the game (<aqua>%current_players%<dark_gray>/<aqua>%max_players%</aqua>)'
+PLAYER_JOIN: '<gray>%player%</gray> <yellow>has joined the game <dark_gray>(<aqua>%current_players%<dark_gray>/<aqua>%max_players%<dark_gray>)'
+PLAYER_LEAVE: '<gray>%player%</gray> <yellow>has left the game <dark_gray>(<aqua>%current_players%<dark_gray>/<aqua>%max_players%<dark_gray>)'
+PLAYER_NEEDED: '<yellow>Game needs only %amount% player(s) to start the game.'
+
 GAME_STARTED: '<green>Game started! The team with the most lives at the end of the game is the winner.'
 TEAM_INFORMATION: '<yellow>You are on the <gray><bold>%team%</bold></gray> Team.'
 
@@ -157,11 +159,12 @@ KILLSTREAK_ACTIVATED_PLAYER: '<dark_gray>[<gray>%team%</gray>] <green>%player%</
 NUKE_IMPACT: '<red><bold>NUKE IMPACT IN: <white>%time%'
 NUKE_ERROR: '<red>A Nuke is already on progress!'
 NUKE_KILL_MESSAGE: '<dark_gray>[<gray>%team_player1%</gray>] <green>%player1%</green> <yellow>was nuked by <dark_gray>[<gray>%team_player2%</gray>] <green>%player2%</green>'
+
 NO_ARENAS_AVAILABLE: '<red>There are no arenas available.'
 ERROR_PLAYER_ONLINE: '<red>The player must be online to do that.'
+
 GIVE_COINS_MESSAGE: '<green>You gave <gold>%amount%</gold> coins to <gold>%player%</gold>.'
 RECEIVE_COINS_MESSAGE: '<green>You received <gold>%amount%</gold> coins.'
-
 BUY_NO_SUFFICIENT_COINS: '<red>You don''t have enough coins to buy that.'
 
 PERK_ERROR_PREVIOUS: '<red>You need to unlock the previous perk level.'
@@ -175,11 +178,11 @@ HAT_STATUS_NOT_SELECTED: '<red>NOT SELECTED'
 HAT_SELECTED: '<green>Hat %name% selected!'
 HAT_ALREADY_SELECTED: '<red>You''ve already selected that hat.'
 HAT_REMOVED: '<green>Your hat was removed.'
-PRESENT_HAT_RECEIVE: '<green>You''ve just received 3 Killcoins from <gold>%player%</gold> <blue><bold>Present Hat</bold></blue>!'
-PRESENT_HAT_GIVE: '<green>You''ve just gave 3 Killcoins to <gold>%player%</gold>!'
 HAT_ABILITY_ACTIVATED: '<gray>Hat ability activated!'
 HAT_COOLDOWN_ERROR: '<red>You need to wait <gray>%time%</gray> seconds to use your Hat ability again.'
 HAT_COOLDOWN_FINISHED: '<gray>You can use your Hat ability again.'
+PRESENT_HAT_GIVE: '<green>You''ve just gave 3 Killcoins to <gold>%player%</gold>!'
+PRESENT_HAT_RECEIVE: '<green>You''ve just received 3 Killcoins from <gold>%player%</gold> <blue><bold>Present Hat</bold></blue>!'
 
 ERROR_CLEAR_INVENTORY: '<red><bold>ERROR!</bold> <gray>To join an arena clear your inventory first.'
 

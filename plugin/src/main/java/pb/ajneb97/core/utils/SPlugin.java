@@ -61,7 +61,7 @@ public class SPlugin extends ZapperJavaPlugin {
 
     public boolean isPluginEnabled(String pluginName) {
         Plugin plugin = getPlugin(pluginName);
-        return plugin == null ? false : plugin.isEnabled();
+        return plugin != null && plugin.isEnabled();
     }
 
     protected Plugin getPlugin(String pluginName) {

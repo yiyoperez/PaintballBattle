@@ -2,6 +2,7 @@ package pb.ajneb97.listeners;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Material;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -18,6 +19,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
@@ -51,12 +53,19 @@ public class GameListeners implements Listener {
     private Cache<String, GameItem> itemCache;
 
     @EventHandler
+    public void onEggHatch(PlayerEggThrowEvent event) {
+        Egg egg = event.getEgg();
+        if (egg.hasMetadata("PaintballBattle")) {
+            event.setHatching(false);
+        }
+    }
+
+    @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (!gameManager.isPlaying(player)) return;
 
-        gameManager.getPlayerGame(player)
-                .ifPresent(game -> new GameLeaveEvent(game, player).call());
+        gameManager.getPlayerGame(player).ifPresent(game -> new GameLeaveEvent(game, player).call());
     }
 
     @EventHandler
@@ -112,12 +121,12 @@ public class GameListeners implements Listener {
 
     @EventHandler
     public void onCommandUsage(PlayerCommandPreprocessEvent event) {
-        String command = event.getMessage().toLowerCase();
         Player player = event.getPlayer();
 
         if (!gameManager.isPlaying(player)) return;
         if (player.hasPermission("paintball.admin") || player.hasPermission("paintball.bypass.commands")) return;
 
+        String command = event.getMessage().toLowerCase();
         List<String> allowedCommands = config.getStringList("GAME.COMMAND_WHITELIST");
         for (String s : allowedCommands) {
             if (command.toLowerCase().startsWith(s)) {
@@ -211,7 +220,6 @@ public class GameListeners implements Listener {
 
         if (event.getItem() == null) return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
 
         gameManager.getPlayerGame(player).ifPresent(game -> {
             ItemStack item = event.getItem();
@@ -391,27 +399,4 @@ public class GameListeners implements Listener {
 //            }
 //        }
 //    }
-
-    // KINDA POST GAME LISTENER
-    @EventHandler
-    public void clickearItemPlayAgain(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-
-        if (!gameManager.isPlaying(player)) return;
-
-        if (event.getItem() == null) return;
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
-//        ItemStack item = UtilidadesItems.crearItem(config, "play_again_item");
-//        if (event.getItem().isSimilar(item)) {
-//            event.setCancelled(true);
-//            Game partidaNueva = PartidaManager.getAvailableGame(plugin);
-//            if (partidaNueva == null) {
-//                player.sendMessage(MessageUtils.translateColor(messages.getString("noArenasAvailable")));
-//            } else {
-//                PartidaManager.jugadorSale(partida, player, true, plugin, false);
-//                PartidaManager.jugadorEntra(partidaNueva, player, plugin);
-//            }
-//        }
-    }
 }
